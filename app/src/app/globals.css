@@ -1,0 +1,113 @@
+@import "tailwindcss";
+
+@theme inline {
+  /* fonts — pointing straight at the real variables set in layout.tsx,
+     not chained through an alias, so they always resolve */
+  --font-sans: var(--font-plex-sans);
+  --font-mono: var(--font-plex-mono);
+  --font-serif: var(--font-fraunces);
+
+  /* Monochrome Base with Vibrant Gray / Luminous Silver Accent Tokens */
+  --color-ink: #09090b;
+  --color-surface: #131316;
+  --color-silver: #e4e4e7;
+  --color-silver-glow: rgba(228, 228, 231, 0.35);
+  --color-coral: #e4e4e7;
+  --color-violet: #d4d4d8;
+  --color-muted: #71717a;
+  --color-border-line: #27272a;
+}
+
+body {
+  background: var(--color-ink);
+  color: #fafafa;
+  font-family: var(--font-plex-sans);
+}
+
+.text-stroke-outline {
+  -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.35);
+  color: transparent;
+}
+
+@media (min-width: 768px) {
+  .text-stroke-outline {
+    -webkit-text-stroke: 2px rgba(255, 255, 255, 0.4);
+  }
+}
+
+/* Ambient Slow Floating & Breathing Keyframes */
+@keyframes ambient-float-1 {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.38;
+  }
+  33% {
+    transform: translate3d(45px, 35px, 0) scale(1.15);
+    opacity: 0.58;
+  }
+  66% {
+    transform: translate3d(-35px, 50px, 0) scale(0.92);
+    opacity: 0.32;
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.38;
+  }
+}
+
+@keyframes ambient-float-2 {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.32;
+  }
+  40% {
+    transform: translate3d(-55px, -40px, 0) scale(1.18);
+    opacity: 0.52;
+  }
+  80% {
+    transform: translate3d(30px, -45px, 0) scale(0.94);
+    opacity: 0.28;
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.32;
+  }
+}
+
+@keyframes ambient-float-3 {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.30;
+  }
+  50% {
+    transform: translate3d(50px, -35px, 0) scale(1.22);
+    opacity: 0.48;
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.30;
+  }
+}
+
+.animate-ambient-1 {
+  animation: ambient-float-1 22s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+  will-change: transform, opacity;
+}
+
+.animate-ambient-2 {
+  animation: ambient-float-2 28s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+  will-change: transform, opacity;
+}
+
+.animate-ambient-3 {
+  animation: ambient-float-3 32s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+  will-change: transform, opacity;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-ambient-1,
+  .animate-ambient-2,
+  .animate-ambient-3 {
+    animation: none !important;
+  }
+}
