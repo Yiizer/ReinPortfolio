@@ -8,6 +8,7 @@ export interface Project {
   name: string;
   subtitle: string;
   blurb: string;
+  role?: string;
   stack: string[];
   href: string;
   external: boolean;
@@ -88,6 +89,7 @@ export const ALL_PROJECTS: Project[] = [
     subtitle: "Restaurant Waiter & Order Terminal",
     blurb:
       "Live waiter ordering and table occupancy management web application with real-time floor plan tracking, table reservations, and kitchen sync.",
+    role: "Planned and led the system flow, built the cashier interface, contributed features to admin and waiter.",
     stack: ["Firebase", "JavaScript", "HTML5", "CSS3", "Realtime DB"],
     href: "https://salo-sa-antipolo.web.app/waiter.html",
     external: true,

@@ -421,6 +421,13 @@ export default function WorkList({
                 <p className="text-[14px] text-muted leading-relaxed max-w-md">
                   {project.blurb}
                 </p>
+
+                {project.role && (
+                  <p className="text-[13px] text-zinc-300 max-w-md leading-relaxed border-l-2 border-accent/60 pl-3 py-0.5 bg-accent/5 rounded-r">
+                    <span className="font-mono text-xs text-accent font-semibold uppercase tracking-wider">Role: </span>
+                    {project.role}
+                  </p>
+                )}
               </div>
 
               {/* Stack Chips & Actions */}
