@@ -439,10 +439,10 @@ export default function WorkList() {
               <button
                 type="button"
                 onClick={() => openProjectModal(project, 0)}
-                className="w-full aspect-[16/10] rounded-xl overflow-hidden border border-border-line bg-surface/70 hover:border-zinc-500 transition-all duration-300 relative group/thumb cursor-pointer shadow-lg hover:shadow-2xl hover:scale-[1.02] text-left"
+                className="thumb-card w-full aspect-[16/10] rounded-xl overflow-hidden border border-border-line bg-surface/70 transition-all duration-300 relative group/thumb cursor-pointer shadow-lg hover:shadow-2xl hover:scale-[1.02] text-left"
                 aria-label={`View screenshot for ${project.name}`}
               >
-                {/* Embedded Real Image or Stylized Preview */}
+                {/* Embedded Real Image or Stylized Preview (100% Unblurred & Crisp) */}
                 {project.screenshots && project.screenshots.length > 0 ? (
                   <div className="w-full h-full bg-[#1e1a17] flex items-center justify-center overflow-hidden">
                     <Image
@@ -465,14 +465,14 @@ export default function WorkList() {
                   </div>
                 )}
 
-                {/* Hover Expand Overlay */}
-                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover/thumb:opacity-100 backdrop-blur-[2px] transition-all flex flex-col items-center justify-center gap-2 select-none">
-                  <div className="rounded-full bg-zinc-100 text-zinc-950 p-2.5 shadow-lg transform translate-y-2 group-hover/thumb:translate-y-0 transition-transform duration-200">
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                {/* Minimal Non-Intrusive Floating Expand Tag on Hover */}
+                <div className="absolute bottom-3 right-3 opacity-0 group-hover/thumb:opacity-100 transition-opacity duration-200 pointer-events-none select-none">
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-zinc-950/90 border border-accent/40 px-3 py-1 font-mono text-[11px] text-accent shadow-xl shadow-black/60">
+                    <span>Enlarge</span>
+                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7" />
                     </svg>
-                  </div>
-                  <span className="font-mono text-xs text-white font-medium">Click to Enlarge Screenshot</span>
+                  </span>
                 </div>
               </button>
             </div>
