@@ -64,7 +64,7 @@ export default function SignalRail() {
                 <span
                   className={`relative z-10 rounded-full border transition-all duration-200 ${
                     isActive
-                      ? "w-2.5 h-2.5 border-accent bg-accent shadow-[0_0_12px_rgba(41,184,166,0.85)]"
+                      ? "w-2.5 h-2.5 border-accent bg-accent shadow-[0_0_12px_rgba(6,182,212,0.85)]"
                       : "w-2 h-2 border-border-line bg-ink group-hover:border-zinc-400 group-hover:bg-zinc-800 group-hover:scale-125"
                   }`}
                 />

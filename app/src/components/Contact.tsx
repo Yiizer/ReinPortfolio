@@ -47,7 +47,7 @@ export default function Contact() {
             className="pointer-events-none absolute -bottom-16 -right-16 w-80 h-80 rounded-full blur-3xl opacity-20"
             style={{
               background:
-                "radial-gradient(circle, rgba(41,184,166,0.3) 0%, rgba(9,9,11,0) 70%)",
+                "radial-gradient(circle, rgba(6,182,212,0.3) 0%, rgba(9,9,11,0) 70%)",
             }}
             aria-hidden="true"
           />
@@ -69,7 +69,7 @@ export default function Contact() {
             <div className="pt-4 flex flex-wrap items-center gap-4">
               <a
                 href="mailto:hello@example.com"
-                className="inline-flex items-center justify-center px-6 py-3.5 rounded-md bg-accent text-zinc-950 hover:bg-accent-hover font-semibold text-sm transition-all duration-200 shadow-lg shadow-accent/20 hover:shadow-[0_0_25px_rgba(41,184,166,0.5)] active:scale-[0.98]"
+                className="inline-flex items-center justify-center px-6 py-3.5 rounded-md bg-accent text-zinc-950 hover:bg-accent-hover font-semibold text-sm transition-all duration-200 shadow-lg shadow-accent/20 hover:shadow-[0_0_25px_rgba(6,182,212,0.5)] active:scale-[0.98]"
               >
                 <span>hello@example.com</span>
                 <svg
