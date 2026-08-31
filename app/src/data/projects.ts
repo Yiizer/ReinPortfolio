@@ -82,6 +82,17 @@ export const ALL_PROJECTS: Project[] = [
     external: false,
     type: "Mobile AR Application",
   },
+  {
+    id: "05",
+    name: "Salo sa Antipolo",
+    subtitle: "Restaurant Waiter & Order Terminal",
+    blurb:
+      "Live waiter ordering and table occupancy management web application with real-time floor plan tracking, table reservations, and kitchen sync.",
+    stack: ["Firebase", "JavaScript", "HTML5", "CSS3", "Realtime DB"],
+    href: "https://salo-sa-antipolo.web.app/waiter.html",
+    external: true,
+    type: "Hospitality Web App",
+  },
 ];
 
 // Homepage shows 1, 2, and 4 (GrindOn is on the dedicated /works page)

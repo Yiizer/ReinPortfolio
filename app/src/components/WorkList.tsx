@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Project, HOMEPAGE_PROJECTS, ALL_PROJECTS } from "@/data/projects";
+import { Project, HOMEPAGE_PROJECTS } from "@/data/projects";
 
 export function ProjectMockupGraphic({ id }: { id: string }) {
   if (id === "01") {
@@ -180,48 +180,138 @@ export function ProjectMockupGraphic({ id }: { id: string }) {
     );
   }
 
-  // A.R-DUINO Mobile App 3D Circuit Simulator
+  if (id === "04") {
+    // A.R-DUINO Mobile App 3D Circuit Simulator
+    return (
+      <svg className="w-full h-full" viewBox="0 0 600 380" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="600" height="380" fill="#08090d" />
+        {/* AR Viewport Frame */}
+        <rect x="25" y="20" width="550" height="340" rx="10" fill="#0d0f15" stroke="#27272a" />
+
+        {/* AR HUD Crosshairs & Grid Plane */}
+        <circle cx="300" cy="190" r="110" stroke="#3b82f6" strokeOpacity="0.25" strokeDasharray="4 4" />
+        <circle cx="300" cy="190" r="4" fill="#38bdf8" />
+        <line x1="160" y1="190" x2="440" y2="190" stroke="#3b82f6" strokeOpacity="0.2" />
+        <line x1="300" y1="80" x2="300" y2="300" stroke="#3b82f6" strokeOpacity="0.2" />
+
+        {/* 3D Simulated Arduino Board Wireframe */}
+        <rect x="220" y="130" width="160" height="110" rx="6" fill="#005c5f" fillOpacity="0.4" stroke="#00979d" strokeWidth="1.5" />
+        <rect x="205" y="145" width="20" height="30" fill="#71717a" stroke="#d4d4d8" />
+        <rect x="250" y="150" width="45" height="45" rx="3" fill="#18181b" stroke="#3f3f46" />
+        <text x="255" y="176" fill="#a1a1aa" fontSize="7" fontFamily="monospace">ATMEGA328P</text>
+
+        {/* Pin Headers */}
+        <rect x="235" y="132" width="130" height="8" fill="#18181b" stroke="#71717a" />
+        <rect x="235" y="230" width="130" height="8" fill="#18181b" stroke="#71717a" />
+
+        {/* Connected Breadboard Wires */}
+        <path d="M 330 132 C 330 80, 420 80, 440 120" fill="none" stroke="#ef4444" strokeWidth="2" strokeDasharray="3 3" />
+        <path d="M 310 132 C 310 60, 460 60, 470 140" fill="none" stroke="#22c55e" strokeWidth="2" />
+        <path d="M 280 238 C 280 280, 430 280, 450 210" fill="none" stroke="#eab308" strokeWidth="2" strokeDasharray="3 3" />
+
+        {/* LED Component */}
+        <circle cx="440" cy="120" r="8" fill="#ef4444" stroke="#fca5a5" strokeWidth="1.5" />
+        <circle cx="440" cy="120" r="14" stroke="#ef4444" strokeOpacity="0.4" />
+
+        {/* AR HUD Telemetry Cards */}
+        <rect x="40" y="35" width="130" height="50" rx="5" fill="#141419" fillOpacity="0.85" stroke="#27272a" />
+        <text x="50" y="52" fill="#38bdf8" fontSize="8" fontFamily="monospace">● AR TRACKING: ACTIVE</text>
+        <text x="50" y="66" fill="#f4f4f5" fontSize="10" fontFamily="monospace">VOLTAGE: 5.02V</text>
+        <text x="50" y="78" fill="#71717a" fontSize="8" fontFamily="monospace">CURRENT: 18.4mA</text>
+
+        <rect x="430" y="35" width="130" height="50" rx="5" fill="#141419" fillOpacity="0.85" stroke="#27272a" />
+        <text x="440" y="52" fill="#a1a1aa" fontSize="8" fontFamily="monospace">UNITY PHYSICS 3D</text>
+        <text x="440" y="66" fill="#f4f4f5" fontSize="10" fontFamily="monospace">SIMULATION: 60 FPS</text>
+        <text x="440" y="78" fill="#22c55e" fontSize="8" fontFamily="monospace">CIRCUIT: CLOSED (OK)</text>
+      </svg>
+    );
+  }
+
+  // Salo sa Antipolo Waiter & Table Order Management UI Mockup (05)
   return (
     <svg className="w-full h-full" viewBox="0 0 600 380" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <rect width="600" height="380" fill="#08090d" />
-      {/* AR Viewport Frame */}
-      <rect x="25" y="20" width="550" height="340" rx="10" fill="#0d0f15" stroke="#27272a" />
+      <rect width="600" height="380" fill="#111317" />
+      {/* Top Header */}
+      <rect x="0" y="0" width="600" height="45" fill="#171920" />
+      <text x="30" y="28" fill="#f4f4f5" fontSize="13" fontWeight="bold" fontFamily="serif">SALO SA ANTIPOLO</text>
+      <rect x="200" y="14" width="90" height="18" rx="9" fill="#06b6d4" fillOpacity="0.15" stroke="#06b6d4" strokeWidth="0.8" />
+      <text x="210" y="27" fill="#06b6d4" fontSize="8" fontFamily="monospace" fontWeight="bold">WAITER PORTAL</text>
 
-      {/* AR HUD Crosshairs & Grid Plane */}
-      <circle cx="300" cy="190" r="110" stroke="#3b82f6" strokeOpacity="0.25" strokeDasharray="4 4" />
-      <circle cx="300" cy="190" r="4" fill="#38bdf8" />
-      <line x1="160" y1="190" x2="440" y2="190" stroke="#3b82f6" strokeOpacity="0.2" />
-      <line x1="300" y1="80" x2="300" y2="300" stroke="#3b82f6" strokeOpacity="0.2" />
+      <rect x="480" y="14" width="90" height="20" rx="4" fill="#22c55e" fillOpacity="0.2" stroke="#22c55e" strokeWidth="0.8" />
+      <text x="495" y="27" fill="#86efac" fontSize="9" fontFamily="monospace">● LIVE SYNC</text>
 
-      {/* 3D Simulated Arduino Board Wireframe */}
-      <rect x="220" y="130" width="160" height="110" rx="6" fill="#005c5f" fillOpacity="0.4" stroke="#00979d" strokeWidth="1.5" />
-      <rect x="205" y="145" width="20" height="30" fill="#71717a" stroke="#d4d4d8" />
-      <rect x="250" y="150" width="45" height="45" rx="3" fill="#18181b" stroke="#3f3f46" />
-      <text x="255" y="176" fill="#a1a1aa" fontSize="7" fontFamily="monospace">ATMEGA328P</text>
+      {/* Main Container: Table Selection & Order Modal */}
+      <rect x="25" y="60" width="340" height="300" rx="8" fill="#15171e" stroke="#27272a" />
+      <text x="40" y="85" fill="#e4e4e7" fontSize="12" fontWeight="bold" fontFamily="sans-serif">Floor Plan &amp; Table Status</text>
 
-      {/* Pin Headers */}
-      <rect x="235" y="132" width="130" height="8" fill="#18181b" stroke="#71717a" />
-      <rect x="235" y="230" width="130" height="8" fill="#18181b" stroke="#71717a" />
+      {/* Table Cards Grid */}
+      <rect x="40" y="105" width="95" height="70" rx="6" fill="#1f222b" stroke="#06b6d4" strokeWidth="1.5" />
+      <text x="50" y="125" fill="#ffffff" fontSize="11" fontWeight="bold" fontFamily="sans-serif">Table 01</text>
+      <rect x="50" y="132" width="60" height="15" rx="3" fill="#06b6d4" fillOpacity="0.2" />
+      <text x="55" y="143" fill="#22d3ee" fontSize="7" fontFamily="monospace">OCCUPIED</text>
+      <text x="50" y="163" fill="#a1a1aa" fontSize="8" fontFamily="monospace">4 Guests</text>
 
-      {/* Connected Breadboard Wires */}
-      <path d="M 330 132 C 330 80, 420 80, 440 120" fill="none" stroke="#ef4444" strokeWidth="2" strokeDasharray="3 3" />
-      <path d="M 310 132 C 310 60, 460 60, 470 140" fill="none" stroke="#22c55e" strokeWidth="2" />
-      <path d="M 280 238 C 280 280, 430 280, 450 210" fill="none" stroke="#eab308" strokeWidth="2" strokeDasharray="3 3" />
+      <rect x="150" y="105" width="95" height="70" rx="6" fill="#1b1d24" stroke="#3f3f46" />
+      <text x="160" y="125" fill="#d4d4d8" fontSize="11" fontWeight="bold" fontFamily="sans-serif">Table 02</text>
+      <rect x="160" y="132" width="60" height="15" rx="3" fill="#22c55e" fillOpacity="0.2" />
+      <text x="167" y="143" fill="#86efac" fontSize="7" fontFamily="monospace">AVAILABLE</text>
+      <text x="160" y="163" fill="#71717a" fontSize="8" fontFamily="monospace">2 Guests</text>
 
-      {/* LED Component */}
-      <circle cx="440" cy="120" r="8" fill="#ef4444" stroke="#fca5a5" strokeWidth="1.5" />
-      <circle cx="440" cy="120" r="14" stroke="#ef4444" strokeOpacity="0.4" />
+      <rect x="260" y="105" width="90" height="70" rx="6" fill="#1b1d24" stroke="#3f3f46" />
+      <text x="270" y="125" fill="#d4d4d8" fontSize="11" fontWeight="bold" fontFamily="sans-serif">Table 03</text>
+      <rect x="270" y="132" width="60" height="15" rx="3" fill="#eab308" fillOpacity="0.2" />
+      <text x="275" y="143" fill="#fde047" fontSize="7" fontFamily="monospace">RESERVED</text>
+      <text x="270" y="163" fill="#71717a" fontSize="8" fontFamily="monospace">6 Guests</text>
 
-      {/* AR HUD Telemetry Cards */}
-      <rect x="40" y="35" width="130" height="50" rx="5" fill="#141419" fillOpacity="0.85" stroke="#27272a" />
-      <text x="50" y="52" fill="#38bdf8" fontSize="8" fontFamily="monospace">● AR TRACKING: ACTIVE</text>
-      <text x="50" y="66" fill="#f4f4f5" fontSize="10" fontFamily="monospace">VOLTAGE: 5.02V</text>
-      <text x="50" y="78" fill="#71717a" fontSize="8" fontFamily="monospace">CURRENT: 18.4mA</text>
+      {/* Row 2 Tables */}
+      <rect x="40" y="190" width="95" height="70" rx="6" fill="#1b1d24" stroke="#3f3f46" />
+      <text x="50" y="210" fill="#d4d4d8" fontSize="11" fontWeight="bold" fontFamily="sans-serif">Table 04</text>
+      <rect x="50" y="217" width="60" height="15" rx="3" fill="#22c55e" fillOpacity="0.2" />
+      <text x="57" y="228" fill="#86efac" fontSize="7" fontFamily="monospace">AVAILABLE</text>
 
-      <rect x="430" y="35" width="130" height="50" rx="5" fill="#141419" fillOpacity="0.85" stroke="#27272a" />
-      <text x="440" y="52" fill="#a1a1aa" fontSize="8" fontFamily="monospace">UNITY PHYSICS 3D</text>
-      <text x="440" y="66" fill="#f4f4f5" fontSize="10" fontFamily="monospace">SIMULATION: 60 FPS</text>
-      <text x="440" y="78" fill="#22c55e" fontSize="8" fontFamily="monospace">CIRCUIT: CLOSED (OK)</text>
+      <rect x="150" y="190" width="95" height="70" rx="6" fill="#1b1d24" stroke="#ef4444" strokeOpacity="0.4" />
+      <text x="160" y="210" fill="#d4d4d8" fontSize="11" fontWeight="bold" fontFamily="sans-serif">Table 05</text>
+      <rect x="160" y="217" width="60" height="15" rx="3" fill="#ef4444" fillOpacity="0.2" />
+      <text x="168" y="228" fill="#fca5a5" fontSize="7" fontFamily="monospace">BILL OUT</text>
+
+      <rect x="260" y="190" width="90" height="70" rx="6" fill="#1b1d24" stroke="#3f3f46" />
+      <text x="270" y="210" fill="#d4d4d8" fontSize="11" fontWeight="bold" fontFamily="sans-serif">Table 06</text>
+      <rect x="270" y="217" width="60" height="15" rx="3" fill="#06b6d4" fillOpacity="0.2" />
+      <text x="275" y="228" fill="#22d3ee" fontSize="7" fontFamily="monospace">OCCUPIED</text>
+
+      {/* Quick Status Bar */}
+      <rect x="40" y="280" width="310" height="60" rx="6" fill="#191c24" stroke="#27272a" />
+      <text x="55" y="305" fill="#f4f4f5" fontSize="9" fontWeight="bold" fontFamily="sans-serif">Ready to Take an Order?</text>
+      <text x="55" y="323" fill="#71717a" fontSize="8" fontFamily="sans-serif">Mark table as occupied with walk-in guests or confirm arrival</text>
+
+      {/* Right: Active Order Ticket Panel */}
+      <rect x="380" y="60" width="195" height="300" rx="8" fill="#171921" stroke="#27272a" />
+      <text x="395" y="85" fill="#ffffff" fontSize="11" fontWeight="bold" fontFamily="sans-serif">Active Order #1042</text>
+      <text x="395" y="100" fill="#06b6d4" fontSize="9" fontFamily="monospace">Table 01 &bull; Walk-In</text>
+
+      <line x1="395" y1="112" x2="560" y2="112" stroke="#27272a" />
+
+      <text x="395" y="132" fill="#d4d4d8" fontSize="9" fontFamily="sans-serif">1x Sinigang na Baboy</text>
+      <text x="530" y="132" fill="#a1a1aa" fontSize="9" fontFamily="monospace">₱380</text>
+
+      <text x="395" y="152" fill="#d4d4d8" fontSize="9" fontFamily="sans-serif">2x Garlic Rice</text>
+      <text x="535" y="152" fill="#a1a1aa" fontSize="9" fontFamily="monospace">₱90</text>
+
+      <text x="395" y="172" fill="#d4d4d8" fontSize="9" fontFamily="sans-serif">1x Crispy Pata (L)</text>
+      <text x="530" y="172" fill="#a1a1aa" fontSize="9" fontFamily="monospace">₱750</text>
+
+      <text x="395" y="192" fill="#d4d4d8" fontSize="9" fontFamily="sans-serif">4x Iced Tea Glass</text>
+      <text x="530" y="192" fill="#a1a1aa" fontSize="9" fontFamily="monospace">₱200</text>
+
+      <rect x="395" y="215" width="165" height="40" rx="4" fill="#13141a" />
+      <text x="405" y="233" fill="#71717a" fontSize="8" fontFamily="monospace">Kitchen Status:</text>
+      <text x="405" y="246" fill="#22c55e" fontSize="9" fontWeight="bold" fontFamily="monospace">PREPARING (12 min)</text>
+
+      <rect x="395" y="275" width="165" height="35" rx="6" fill="#06b6d4" />
+      <text x="430" y="297" fill="#09090b" fontSize="10" fontWeight="bold" fontFamily="sans-serif">Send to Kitchen</text>
+
+      <rect x="395" y="318" width="165" height="28" rx="6" fill="#27272a" />
+      <text x="445" y="336" fill="#e4e4e7" fontSize="9" fontWeight="medium" fontFamily="sans-serif">Bill Out Table</text>
     </svg>
   );
 }
