@@ -415,7 +415,7 @@ export default function WorkList({
             href="/works"
             className="group inline-flex items-center gap-2.5 px-6 py-3 rounded-full bg-surface/80 hover:bg-surface border border-border-line hover:border-accent/50 font-mono text-xs text-zinc-300 hover:text-accent transition-all duration-200 shadow-md hover:shadow-[0_0_25px_rgba(6,182,212,0.25)] cursor-pointer"
           >
-            <span>View All Projects &amp; Archive ({ALL_PROJECTS.length})</span>
+            <span>View All Projects</span>
             <span className="transition-transform duration-200 group-hover:translate-x-1 font-semibold text-accent">→</span>
           </Link>
         </div>
