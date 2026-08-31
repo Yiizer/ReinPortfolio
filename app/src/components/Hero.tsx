@@ -49,7 +49,7 @@ export default function Hero() {
         
         {/* Top Tag Line with Dash */}
         <div className="flex items-center gap-3">
-          <span className="w-6 sm:w-8 h-px bg-zinc-400 inline-block" />
+          <span className="w-6 sm:w-8 h-px bg-accent inline-block" />
           <span className="font-mono text-xs sm:text-sm tracking-[0.16em] text-zinc-300 uppercase font-semibold">
             FULLSTACK - DEV
           </span>
@@ -74,7 +74,7 @@ export default function Hero() {
               target="_blank"
               rel="noreferrer"
               aria-label={s.name}
-              className="text-zinc-400 hover:text-white transition-colors p-1 hover:scale-110"
+              className="text-zinc-400 hover:text-accent transition-colors p-1 hover:scale-110"
             >
               {s.icon}
             </a>

@@ -1,5 +1,21 @@
 @import "tailwindcss";
 
+:root {
+  --accent: #0F8C7A;       /* light mode teal */
+  --accent-hover: #0d7969;
+  --accent-glow: rgba(15, 140, 122, 0.35);
+  --accent-soft: #2E6FA8;  /* light mode cool blue */
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --accent: #29B8A6;       /* dark mode teal */
+    --accent-hover: #34d399;
+    --accent-glow: rgba(41, 184, 166, 0.35);
+    --accent-soft: #3B82C4;  /* dark mode cool blue */
+  }
+}
+
 @theme inline {
   /* fonts — pointing straight at the real variables set in layout.tsx,
      not chained through an alias, so they always resolve */
@@ -7,13 +23,16 @@
   --font-mono: var(--font-plex-mono);
   --font-serif: var(--font-fraunces);
 
-  /* Monochrome Base with Vibrant Gray / Luminous Silver Accent Tokens */
+  /* Primary Theme Tokens with Precise Teal Accent */
   --color-ink: #09090b;
   --color-surface: #131316;
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-glow: var(--accent-glow);
+  --color-accent-soft: var(--accent-soft);
   --color-silver: #e4e4e7;
   --color-silver-glow: rgba(228, 228, 231, 0.35);
-  --color-coral: #e4e4e7;
-  --color-violet: #d4d4d8;
+  --color-coral: var(--accent);
   --color-muted: #71717a;
   --color-border-line: #27272a;
 }

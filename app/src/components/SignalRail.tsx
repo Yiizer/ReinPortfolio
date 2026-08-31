@@ -59,12 +59,12 @@ export default function SignalRail() {
               {/* Dot Container (w-5 = 20px, centered at 10px) */}
               <div className="relative flex items-center justify-center w-5 h-5 shrink-0">
                 {isActive && (
-                  <span className="absolute w-5 h-5 rounded-full bg-white/25 animate-ping pointer-events-none" />
+                  <span className="absolute w-5 h-5 rounded-full bg-accent/30 animate-ping pointer-events-none" />
                 )}
                 <span
                   className={`relative z-10 rounded-full border transition-all duration-200 ${
                     isActive
-                      ? "w-2.5 h-2.5 border-zinc-100 bg-white shadow-[0_0_12px_rgba(255,255,255,0.85)]"
+                      ? "w-2.5 h-2.5 border-accent bg-accent shadow-[0_0_12px_rgba(41,184,166,0.85)]"
                       : "w-2 h-2 border-border-line bg-ink group-hover:border-zinc-400 group-hover:bg-zinc-800 group-hover:scale-125"
                   }`}
                 />
@@ -74,7 +74,7 @@ export default function SignalRail() {
               <span
                 className={`whitespace-nowrap font-mono text-[11px] tracking-wide transition-all duration-200 ${
                   isActive
-                    ? "text-zinc-100 opacity-100 translate-x-0 font-semibold"
+                    ? "text-accent opacity-100 translate-x-0 font-semibold"
                     : "text-muted opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 group-hover:text-zinc-200"
                 }`}
               >

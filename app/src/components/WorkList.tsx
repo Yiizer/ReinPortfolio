@@ -370,7 +370,7 @@ export default function WorkList() {
     <section id="work" className="py-24 max-w-5xl mx-auto px-6 sm:px-8">
       <div className="flex items-center justify-between mb-10">
         <p className="font-mono text-[13px] tracking-widest text-muted uppercase">
-          [ SELECTED WORK ]
+          [ FEATURED WORK ]
         </p>
         <span className="font-mono text-xs text-zinc-500 hidden sm:inline-block">
           Click screenshot to expand view
@@ -387,7 +387,7 @@ export default function WorkList() {
             <div className="md:col-span-6 flex flex-col justify-between space-y-4">
               <div className="space-y-3">
                 <div className="flex items-center gap-3">
-                  <span className="font-mono text-[13px] text-zinc-300 font-semibold">
+                  <span className="font-mono text-[13px] text-accent font-semibold">
                     {project.id}
                   </span>
                   <span className="text-zinc-600">/</span>
@@ -422,7 +422,7 @@ export default function WorkList() {
                   <button
                     type="button"
                     onClick={() => openProjectModal(project, 0)}
-                    className="inline-flex items-center gap-1.5 text-zinc-300 hover:text-white cursor-pointer py-1 underline underline-offset-4 decoration-zinc-700 hover:decoration-white transition-all"
+                    className="inline-flex items-center gap-1.5 text-accent hover:text-accent-hover cursor-pointer py-1 underline underline-offset-4 decoration-accent/40 hover:decoration-accent transition-all font-medium"
                   >
                     <span>
                       {project.screenshots ? `View Gallery (${project.screenshots.length})` : "View Screenshot"}
@@ -435,7 +435,7 @@ export default function WorkList() {
                       href={project.href}
                       target="_blank"
                       rel="noreferrer"
-                      className="inline-flex items-center gap-1 text-zinc-400 hover:text-white py-1 transition-colors"
+                      className="inline-flex items-center gap-1 text-accent hover:text-accent-hover py-1 transition-colors font-medium"
                     >
                       <span>Live Site</span>
                       <span>↗</span>
@@ -676,7 +676,7 @@ export default function WorkList() {
                     onClick={() => setActiveScreenshotIdx(idx)}
                     className={`h-12 w-20 rounded-md overflow-hidden border transition-all cursor-pointer shrink-0 ${
                       activeScreenshotIdx === idx
-                        ? "border-zinc-100 ring-2 ring-white/30 opacity-100 scale-105"
+                        ? "border-accent ring-2 ring-accent/40 opacity-100 scale-105"
                         : "border-zinc-700 opacity-50 hover:opacity-80"
                     }`}
                   >

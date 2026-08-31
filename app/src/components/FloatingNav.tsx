@@ -102,10 +102,10 @@ export default function FloatingNav() {
         <button
           type="button"
           onClick={() => scrollTo("hero")}
-          className="group relative flex items-center justify-center w-8 h-8 rounded-full hover:bg-white/10 text-zinc-300 hover:text-white transition-all cursor-pointer"
+          className="group relative flex items-center justify-center w-8 h-8 rounded-full hover:bg-white/10 text-zinc-300 hover:text-accent transition-all cursor-pointer"
           aria-label="Scroll to Top"
         >
-          <span className="font-mono text-xs font-bold tracking-tighter text-zinc-200 group-hover:text-white">
+          <span className="font-mono text-xs font-bold tracking-tighter text-zinc-200 group-hover:text-accent">
             R
           </span>
           {/* Tooltip */}
@@ -127,8 +127,8 @@ export default function FloatingNav() {
               onClick={() => scrollTo(item.id)}
               className={`group relative flex items-center justify-center w-8 h-8 rounded-full transition-all cursor-pointer ${
                 isActive
-                  ? "bg-white/15 text-white border border-white/20 shadow-sm"
-                  : "text-zinc-400 hover:text-white hover:bg-white/10"
+                  ? "bg-accent/15 text-accent border border-accent/30 shadow-sm shadow-accent/20"
+                  : "text-zinc-400 hover:text-accent hover:bg-white/10"
               }`}
               aria-label={item.label}
               aria-current={isActive ? "true" : undefined}

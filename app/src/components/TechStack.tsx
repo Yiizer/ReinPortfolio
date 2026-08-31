@@ -12,7 +12,7 @@ export default function TechStack() {
       title: "Backend & Systems",
       description:
         "Architecting secure server-side logic, real-time database synchronizations, and scalable REST APIs.",
-      skills: ["Node.js", "Express", "PostgreSQL", "Supabase", "Firebase", "REST APIs"],
+      skills: ["Node.js", "PostgreSQL", "Supabase", "Firebase", "REST APIs"],
     },
     {
       number: "03",
@@ -26,7 +26,7 @@ export default function TechStack() {
       title: "Tooling & Workflow",
       description:
         "Leveraging modern developer workflows, strict version control, and rapid prototyping environments.",
-      skills: ["Git & GitHub", "VS Code", "Figma", "Postman", "Vercel / Cloud Hosting", "Turbopack"],
+      skills: ["Git & GitHub", "VS Code", "Vercel / Cloud Hosting"],
     },
   ];
 
@@ -38,11 +38,6 @@ export default function TechStack() {
           [ TECH STACK &amp; CAPABILITIES ]
         </span>
 
-        {/* Lead Statement */}
-        <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl text-zinc-100 font-normal leading-snug max-w-3xl mb-14">
-          &ldquo;Engineering scalable software from intuitive interfaces to resilient backend systems.&rdquo;
-        </h2>
-
         {/* Categories Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
           {categories.map((cat) => (
@@ -52,7 +47,7 @@ export default function TechStack() {
             >
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
-                  <span className="font-mono text-xs text-zinc-300 font-semibold px-2.5 py-0.5 rounded bg-zinc-800/80 border border-zinc-700 inline-block shadow-sm">
+                  <span className="font-mono text-xs text-accent font-semibold px-2.5 py-0.5 rounded bg-surface border border-border-line inline-block shadow-sm">
                     {cat.number}
                   </span>
                   <span className="font-mono text-xs text-zinc-500 group-hover:text-zinc-300 transition-colors">

@@ -44,10 +44,10 @@ export default function Contact() {
         <div className="p-8 sm:p-12 rounded-xl bg-surface/60 border border-border-line relative overflow-hidden">
           {/* Subtle accent glow */}
           <div
-            className="pointer-events-none absolute -bottom-16 -right-16 w-80 h-80 rounded-full blur-3xl opacity-15"
+            className="pointer-events-none absolute -bottom-16 -right-16 w-80 h-80 rounded-full blur-3xl opacity-20"
             style={{
               background:
-                "radial-gradient(circle, rgba(255,255,255,0.2) 0%, rgba(9,9,11,0) 70%)",
+                "radial-gradient(circle, rgba(41,184,166,0.3) 0%, rgba(9,9,11,0) 70%)",
             }}
             aria-hidden="true"
           />
@@ -69,7 +69,7 @@ export default function Contact() {
             <div className="pt-4 flex flex-wrap items-center gap-4">
               <a
                 href="mailto:hello@example.com"
-                className="inline-flex items-center justify-center px-6 py-3.5 rounded-md bg-zinc-100 border border-zinc-200 text-zinc-950 hover:bg-white font-medium text-sm transition-all duration-200 shadow-md hover:shadow-[0_0_25px_rgba(255,255,255,0.35)]"
+                className="inline-flex items-center justify-center px-6 py-3.5 rounded-md bg-accent text-zinc-950 hover:bg-accent-hover font-semibold text-sm transition-all duration-200 shadow-lg shadow-accent/20 hover:shadow-[0_0_25px_rgba(41,184,166,0.5)] active:scale-[0.98]"
               >
                 <span>hello@example.com</span>
                 <svg
@@ -104,7 +104,7 @@ export default function Contact() {
                 target="_blank"
                 rel="noreferrer"
                 aria-label={s.name}
-                className="text-zinc-400 hover:text-white transition-colors p-1 hover:scale-110"
+                className="text-zinc-400 hover:text-accent transition-colors p-1 hover:scale-110"
               >
                 {s.icon}
               </a>
