@@ -50,7 +50,7 @@ export default function Hero() {
         {/* Top Tag Line with Dash */}
         <div className="flex items-center gap-3">
           <span className="w-6 sm:w-8 h-px bg-accent inline-block" />
-          <span className="font-mono text-xs sm:text-sm tracking-[0.16em] text-zinc-300 uppercase font-semibold">
+          <span className="font-mono text-xs sm:text-sm tracking-[0.16em] text-accent uppercase font-semibold">
             FULLSTACK - DEV
           </span>
         </div>
