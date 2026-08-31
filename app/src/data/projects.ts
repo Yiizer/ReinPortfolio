@@ -88,8 +88,7 @@ export const ALL_PROJECTS: Project[] = [
     name: "Salo sa Antipolo",
     subtitle: "Restaurant Waiter & Order Terminal",
     blurb:
-      "Live waiter ordering and table occupancy management web application with real-time floor plan tracking, table reservations, and kitchen sync.",
-    role: "Planned and led the system flow, built the cashier interface, contributed features to admin and waiter.",
+      "A full restaurant ordering platform covering three roles: waiters taking table-side orders with live table-state management (free/occupied/reserved), cashiers, and an admin dashboard. Planned and led the overall system flow; built the waiter and cashier interfaces, and contributed features to admin.",
     stack: ["Firebase", "JavaScript", "HTML5", "CSS3", "Realtime DB"],
     href: "https://salo-sa-antipolo.web.app/waiter.html",
     external: true,
