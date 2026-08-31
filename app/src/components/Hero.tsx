@@ -65,8 +65,8 @@ export default function Hero() {
           </h2>
         </div>
 
-        {/* Social Icons Row */}
-        <div className="flex items-center gap-5 pt-2">
+        {/* Social Icons Row - Left aligned flush with name */}
+        <div className="flex items-center gap-2 pt-2 -ml-2">
           {SOCIALS.map((s) => (
             <a
               key={s.name}
@@ -74,9 +74,16 @@ export default function Hero() {
               target="_blank"
               rel="noreferrer"
               aria-label={s.name}
-              className="text-zinc-400 hover:text-accent transition-colors p-1 hover:scale-110"
+              className="group relative flex items-center justify-center w-9 h-9 rounded-lg text-zinc-400 hover:text-accent hover:bg-surface/80 border border-transparent hover:border-zinc-700/60 transition-all duration-200 cursor-pointer"
             >
-              {s.icon}
+              <div className="transition-transform duration-200 group-hover:scale-110 group-hover:drop-shadow-[0_0_8px_rgba(6,182,212,0.5)]">
+                {s.icon}
+              </div>
+
+              {/* Floating Tooltip with short name */}
+              <span className="pointer-events-none absolute -top-8 left-1/2 -translate-x-1/2 rounded bg-surface/95 border border-zinc-700/80 px-2 py-0.5 font-mono text-[10px] text-zinc-200 opacity-0 translate-y-1 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-200 whitespace-nowrap shadow-xl shadow-black/50 z-20">
+                {s.name}
+              </span>
             </a>
           ))}
         </div>
