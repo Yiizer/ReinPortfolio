@@ -569,8 +569,8 @@ export default function WorkList({
                 </p>
 
                 {project.role && (
-                  <p className="text-[13px] text-zinc-300 max-w-md leading-relaxed border-l-2 border-accent/60 pl-3 py-0.5 bg-accent/5 rounded-r">
-                    <span className="font-mono text-xs text-accent font-semibold uppercase tracking-wider">Role: </span>
+                  <p className="text-[14px] text-zinc-300 leading-relaxed max-w-md pt-1">
+                    <strong className="text-zinc-100 font-semibold">My role:</strong>{" "}
                     {project.role}
                   </p>
                 )}

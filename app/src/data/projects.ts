@@ -58,7 +58,7 @@ export const ALL_PROJECTS: Project[] = [
     subtitle: "Business website for an industrial equipment manufacturer",
     blurb:
       "A static marketing and product-catalog site built for a real client — Clover Industrial Fan and Blower, Inc. Covers company profile, a full product catalog, solutions by industry, and contact/quote request flows, styled to the client's existing brand.",
-    status: "Solo, client work · Featured on homepage",
+    status: "Solo · Client work · Featured on homepage",
     stack: ["Next.js", "Tailwind CSS", "TypeScript"],
     href: "#",
     external: false,
@@ -105,8 +105,9 @@ export const ALL_PROJECTS: Project[] = [
     name: "Salo sa Antipolo",
     subtitle: "Restaurant ordering system — waiter, cashier & admin",
     blurb:
-      "A full restaurant ordering platform covering three roles: waiters taking table-side orders with live table-state management (free/occupied/reserved), cashiers, and an admin dashboard. Planned and led the overall system flow; built the waiter and cashier interfaces, and contributed features to admin.",
-    status: "Group project — role: system flow planning/lead, waiter + cashier interfaces, admin features",
+      "A full restaurant ordering platform covering three roles: waiters taking table-side orders with live table-state management (free/occupied/reserved), cashiers, and an admin dashboard.",
+    role: "Planned and led the overall system flow. Built the waiter and cashier interfaces, and contributed features to admin.",
+    status: "Group project",
     stack: ["JavaScript", "Python", "HTML/CSS", "Firebase"],
     href: "https://salo-sa-antipolo.web.app/waiter.html",
     external: true,
