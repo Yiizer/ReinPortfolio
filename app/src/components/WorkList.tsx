@@ -180,8 +180,8 @@ export function ProjectMockupGraphic({ id }: { id: string }) {
     );
   }
 
-  if (id === "04") {
-    // A.R-DUINO Mobile App 3D Circuit Simulator
+  if (id === "03") {
+    // AR + Arduino thesis 3D Circuit Simulator
     return (
       <svg className="w-full h-full" viewBox="0 0 600 380" fill="none" xmlns="http://www.w3.org/2000/svg">
         <rect width="600" height="380" fill="#08090d" />
@@ -227,7 +227,139 @@ export function ProjectMockupGraphic({ id }: { id: string }) {
     );
   }
 
-  // Salo sa Antipolo Waiter & Table Order Management UI Mockup (05)
+  if (id === "04") {
+    // Walldr — Personal Wall & Digital Gifting App UI Mockup
+    return (
+      <svg className="w-full h-full" viewBox="0 0 600 380" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="600" height="380" fill="#0c0d12" />
+        {/* App Topbar */}
+        <rect x="0" y="0" width="600" height="42" fill="#13151d" />
+        <text x="30" y="26" fill="#ffffff" fontSize="13" fontWeight="bold" fontFamily="sans-serif" letterSpacing="0.8">WALLDR</text>
+        
+        {/* Wall Tabs */}
+        {["Personal", "Memory", "Shared", "Gift Wall"].map((tab, i) => (
+          <g key={i}>
+            <rect x={120 + i * 80} y={10} width="72" height="22" rx="11" fill={i === 0 ? "#06b6d4" : "transparent"} fillOpacity={i === 0 ? 0.2 : 0} stroke={i === 0 ? "#06b6d4" : "transparent"} strokeWidth="0.8" />
+            <text x={130 + i * 80} y={24} fill={i === 0 ? "#22d3ee" : "#71717a"} fontSize="9" fontFamily="monospace" fontWeight={i === 0 ? "bold" : "normal"}>{tab}</text>
+          </g>
+        ))}
+
+        {/* Send Credits Balance */}
+        <rect x="465" y="10" width="105" height="22" rx="11" fill="#1b1e2a" stroke="#2c3246" />
+        <text x="477" y="24" fill="#fde047" fontSize="9" fontFamily="monospace">✨ 450 Credits</text>
+
+        {/* Left: User Profile & Wall Cards Feed */}
+        <rect x="30" y="58" width="345" height="300" rx="8" fill="#12141c" stroke="#222634" />
+        
+        {/* Mini Profile Header */}
+        <circle cx="60" cy="90" r="16" fill="#1f2433" stroke="#06b6d4" strokeWidth="1.5" />
+        <text x="56" y="94" fill="#ffffff" fontSize="11" fontWeight="bold" fontFamily="sans-serif">R</text>
+        <text x="88" y="88" fill="#ffffff" fontSize="11" fontWeight="bold" fontFamily="sans-serif">rein.gavino</text>
+        <text x="88" y="102" fill="#71717a" fontSize="8" fontFamily="monospace">wall.id/rein &bull; 148 gifts received</text>
+
+        {/* Gift Wall Tiles Grid */}
+        <rect x="45" y="120" width="150" height="105" rx="6" fill="#171a25" stroke="#2a3042" />
+        <text x="55" y="140" fill="#f4f4f5" fontSize="10" fontWeight="bold" fontFamily="sans-serif">☕ Coffee Treat</text>
+        <text x="55" y="156" fill="#a1a1aa" fontSize="8" fontFamily="sans-serif">&ldquo;Thanks for helping with deploy!&rdquo;</text>
+        <text x="55" y="185" fill="#06b6d4" fontSize="8" fontFamily="monospace">From: @alex &bull; 2h ago</text>
+        <rect x="55" y="195" width="60" height="16" rx="4" fill="#06b6d4" fillOpacity="0.15" />
+        <text x="62" y="206" fill="#22d3ee" fontSize="7" fontFamily="monospace">50 CREDITS</text>
+
+        <rect x="210" y="120" width="150" height="105" rx="6" fill="#171a25" stroke="#2a3042" />
+        <text x="220" y="140" fill="#f4f4f5" fontSize="10" fontWeight="bold" fontFamily="sans-serif">🎂 Bday Sparkles</text>
+        <text x="220" y="156" fill="#a1a1aa" fontSize="8" fontFamily="sans-serif">&ldquo;Happy birthday! Keep crushing it.&rdquo;</text>
+        <text x="220" y="185" fill="#f43f5e" fontSize="8" fontFamily="monospace">From: @sarah &bull; 1d ago</text>
+        <rect x="220" y="195" width="60" height="16" rx="4" fill="#f43f5e" fillOpacity="0.15" />
+        <text x="227" y="206" fill="#fb7185" fontSize="7" fontFamily="monospace">100 CREDITS</text>
+
+        {/* Memory Wall Sticker Note */}
+        <rect x="45" y="235" width="315" height="105" rx="6" fill="#161822" stroke="#262b3a" />
+        <text x="60" y="260" fill="#ffffff" fontSize="10" fontWeight="bold" fontFamily="sans-serif">📌 Pinned Memory Wall</text>
+        <text x="60" y="278" fill="#94a3b8" fontSize="9" fontFamily="sans-serif">&ldquo;Built hackathon winner project together with the crew — June 2026&rdquo;</text>
+        <text x="60" y="300" fill="#71717a" fontSize="8" fontFamily="monospace">4 Collaborators &bull; 18 Photos &bull; 32 Reactions</text>
+
+        {/* Right: Send Digital Gift Action Box */}
+        <rect x="390" y="58" width="180" height="300" rx="8" fill="#141722" stroke="#262c3e" />
+        <text x="405" y="85" fill="#ffffff" fontSize="11" fontWeight="bold" fontFamily="sans-serif">Send a Digital Gift</text>
+        <text x="405" y="100" fill="#71717a" fontSize="8" fontFamily="monospace">SURPRISE YOUR FRIENDS</text>
+
+        {/* Gift Options Carousel */}
+        {[
+          { name: "Coffee Cup", icon: "☕", cost: "50 cr" },
+          { name: "Golden Star", icon: "⭐", cost: "100 cr" },
+          { name: "Boba Milk", icon: "🧋", cost: "75 cr" },
+        ].map((g, i) => (
+          <g key={i}>
+            <rect x={405} y={115 + i * 48} width="150" height="40" rx="6" fill="#1b1f2e" stroke={i === 0 ? "#06b6d4" : "#282e42"} strokeWidth={i === 0 ? "1.2" : "1"} />
+            <text x={415} y={140 + i * 48} fontSize="14">{g.icon}</text>
+            <text x={440} y={133 + i * 48} fill="#f4f4f5" fontSize="9" fontWeight="bold" fontFamily="sans-serif">{g.name}</text>
+            <text x={440} y={146 + i * 48} fill="#fde047" fontSize="8" fontFamily="monospace">{g.cost}</text>
+          </g>
+        ))}
+
+        <rect x="405" y="275" width="150" height="35" rx="6" fill="#06b6d4" />
+        <text x="445" y="297" fill="#09090b" fontSize="10" fontWeight="bold" fontFamily="sans-serif">Send Gift ✨</text>
+
+        <rect x="405" y="318" width="150" height="26" rx="6" fill="#1c202d" stroke="#2c3348" />
+        <text x="430" y="334" fill="#a1a1aa" fontSize="8" fontFamily="monospace">Top-Up Credits</text>
+      </svg>
+    );
+  }
+
+  if (id === "05") {
+    // GrindOn E-Commerce Platform UI Mockup
+    return (
+      <svg className="w-full h-full" viewBox="0 0 600 380" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="600" height="380" fill="#090a0e" />
+        {/* Nav Bar */}
+        <rect x="0" y="0" width="600" height="42" fill="#111319" />
+        <text x="25" y="26" fill="#ffffff" fontSize="13" fontFamily="sans-serif" fontWeight="black" letterSpacing="1.5">GRINDON</text>
+        <text x="260" y="25" fill="#a1a1aa" fontSize="10" fontFamily="sans-serif">Jerseys &nbsp;·&nbsp; Hoodies &nbsp;·&nbsp; Teamwear &nbsp;·&nbsp; Customizer</text>
+        <circle cx="530" cy="21" r="12" fill="#1c1f2a" stroke="#2e3344" />
+        <text x="525" y="25" fill="#d4d4d8" fontSize="10">🛒</text>
+        <circle cx="560" cy="21" r="12" fill="#1c1f2a" stroke="#2e3344" />
+        <text x="555" y="25" fill="#d4d4d8" fontSize="10">👤</text>
+
+        {/* E-Commerce Product Spotlight & Customizer */}
+        <rect x="25" y="60" width="310" height="295" rx="8" fill="#111319" stroke="#222634" />
+        {/* Stylized Jersey Vector */}
+        <path
+          d="M 120 100 L 160 85 L 200 100 L 225 125 L 205 155 L 195 140 L 195 240 L 125 240 L 125 140 L 115 155 L 95 125 Z"
+          fill="#1c202d"
+          stroke="#475069"
+          strokeWidth="2"
+        />
+        <path d="M 140 88 Q 160 110 180 88" fill="none" stroke="#717a94" strokeWidth="2" />
+        <text x="145" y="165" fill="#f4f4f5" fontSize="14" fontFamily="monospace" fontWeight="bold">07</text>
+        <text x="135" y="185" fill="#94a3b8" fontSize="9" fontFamily="sans-serif" fontWeight="bold">CYBER TEAM</text>
+
+        {/* Product Details Sidebar */}
+        <rect x="350" y="60" width="225" height="295" rx="8" fill="#111319" stroke="#222634" />
+        <text x="370" y="90" fill="#f4f4f5" fontSize="14" fontFamily="sans-serif" fontWeight="bold">Pro Esports Jersey v4</text>
+        <text x="370" y="112" fill="#38bdf8" fontSize="14" fontFamily="monospace" fontWeight="bold">₱1,450.00</text>
+        <text x="370" y="135" fill="#94a3b8" fontSize="9" fontFamily="sans-serif">Moisture-wicking dry-fit poly mesh.</text>
+
+        <text x="370" y="165" fill="#717a94" fontSize="8" fontFamily="monospace">CUSTOMIZE NICKNAME &amp; NUMBER</text>
+        <rect x="370" y="175" width="185" height="28" rx="4" fill="#181c26" stroke="#2e3547" />
+        <text x="380" y="193" fill="#cbd5e1" fontSize="10" fontFamily="monospace">SHADOW // 07</text>
+
+        <text x="370" y="225" fill="#717a94" fontSize="8" fontFamily="monospace">SELECT SIZE</text>
+        <g>
+          {["S", "M", "L", "XL"].map((sz, i) => (
+            <g key={i}>
+              <rect x={370 + i * 40} y={235} width="32" height="26" rx="4" fill={i === 1 ? "#ffffff" : "#181c26"} stroke={i === 1 ? "#ffffff" : "#2e3547"} />
+              <text x={382 + i * 40} y={252} fill={i === 1 ? "#09090b" : "#94a3b8"} fontSize="10" fontFamily="monospace" fontWeight="bold">{sz}</text>
+            </g>
+          ))}
+        </g>
+
+        <rect x="370" y="290" width="185" height="42" rx="6" fill="#f4f4f5" />
+        <text x="415" y="316" fill="#09090b" fontSize="11" fontFamily="monospace" fontWeight="bold">ADD TO CART 🛍️</text>
+      </svg>
+    );
+  }
+
+  // Salo sa Antipolo Waiter & Table Order Management UI Mockup (06)
   return (
     <svg className="w-full h-full" viewBox="0 0 600 380" fill="none" xmlns="http://www.w3.org/2000/svg">
       <rect width="600" height="380" fill="#111317" />
@@ -404,19 +536,33 @@ export default function WorkList({
             {/* Left: Info & Details */}
             <div className="md:col-span-6 flex flex-col justify-between space-y-4">
               <div className="space-y-3">
-                <div className="flex items-center gap-3">
-                  <span className="font-mono text-[13px] text-accent font-semibold">
-                    {project.id}
-                  </span>
-                  <span className="text-zinc-600">/</span>
-                  <span className="font-mono text-xs text-zinc-500 uppercase">
-                    {project.type}
-                  </span>
+                <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5">
+                  <div className="flex items-center gap-2">
+                    <span className="font-mono text-[13px] text-accent font-semibold">
+                      {project.id}
+                    </span>
+                    <span className="text-zinc-600">/</span>
+                    <span className="font-mono text-xs text-zinc-500 uppercase">
+                      {project.type}
+                    </span>
+                  </div>
+                  {project.status && (
+                    <span className="font-mono text-[11px] text-zinc-400 bg-surface/60 border border-border-line/60 px-2 py-0.5 rounded">
+                      {project.status}
+                    </span>
+                  )}
                 </div>
 
-                <h3 className="font-serif text-2xl md:text-3xl text-zinc-100 font-medium group-hover:text-white transition-colors">
-                  {project.name}
-                </h3>
+                <div className="space-y-1">
+                  <h3 className="font-serif text-2xl md:text-3xl text-zinc-100 font-medium group-hover:text-white transition-colors">
+                    {project.name}
+                  </h3>
+                  {project.subtitle && (
+                    <p className="text-xs sm:text-[13px] text-zinc-400 font-normal">
+                      {project.subtitle}
+                    </p>
+                  )}
+                </div>
 
                 <p className="text-[14px] text-muted leading-relaxed max-w-md">
                   {project.blurb}

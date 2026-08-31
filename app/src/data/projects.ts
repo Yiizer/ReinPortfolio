@@ -8,6 +8,7 @@ export interface Project {
   name: string;
   subtitle: string;
   blurb: string;
+  status?: string;
   role?: string;
   stack: string[];
   href: string;
@@ -19,11 +20,12 @@ export interface Project {
 export const ALL_PROJECTS: Project[] = [
   {
     id: "01",
-    name: "Artisan Coffee shop POS",
-    subtitle: "Internal POS & Kitchen Terminal",
+    name: "Coffee shop POS",
+    subtitle: "Internal ordering & point-of-sale system",
     blurb:
-      "Internal staff-only ordering and point-of-sale system built for real day-to-day shop use with order management and item tracking.",
-    stack: ["TypeScript", "React", "Supabase", "Node.js", "PostgreSQL"],
+      "An internal, staff-only ordering tool built for a small coffee shop — not customer-facing. Handles the full order lifecycle from a live queue (Received → Preparing → Ready → Completed) through to end-of-day revenue totals, with role-gated access for admin and order-taking staff.",
+    status: "Solo · Featured on homepage",
+    stack: ["Next.js (App Router)", "TypeScript", "PostgreSQL via Prisma", "Tailwind CSS"],
     href: "#",
     external: false,
     type: "Web Application",
@@ -53,55 +55,68 @@ export const ALL_PROJECTS: Project[] = [
   {
     id: "02",
     name: "Clover Industrial",
-    subtitle: "Industrial Manufacturing Suite",
+    subtitle: "Business website for an industrial equipment manufacturer",
     blurb:
-      "Modern business site for an industrial fan and blower manufacturer — clean, fast, and built to convert customer inquiries.",
-    stack: ["Next.js", "TypeScript", "Tailwind CSS", "SEO & Performance"],
+      "A static marketing and product-catalog site built for a real client — Clover Industrial Fan and Blower, Inc. Covers company profile, a full product catalog, solutions by industry, and contact/quote request flows, styled to the client's existing brand.",
+    status: "Solo, client work · Featured on homepage",
+    stack: ["Next.js", "Tailwind CSS", "TypeScript"],
     href: "#",
     external: false,
     type: "Marketing & Catalog",
   },
   {
     id: "03",
-    name: "GrindOn",
-    subtitle: "Custom Esports Apparel Platform",
+    name: "AR + Arduino thesis",
+    subtitle: "Augmented reality hardware simulation",
     blurb:
-      "E-commerce storefront and custom teamwear apparel platform with user accounts, custom ordering, and catalog browsing.",
-    stack: ["Firebase", "JavaScript", "HTML5", "CSS3", "Hosting"],
-    href: "https://grindon-da126.web.app/",
-    external: true,
-    type: "E-Commerce Web App",
-  },
-  {
-    id: "04",
-    name: "A.R-DUINO Mobile App",
-    subtitle: "Augmented Reality Circuit Simulator",
-    blurb:
-      "Augmented reality mobile application simulating electronic circuits and Arduino hardware components in interactive 3D space.",
-    stack: ["Unity 3D", "C#", "AR Foundation", "Android SDK"],
+      "A thesis project simulating Arduino-based electronics — including an RC car assembly sequence and an LED circuit simulation — in augmented reality on Android. Includes custom snapping, drag-assembly, and wiring systems built from scratch in Unity.",
+    status: "Solo · Featured on homepage",
+    stack: ["Unity 6.3", "C#", "AR Foundation", "Android SDK"],
     href: "#",
     external: false,
     type: "Mobile AR Application",
   },
   {
+    id: "04",
+    name: "Walldr",
+    subtitle: "Personal wall & digital gifting app",
+    blurb:
+      "A social product for young Filipino users to build a personal \"wall\" and send digital gifts — with four distinct wall types (Personal, Memory, Shared, Gift), a send-credits system, and a full monetization structure. Currently in active frontend development.",
+    status: "Solo · In progress",
+    stack: ["Next.js", "Tailwind CSS", "TypeScript"],
+    href: "#",
+    external: false,
+    type: "Social & Digital Gifting",
+  },
+  {
     id: "05",
+    name: "GrindOn",
+    subtitle: "E-commerce storefront for custom teamwear",
+    blurb:
+      "An online storefront for custom teamwear and apparel — user accounts, catalog browsing, and a custom-ordering flow for jerseys and team gear.",
+    status: "Solo",
+    stack: ["Firebase", "JavaScript", "HTML5", "CSS3"],
+    href: "https://grindon-da126.web.app/",
+    external: true,
+    type: "E-Commerce Web App",
+  },
+  {
+    id: "06",
     name: "Salo sa Antipolo",
-    subtitle: "Restaurant Waiter & Order Terminal",
+    subtitle: "Restaurant ordering system — waiter, cashier & admin",
     blurb:
       "A full restaurant ordering platform covering three roles: waiters taking table-side orders with live table-state management (free/occupied/reserved), cashiers, and an admin dashboard. Planned and led the overall system flow; built the waiter and cashier interfaces, and contributed features to admin.",
-    stack: ["Firebase", "JavaScript", "HTML5", "CSS3", "Realtime DB"],
+    status: "Group project — role: system flow planning/lead, waiter + cashier interfaces, admin features",
+    stack: ["JavaScript", "Python", "HTML/CSS", "Firebase"],
     href: "https://salo-sa-antipolo.web.app/waiter.html",
     external: true,
-    type: "Hospitality Web App",
+    type: "Hospitality Platform",
   },
 ];
 
-// Homepage shows 1, 2, and 4 (GrindOn is on the dedicated /works page)
+// Homepage shows projects 01, 02, and 03
 export const HOMEPAGE_PROJECTS: Project[] = [
-  ALL_PROJECTS[0], // 01 Artisan Coffee shop POS
+  ALL_PROJECTS[0], // 01 Coffee shop POS
   ALL_PROJECTS[1], // 02 Clover Industrial
-  {
-    ...ALL_PROJECTS[3],
-    id: "03", // Clean sequential index for homepage: 01, 02, 03
-  },
+  ALL_PROJECTS[2], // 03 AR + Arduino thesis
 ];
