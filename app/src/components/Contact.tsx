@@ -58,12 +58,11 @@ export default function Contact() {
             </span>
 
             <h2 className="font-serif text-3xl sm:text-4xl text-zinc-100 font-medium leading-tight">
-              Have a project in mind, or want to talk systems and design?
+              Have a project in mind?
             </h2>
 
             <p className="font-sans text-muted text-base sm:text-lg leading-relaxed">
-              I am always open to discussing new opportunities, consulting on
-              design systems, and collaborating on high-ambition software products.
+              Whether it&apos;s a website, web app, or a larger software system, I&apos;m always open to discussing ideas and figuring out how to bring them to life.
             </p>
 
             <div className="pt-4 flex flex-wrap items-center gap-4">
