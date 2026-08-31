@@ -117,12 +117,12 @@ export default function AboutPage() {
             <div className="p-4 rounded-xl bg-surface/50 border border-border-line space-y-3 font-mono text-xs shadow-sm">
               <div className="space-y-1">
                 <span className="text-zinc-500 text-[11px] uppercase tracking-wider block">Direct Email</span>
-                <a
-                  href="mailto:reingabrielgavino1723@gmail.com"
+                <Link
+                  href="/contact"
                   className="text-accent hover:underline hover:text-accent-hover transition-colors font-medium break-all block"
                 >
-                  reingabrielgavino1723@gmail.com
-                </a>
+                  reingabrielgavino1723@gmail.com &rarr;
+                </Link>
               </div>
               <div className="flex items-center justify-between text-zinc-400 border-t border-border-line/60 pt-2.5">
                 <span className="text-zinc-500 text-[11px]">Specialization</span>

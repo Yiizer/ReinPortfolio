@@ -1,3 +1,9 @@
+"use client";
+
+import { useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+
 const SOCIALS = [
   {
     name: "GitHub",
@@ -37,11 +43,43 @@ const SOCIALS = [
   },
 ];
 
-export default function Contact() {
+interface ContactProps {
+  forceForm?: boolean;
+}
+
+export default function Contact({ forceForm }: ContactProps) {
+  const pathname = usePathname();
+  const isContactPage = forceForm ?? pathname === "/contact";
+
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [subject, setSubject] = useState("");
+  const [message, setMessage] = useState("");
+  const [submitted, setSubmitted] = useState(false);
+  const [copied, setCopied] = useState(false);
+
+  const handleCopyEmail = () => {
+    navigator.clipboard.writeText("reingabrielgavino1723@gmail.com");
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2500);
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const mailSubject = encodeURIComponent(
+      subject.trim() ? subject.trim() : `Project Inquiry from ${name}`
+    );
+    const mailBody = encodeURIComponent(
+      `Hi Rein,\n\n${message}\n\n---\nFrom: ${name}\nEmail: ${email}`
+    );
+    window.location.href = `mailto:reingabrielgavino1723@gmail.com?subject=${mailSubject}&body=${mailBody}`;
+    setSubmitted(true);
+  };
+
   return (
     <section id="contact" className="py-24">
       <div className="max-w-5xl mx-auto px-6 sm:px-8">
-        <div className="p-8 sm:p-12 rounded-xl bg-surface/60 border border-border-line relative overflow-hidden">
+        <div className="p-8 sm:p-12 rounded-2xl bg-surface/60 border border-border-line relative overflow-hidden shadow-2xl">
           {/* Subtle accent glow */}
           <div
             className="pointer-events-none absolute -bottom-16 -right-16 w-80 h-80 rounded-full blur-3xl opacity-20"
@@ -52,40 +90,179 @@ export default function Contact() {
             aria-hidden="true"
           />
 
-          <div className="relative z-10 space-y-6 max-w-2xl">
-            <span className="font-mono text-xs text-zinc-300 tracking-wider uppercase block font-semibold">
-              [ Connect &amp; Collaborate ]
-            </span>
+          <div className="relative z-10 space-y-8">
+            <div className="space-y-4 max-w-2xl">
+              <span className="font-mono text-xs text-zinc-300 tracking-wider uppercase block font-semibold">
+                [ Connect &amp; Collaborate ]
+              </span>
 
-            <h2 className="font-serif text-3xl sm:text-4xl text-zinc-100 font-medium leading-tight">
-              Have a project in mind?
-            </h2>
+              <h2 className="font-serif text-3xl sm:text-4xl text-zinc-100 font-medium leading-tight">
+                Have a project in mind?
+              </h2>
 
-            <p className="font-sans text-muted text-base sm:text-lg leading-relaxed">
-              Whether it&apos;s a website, web app, or a larger software system, I&apos;m always open to discussing ideas and figuring out how to bring them to life.
-            </p>
-
-            <div className="pt-4 flex flex-wrap items-center gap-4">
-              <a
-                href="mailto:reingabrielgavino1723@gmail.com"
-                className="inline-flex items-center justify-center px-6 py-3.5 rounded-md bg-accent text-zinc-950 hover:bg-accent-hover font-semibold text-sm transition-all duration-200 shadow-lg shadow-accent/20 hover:shadow-[0_0_25px_rgba(6,182,212,0.5)] active:scale-[0.98]"
-              >
-                <span>reingabrielgavino1723@gmail.com</span>
-                <svg
-                  className="ml-2 w-4 h-4"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M14 5l7 7m0 0l-7 7m7-7H3"
-                  />
-                </svg>
-              </a>
+              <p className="font-sans text-muted text-base sm:text-lg leading-relaxed">
+                Whether it&apos;s a website, web app, or a larger software system, I&apos;m always open to discussing ideas and figuring out how to bring them to life.
+              </p>
             </div>
+
+            {isContactPage ? (
+              /* Contact Form on /contact page */
+              <div className="space-y-6 pt-2">
+                {/* Direct email quick copy banner */}
+                <div className="flex flex-wrap items-center justify-between gap-3 p-3.5 rounded-xl bg-ink/80 border border-border-line text-xs font-mono">
+                  <div className="flex items-center gap-2 text-zinc-300">
+                    <span className="text-zinc-500">Direct Email:</span>
+                    <span className="text-zinc-200 font-semibold select-all">reingabrielgavino1723@gmail.com</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={handleCopyEmail}
+                      className="px-3 py-1 rounded bg-surface border border-border-line hover:border-accent/40 text-zinc-300 hover:text-accent transition-colors cursor-pointer text-[11px]"
+                    >
+                      {copied ? "✓ Copied" : "Copy Email"}
+                    </button>
+                    <a
+                      href="mailto:reingabrielgavino1723@gmail.com"
+                      className="px-3 py-1 rounded bg-accent/10 border border-accent/30 text-accent hover:bg-accent hover:text-zinc-950 transition-all font-medium text-[11px]"
+                    >
+                      Open in Mail App ↗
+                    </a>
+                  </div>
+                </div>
+
+                {submitted ? (
+                  <div className="p-6 rounded-xl bg-emerald-950/30 border border-emerald-500/40 text-zinc-200 space-y-3 animate-in fade-in duration-300">
+                    <div className="flex items-center gap-2.5 text-emerald-400 font-mono text-sm font-semibold">
+                      <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
+                      <span>Opening your email client...</span>
+                    </div>
+                    <p className="text-sm text-zinc-300 leading-relaxed">
+                      Your default mail application is launching with your pre-filled inquiry. If it doesn&apos;t open automatically, you can send your message directly to{" "}
+                      <a href="mailto:reingabrielgavino1723@gmail.com" className="text-accent underline font-medium">
+                        reingabrielgavino1723@gmail.com
+                      </a>.
+                    </p>
+                    <button
+                      type="button"
+                      onClick={() => setSubmitted(false)}
+                      className="font-mono text-xs text-accent hover:underline pt-1 cursor-pointer inline-block"
+                    >
+                      ← Send another message / edit form
+                    </button>
+                  </div>
+                ) : (
+                  <form onSubmit={handleSubmit} className="space-y-4 max-w-2xl">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div className="space-y-1.5">
+                        <label htmlFor="contact-name" className="font-mono text-xs text-zinc-400 uppercase tracking-wider block">
+                          Your Name <span className="text-accent">*</span>
+                        </label>
+                        <input
+                          id="contact-name"
+                          type="text"
+                          required
+                          value={name}
+                          onChange={(e) => setName(e.target.value)}
+                          placeholder="Jane Doe"
+                          className="w-full rounded-lg bg-ink/80 border border-border-line px-4 py-3 text-sm text-zinc-100 placeholder:text-zinc-600 outline-none focus:border-accent focus:ring-1 focus:ring-accent/40 transition-all"
+                        />
+                      </div>
+
+                      <div className="space-y-1.5">
+                        <label htmlFor="contact-email" className="font-mono text-xs text-zinc-400 uppercase tracking-wider block">
+                          Email Address <span className="text-accent">*</span>
+                        </label>
+                        <input
+                          id="contact-email"
+                          type="email"
+                          required
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          placeholder="jane@example.com"
+                          className="w-full rounded-lg bg-ink/80 border border-border-line px-4 py-3 text-sm text-zinc-100 placeholder:text-zinc-600 outline-none focus:border-accent focus:ring-1 focus:ring-accent/40 transition-all"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="space-y-1.5">
+                      <label htmlFor="contact-subject" className="font-mono text-xs text-zinc-400 uppercase tracking-wider block">
+                        Subject / Project Scope
+                      </label>
+                      <input
+                        id="contact-subject"
+                        type="text"
+                        value={subject}
+                        onChange={(e) => setSubject(e.target.value)}
+                        placeholder="POS System / E-Commerce / Fullstack Contract / Consultation"
+                        className="w-full rounded-lg bg-ink/80 border border-border-line px-4 py-3 text-sm text-zinc-100 placeholder:text-zinc-600 outline-none focus:border-accent focus:ring-1 focus:ring-accent/40 transition-all"
+                      />
+                    </div>
+
+                    <div className="space-y-1.5">
+                      <label htmlFor="contact-message" className="font-mono text-xs text-zinc-400 uppercase tracking-wider block">
+                        Message <span className="text-accent">*</span>
+                      </label>
+                      <textarea
+                        id="contact-message"
+                        required
+                        rows={4}
+                        value={message}
+                        onChange={(e) => setMessage(e.target.value)}
+                        placeholder="Tell me about your project goals, scope, or timeline..."
+                        className="w-full rounded-lg bg-ink/80 border border-border-line px-4 py-3 text-sm text-zinc-100 placeholder:text-zinc-600 outline-none focus:border-accent focus:ring-1 focus:ring-accent/40 transition-all resize-y min-h-[110px]"
+                      />
+                    </div>
+
+                    <div className="pt-2 flex flex-wrap items-center justify-between gap-4">
+                      <button
+                        type="submit"
+                        className="inline-flex items-center justify-center px-7 py-3.5 rounded-lg bg-accent text-zinc-950 hover:bg-accent-hover font-semibold text-sm transition-all duration-200 shadow-lg shadow-accent/20 hover:shadow-[0_0_25px_rgba(6,182,212,0.5)] active:scale-[0.98] cursor-pointer"
+                      >
+                        <span>Send Message</span>
+                        <svg className="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                        </svg>
+                      </button>
+
+                      <span className="font-mono text-[11px] text-zinc-500 hidden sm:inline-block">
+                        Dispatches directly via email
+                      </span>
+                    </div>
+                  </form>
+                )}
+              </div>
+            ) : (
+              /* CTA Button on other pages -> redirects to /contact */
+              <div className="pt-4 flex flex-wrap items-center gap-4">
+                <Link
+                  href="/contact"
+                  className="group inline-flex items-center justify-center px-6 py-3.5 rounded-md bg-accent text-zinc-950 hover:bg-accent-hover font-semibold text-sm transition-all duration-200 shadow-lg shadow-accent/20 hover:shadow-[0_0_25px_rgba(6,182,212,0.5)] active:scale-[0.98] cursor-pointer"
+                >
+                  <span>Get in Touch</span>
+                  <svg
+                    className="ml-2 w-4 h-4 transition-transform duration-200 group-hover:translate-x-1"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M14 5l7 7m0 0l-7 7m7-7H3"
+                    />
+                  </svg>
+                </Link>
+
+                <Link
+                  href="/contact"
+                  className="font-mono text-xs text-zinc-400 hover:text-accent transition-colors px-3 py-2 rounded border border-border-line hover:border-accent/40 bg-surface/40"
+                >
+                  <span>reingabrielgavino1723@gmail.com &rarr;</span>
+                </Link>
+              </div>
+            )}
           </div>
         </div>
 
