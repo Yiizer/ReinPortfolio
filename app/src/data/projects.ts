@@ -24,7 +24,7 @@ export const ALL_PROJECTS: Project[] = [
     subtitle: "Internal ordering & point-of-sale system",
     blurb:
       "An internal, staff-only ordering tool built for a small coffee shop — not customer-facing. Handles the full order lifecycle from a live queue (Received → Preparing → Ready → Completed) through to end-of-day revenue totals, with role-gated access for admin and order-taking staff.",
-    status: "Solo · Featured on homepage",
+    status: "Featured on homepage",
     stack: ["Next.js (App Router)", "TypeScript", "PostgreSQL via Prisma", "Tailwind CSS"],
     href: "#",
     external: false,
@@ -58,7 +58,7 @@ export const ALL_PROJECTS: Project[] = [
     subtitle: "Business website for an industrial equipment manufacturer",
     blurb:
       "A static marketing and product-catalog site built for a real client — Clover Industrial Fan and Blower, Inc. Covers company profile, a full product catalog, solutions by industry, and contact/quote request flows, styled to the client's existing brand.",
-    status: "Solo · Client work · Featured on homepage",
+    status: "Client work · Featured on homepage",
     stack: ["Next.js", "Tailwind CSS", "TypeScript"],
     href: "#",
     external: false,
@@ -70,7 +70,7 @@ export const ALL_PROJECTS: Project[] = [
     subtitle: "Augmented reality hardware simulation",
     blurb:
       "A thesis project simulating Arduino-based electronics — including an RC car assembly sequence and an LED circuit simulation — in augmented reality on Android. Includes custom snapping, drag-assembly, and wiring systems built from scratch in Unity.",
-    status: "Solo · Featured on homepage",
+    status: "Featured on homepage",
     stack: ["Unity 6.3", "C#", "AR Foundation", "Android SDK"],
     href: "#",
     external: false,
@@ -82,7 +82,7 @@ export const ALL_PROJECTS: Project[] = [
     subtitle: "Personal wall & digital gifting app",
     blurb:
       "A social product for young Filipino users to build a personal \"wall\" and send digital gifts — with four distinct wall types (Personal, Memory, Shared, Gift), a send-credits system, and a full monetization structure. Currently in active frontend development.",
-    status: "Solo · In progress",
+    status: "In progress",
     stack: ["Next.js", "Tailwind CSS", "TypeScript"],
     href: "#",
     external: false,
@@ -94,7 +94,6 @@ export const ALL_PROJECTS: Project[] = [
     subtitle: "E-commerce storefront for custom teamwear",
     blurb:
       "An online storefront for custom teamwear and apparel — user accounts, catalog browsing, and a custom-ordering flow for jerseys and team gear.",
-    status: "Solo",
     stack: ["Firebase", "JavaScript", "HTML5", "CSS3"],
     href: "https://grindon-da126.web.app/",
     external: true,
