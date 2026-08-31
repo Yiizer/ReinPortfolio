@@ -490,7 +490,7 @@ export default function WorkList() {
           onClick={() => setActiveModalProject(null)}
         >
           <div
-            className="relative w-full max-w-5xl max-h-[92vh] flex flex-col rounded-2xl border border-zinc-700 bg-surface/95 shadow-2xl overflow-hidden text-zinc-100"
+            className="relative w-full max-w-6xl max-h-[94vh] flex flex-col rounded-2xl border border-zinc-700/80 bg-surface/95 shadow-2xl overflow-hidden text-zinc-100"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Modal Header Bar */}
@@ -540,9 +540,9 @@ export default function WorkList() {
               </div>
             </div>
 
-            {/* Modal Image Display Stage (Expanded Height) */}
+            {/* Modal Image Display Stage (Tightly Hugged & Expanded Full-Bleed) */}
             <div
-              className={`relative w-full aspect-[16/10] max-h-[74vh] bg-black/95 flex items-center justify-center overflow-hidden border-b border-border-line ${
+              className={`relative w-full aspect-[16/9] sm:aspect-[1.95/1] max-h-[78vh] bg-surface flex items-center justify-center overflow-hidden border-b border-border-line ${
                 isZoomed ? "cursor-zoom-out overflow-auto" : "cursor-zoom-in"
               }`}
               onClick={() => {
@@ -558,8 +558,8 @@ export default function WorkList() {
                   <Image
                     src={activeModalProject.screenshots[activeScreenshotIdx].src}
                     alt={activeModalProject.screenshots[activeScreenshotIdx].title}
-                    width={1200}
-                    height={750}
+                    width={1920}
+                    height={960}
                     className="w-full h-full object-contain"
                     style={{ imageRendering: "-webkit-optimize-contrast" }}
                     unoptimized
