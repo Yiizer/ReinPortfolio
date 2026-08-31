@@ -495,17 +495,12 @@ export default function WorkList() {
           >
             {/* Modal Header Bar */}
             <div className="flex items-center justify-between border-b border-border-line px-5 py-3.5 bg-ink/90">
-              <div className="flex items-center gap-3">
-                <div className="flex items-center gap-1.5">
-                  <span className="h-3 w-3 rounded-full bg-rose-500/80 inline-block" />
-                  <span className="h-3 w-3 rounded-full bg-amber-500/80 inline-block" />
-                  <span className="h-3 w-3 rounded-full bg-emerald-500/80 inline-block" />
-                </div>
-                <span className="font-mono text-xs text-zinc-300 font-semibold ml-2">
+              <div className="flex items-center gap-2.5">
+                <span className="font-mono text-xs text-zinc-200 font-semibold">
                   {activeModalProject.id} &mdash; {activeModalProject.name}
                 </span>
                 {activeModalProject.screenshots && (
-                  <span className="font-mono text-[11px] text-zinc-400 bg-zinc-800 px-2 py-0.5 rounded border border-zinc-700">
+                  <span className="font-mono text-[11px] text-accent bg-accent/10 px-2 py-0.5 rounded border border-accent/30 font-medium">
                     {activeScreenshotIdx + 1} / {activeModalProject.screenshots.length}
                   </span>
                 )}
@@ -522,8 +517,8 @@ export default function WorkList() {
                     onClick={() => setIsZoomed((prev) => !prev)}
                     className={`rounded-lg border px-2.5 py-1 text-xs font-mono transition-colors cursor-pointer flex items-center gap-1.5 ${
                       isZoomed
-                        ? "border-zinc-100 bg-white text-zinc-950 font-medium"
-                        : "border-border-line bg-surface/80 text-zinc-300 hover:text-white hover:border-zinc-500"
+                        ? "border-accent bg-accent text-zinc-950 font-medium shadow-sm shadow-accent/30"
+                        : "border-border-line bg-surface/80 text-zinc-300 hover:text-accent hover:border-accent/40"
                     }`}
                     aria-label="Toggle zoom"
                   >
@@ -535,7 +530,7 @@ export default function WorkList() {
                 <button
                   type="button"
                   onClick={() => setActiveModalProject(null)}
-                  className="rounded-lg border border-border-line bg-surface/80 p-1.5 text-zinc-400 hover:text-white hover:border-zinc-500 transition-colors cursor-pointer"
+                  className="rounded-lg border border-border-line bg-surface/80 p-1.5 text-zinc-400 hover:text-accent hover:border-accent/40 transition-colors cursor-pointer"
                   aria-label="Close dialog"
                 >
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -545,9 +540,9 @@ export default function WorkList() {
               </div>
             </div>
 
-            {/* Modal Image Display Stage */}
+            {/* Modal Image Display Stage (Expanded Height) */}
             <div
-              className={`relative w-full aspect-[16/10] max-h-[60vh] bg-black/95 flex items-center justify-center overflow-hidden border-b border-border-line ${
+              className={`relative w-full aspect-[16/10] max-h-[74vh] bg-black/95 flex items-center justify-center overflow-hidden border-b border-border-line ${
                 isZoomed ? "cursor-zoom-out overflow-auto" : "cursor-zoom-in"
               }`}
               onClick={() => {
@@ -574,7 +569,7 @@ export default function WorkList() {
                 <ProjectMockupGraphic id={activeModalProject.id} />
               )}
 
-              {/* Prev / Next Controls */}
+              {/* Prev / Next Controls with Cyan Hover Glow */}
               {activeModalProject.screenshots && activeModalProject.screenshots.length > 1 ? (
                 <>
                   <button
@@ -585,7 +580,7 @@ export default function WorkList() {
                         (prev) => (prev - 1 + activeModalProject.screenshots!.length) % activeModalProject.screenshots!.length
                       );
                     }}
-                    className="absolute left-3 top-1/2 -translate-y-1/2 rounded-full border border-zinc-700 bg-zinc-900/80 backdrop-blur-sm p-2.5 text-zinc-200 hover:text-white hover:bg-zinc-800 hover:scale-110 transition-all cursor-pointer shadow-lg"
+                    className="absolute left-4 top-1/2 -translate-y-1/2 rounded-full border border-border-line bg-zinc-950/80 backdrop-blur-sm p-3 text-zinc-300 hover:text-accent hover:border-accent hover:bg-zinc-900/95 hover:scale-110 hover:shadow-[0_0_15px_rgba(6,182,212,0.4)] transition-all cursor-pointer shadow-lg"
                     aria-label="Previous screenshot"
                   >
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -601,7 +596,7 @@ export default function WorkList() {
                         (prev) => (prev + 1) % activeModalProject.screenshots!.length
                       );
                     }}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full border border-zinc-700 bg-zinc-900/80 backdrop-blur-sm p-2.5 text-zinc-200 hover:text-white hover:bg-zinc-800 hover:scale-110 transition-all cursor-pointer shadow-lg"
+                    className="absolute right-4 top-1/2 -translate-y-1/2 rounded-full border border-border-line bg-zinc-950/80 backdrop-blur-sm p-3 text-zinc-300 hover:text-accent hover:border-accent hover:bg-zinc-900/95 hover:scale-110 hover:shadow-[0_0_15px_rgba(6,182,212,0.4)] transition-all cursor-pointer shadow-lg"
                     aria-label="Next screenshot"
                   >
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -619,7 +614,7 @@ export default function WorkList() {
                       const prevIndex = (currentIndex - 1 + PROJECTS.length) % PROJECTS.length;
                       openProjectModal(PROJECTS[prevIndex], 0);
                     }}
-                    className="absolute left-3 top-1/2 -translate-y-1/2 rounded-full border border-zinc-700 bg-zinc-900/80 backdrop-blur-sm p-2.5 text-zinc-200 hover:text-white hover:bg-zinc-800 hover:scale-110 transition-all cursor-pointer shadow-lg"
+                    className="absolute left-4 top-1/2 -translate-y-1/2 rounded-full border border-border-line bg-zinc-950/80 backdrop-blur-sm p-3 text-zinc-300 hover:text-accent hover:border-accent hover:bg-zinc-900/95 hover:scale-110 hover:shadow-[0_0_15px_rgba(6,182,212,0.4)] transition-all cursor-pointer shadow-lg"
                     aria-label="Previous project"
                   >
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -635,7 +630,7 @@ export default function WorkList() {
                       const nextIndex = (currentIndex + 1) % PROJECTS.length;
                       openProjectModal(PROJECTS[nextIndex], 0);
                     }}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full border border-zinc-700 bg-zinc-900/80 backdrop-blur-sm p-2.5 text-zinc-200 hover:text-white hover:bg-zinc-800 hover:scale-110 transition-all cursor-pointer shadow-lg"
+                    className="absolute right-4 top-1/2 -translate-y-1/2 rounded-full border border-border-line bg-zinc-950/80 backdrop-blur-sm p-3 text-zinc-300 hover:text-accent hover:border-accent hover:bg-zinc-900/95 hover:scale-110 hover:shadow-[0_0_15px_rgba(6,182,212,0.4)] transition-all cursor-pointer shadow-lg"
                     aria-label="Next project"
                   >
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -648,7 +643,7 @@ export default function WorkList() {
               {/* Bottom Caption Pill inside stage */}
               {activeModalProject.screenshots && (
                 <div className="absolute bottom-3 inset-x-0 flex justify-center pointer-events-none">
-                  <div className="bg-zinc-950/80 backdrop-blur-sm border border-zinc-700/80 px-3.5 py-1 rounded-full text-xs font-mono text-zinc-200">
+                  <div className="bg-zinc-950/85 backdrop-blur-sm border border-zinc-700/80 px-4 py-1.5 rounded-full text-xs font-mono text-zinc-200 shadow-xl">
                     {activeModalProject.screenshots[activeScreenshotIdx].title}
                   </div>
                 </div>
@@ -657,7 +652,7 @@ export default function WorkList() {
 
             {/* Gallery Thumbnail Selector Strip */}
             {activeModalProject.screenshots && activeModalProject.screenshots.length > 1 && (
-              <div className="px-5 py-2.5 bg-ink/90 border-b border-border-line flex items-center justify-center gap-2 overflow-x-auto">
+              <div className="px-5 py-3 bg-ink/90 flex items-center justify-center gap-2.5 overflow-x-auto">
                 {activeModalProject.screenshots.map((s, idx) => (
                   <button
                     key={idx}
@@ -666,7 +661,7 @@ export default function WorkList() {
                     className={`h-12 w-20 rounded-md overflow-hidden border transition-all cursor-pointer shrink-0 ${
                       activeScreenshotIdx === idx
                         ? "border-accent ring-2 ring-accent/40 opacity-100 scale-105"
-                        : "border-zinc-700 opacity-50 hover:opacity-80"
+                        : "border-zinc-700 opacity-50 hover:opacity-80 hover:border-zinc-500"
                     }`}
                   >
                     <Image
@@ -681,36 +676,6 @@ export default function WorkList() {
                 ))}
               </div>
             )}
-
-            {/* Modal Info Bar */}
-            <div className="p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-ink/70">
-              <div className="space-y-1">
-                <p className="font-serif text-lg font-medium text-white">{activeModalProject.name}</p>
-                <p className="text-xs text-muted max-w-xl">{activeModalProject.blurb}</p>
-              </div>
-
-              <div className="flex flex-wrap items-center gap-2">
-                {activeModalProject.stack.map((tech) => (
-                  <span
-                    key={tech}
-                    className="font-mono text-[10px] text-zinc-300 bg-surface border border-border-line px-2 py-0.5 rounded"
-                  >
-                    {tech}
-                  </span>
-                ))}
-                {activeModalProject.external && (
-                  <a
-                    href={activeModalProject.href}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="ml-2 inline-flex items-center gap-1 rounded bg-zinc-100 text-zinc-950 px-3 py-1 font-mono text-[11px] font-medium hover:bg-white transition-all"
-                  >
-                    <span>Visit Live</span>
-                    <span>↗</span>
-                  </a>
-                )}
-              </div>
-            </div>
           </div>
         </div>
       )}
