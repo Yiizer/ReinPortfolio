@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 const NAV_ITEMS = [
   {
@@ -79,10 +80,14 @@ export default function FloatingNav() {
     };
   }, []);
 
+  const router = useRouter();
+
   const scrollTo = (id: string) => {
     const el = document.getElementById(id);
     if (el) {
       el.scrollIntoView({ behavior: "smooth" });
+    } else {
+      router.push(`/#${id}`);
     }
   };
 

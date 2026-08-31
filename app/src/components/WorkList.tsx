@@ -2,94 +2,10 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
+import { Project, HOMEPAGE_PROJECTS, ALL_PROJECTS } from "@/data/projects";
 
-interface Screenshot {
-  title: string;
-  src: string;
-}
-
-interface Project {
-  id: string;
-  name: string;
-  subtitle: string;
-  blurb: string;
-  stack: string[];
-  href: string;
-  external: boolean;
-  type: string;
-  screenshots?: Screenshot[];
-}
-
-const PROJECTS: Project[] = [
-  {
-    id: "01",
-    name: "Artisan Coffee shop POS",
-    subtitle: "Internal POS & Kitchen Terminal",
-    blurb:
-      "Internal staff-only ordering and point-of-sale system built for real day-to-day shop use with order management and item tracking.",
-    stack: ["TypeScript", "React", "Supabase", "Node.js", "PostgreSQL"],
-    href: "#",
-    external: false,
-    type: "Web Application",
-    screenshots: [
-      {
-        title: "Counter POS — Live Order Taking & Payment Flow",
-        src: "/projects/artisan/order-taking.png",
-      },
-      {
-        title: "Live Order Queue & Kitchen Fulfillment",
-        src: "/projects/artisan/live-queue.png",
-      },
-      {
-        title: "Staff PIN Authentication & Security Terminal",
-        src: "/projects/artisan/pin-login.png",
-      },
-      {
-        title: "Menu & Inventory Management (Stock Toggles & Add-ons)",
-        src: "/projects/artisan/menu-management.png",
-      },
-      {
-        title: "Order History & Real-Time Sales Analytics",
-        src: "/projects/artisan/order-history.png",
-      },
-    ],
-  },
-  {
-    id: "02",
-    name: "Clover Industrial",
-    subtitle: "Industrial Manufacturing Suite",
-    blurb:
-      "Modern business site for an industrial fan and blower manufacturer — clean, fast, and built to convert customer inquiries.",
-    stack: ["Next.js", "TypeScript", "Tailwind CSS", "SEO & Performance"],
-    href: "#",
-    external: false,
-    type: "Marketing & Catalog",
-  },
-  {
-    id: "03",
-    name: "GrindOn",
-    subtitle: "Custom Esports Apparel Platform",
-    blurb:
-      "E-commerce storefront and custom teamwear apparel platform with user accounts, custom ordering, and catalog browsing.",
-    stack: ["Firebase", "JavaScript", "HTML5", "CSS3", "Hosting"],
-    href: "https://grindon-da126.web.app/",
-    external: true,
-    type: "E-Commerce Web App",
-  },
-  {
-    id: "04",
-    name: "A.R-DUINO Mobile App",
-    subtitle: "Augmented Reality Circuit Simulator",
-    blurb:
-      "Augmented reality mobile application simulating electronic circuits and Arduino hardware components in interactive 3D space.",
-    stack: ["Unity 3D", "C#", "AR Foundation", "Android SDK"],
-    href: "#",
-    external: false,
-    type: "Mobile AR Application",
-  },
-];
-
-function ProjectMockupGraphic({ id }: { id: string }) {
+export function ProjectMockupGraphic({ id }: { id: string }) {
   if (id === "01") {
     // Artisan Coffee POS UI Mockup
     return (
@@ -310,7 +226,19 @@ function ProjectMockupGraphic({ id }: { id: string }) {
   );
 }
 
-export default function WorkList() {
+interface WorkListProps {
+  projects?: Project[];
+  showViewAllLink?: boolean;
+  sectionTitle?: string;
+  sectionId?: string;
+}
+
+export default function WorkList({
+  projects = HOMEPAGE_PROJECTS,
+  showViewAllLink = true,
+  sectionTitle = "[ SELECTED WORK ]",
+  sectionId = "work",
+}: WorkListProps) {
   const [activeModalProject, setActiveModalProject] = useState<Project | null>(null);
   const [activeScreenshotIdx, setActiveScreenshotIdx] = useState<number>(0);
   const [isZoomed, setIsZoomed] = useState<boolean>(false);
@@ -330,18 +258,18 @@ export default function WorkList() {
         if (hasScreenshots) {
           setActiveScreenshotIdx((prev) => (prev + 1) % activeModalProject.screenshots!.length);
         } else {
-          const currentIndex = PROJECTS.findIndex((p) => p.id === activeModalProject.id);
-          const nextIndex = (currentIndex + 1) % PROJECTS.length;
-          setActiveModalProject(PROJECTS[nextIndex]);
+          const currentIndex = projects.findIndex((p) => p.id === activeModalProject.id);
+          const nextIndex = (currentIndex + 1) % projects.length;
+          setActiveModalProject(projects[nextIndex]);
           setActiveScreenshotIdx(0);
         }
       } else if (e.key === "ArrowLeft") {
         if (hasScreenshots) {
           setActiveScreenshotIdx((prev) => (prev - 1 + activeModalProject.screenshots!.length) % activeModalProject.screenshots!.length);
         } else {
-          const currentIndex = PROJECTS.findIndex((p) => p.id === activeModalProject.id);
-          const prevIndex = (currentIndex - 1 + PROJECTS.length) % PROJECTS.length;
-          setActiveModalProject(PROJECTS[prevIndex]);
+          const currentIndex = projects.findIndex((p) => p.id === activeModalProject.id);
+          const prevIndex = (currentIndex - 1 + projects.length) % projects.length;
+          setActiveModalProject(projects[prevIndex]);
           setActiveScreenshotIdx(0);
         }
       }
@@ -358,7 +286,7 @@ export default function WorkList() {
       window.removeEventListener("keydown", handleKeyDown);
       document.body.style.overflow = "unset";
     };
-  }, [activeModalProject]);
+  }, [activeModalProject, projects]);
 
   const openProjectModal = (project: Project, screenshotIdx = 0) => {
     setActiveModalProject(project);
@@ -367,10 +295,10 @@ export default function WorkList() {
   };
 
   return (
-    <section id="work" className="py-24 max-w-5xl mx-auto px-6 sm:px-8">
+    <section id={sectionId} className="py-24 max-w-5xl mx-auto px-6 sm:px-8">
       <div className="flex items-center justify-between mb-10">
         <p className="font-mono text-[13px] tracking-widest text-muted uppercase">
-          [ FEATURED WORK ]
+          {sectionTitle}
         </p>
         <span className="font-mono text-xs text-zinc-500 hidden sm:inline-block">
           Click screenshot to expand view
@@ -378,7 +306,7 @@ export default function WorkList() {
       </div>
 
       <div className="flex flex-col divide-y divide-border-line">
-        {PROJECTS.map((project) => (
+        {projects.map((project) => (
           <div
             key={project.id}
             className="group grid grid-cols-1 md:grid-cols-12 gap-6 py-10 transition-colors"
@@ -479,6 +407,19 @@ export default function WorkList() {
           </div>
         ))}
       </div>
+
+      {/* View All Projects CTA Link */}
+      {showViewAllLink && (
+        <div className="pt-12 flex justify-center">
+          <Link
+            href="/works"
+            className="group inline-flex items-center gap-2.5 px-6 py-3 rounded-full bg-surface/80 hover:bg-surface border border-border-line hover:border-accent/50 font-mono text-xs text-zinc-300 hover:text-accent transition-all duration-200 shadow-md hover:shadow-[0_0_25px_rgba(6,182,212,0.25)] cursor-pointer"
+          >
+            <span>View All Projects &amp; Archive ({ALL_PROJECTS.length})</span>
+            <span className="transition-transform duration-200 group-hover:translate-x-1 font-semibold text-accent">→</span>
+          </Link>
+        </div>
+      )}
 
       {/* Interactive Full-Screen Lightbox Modal */}
       {activeModalProject && (
@@ -610,9 +551,9 @@ export default function WorkList() {
                     type="button"
                     onClick={(e) => {
                       e.stopPropagation();
-                      const currentIndex = PROJECTS.findIndex((p) => p.id === activeModalProject.id);
-                      const prevIndex = (currentIndex - 1 + PROJECTS.length) % PROJECTS.length;
-                      openProjectModal(PROJECTS[prevIndex], 0);
+                      const currentIndex = projects.findIndex((p: Project) => p.id === activeModalProject.id);
+                      const prevIndex = (currentIndex - 1 + projects.length) % projects.length;
+                      openProjectModal(projects[prevIndex], 0);
                     }}
                     className="absolute left-4 top-1/2 -translate-y-1/2 rounded-full border border-border-line bg-zinc-950/80 backdrop-blur-sm p-3 text-zinc-300 hover:text-accent hover:border-accent hover:bg-zinc-900/95 hover:scale-110 hover:shadow-[0_0_15px_rgba(6,182,212,0.4)] transition-all cursor-pointer shadow-lg"
                     aria-label="Previous project"
@@ -626,9 +567,9 @@ export default function WorkList() {
                     type="button"
                     onClick={(e) => {
                       e.stopPropagation();
-                      const currentIndex = PROJECTS.findIndex((p) => p.id === activeModalProject.id);
-                      const nextIndex = (currentIndex + 1) % PROJECTS.length;
-                      openProjectModal(PROJECTS[nextIndex], 0);
+                      const currentIndex = projects.findIndex((p: Project) => p.id === activeModalProject.id);
+                      const nextIndex = (currentIndex + 1) % projects.length;
+                      openProjectModal(projects[nextIndex], 0);
                     }}
                     className="absolute right-4 top-1/2 -translate-y-1/2 rounded-full border border-border-line bg-zinc-950/80 backdrop-blur-sm p-3 text-zinc-300 hover:text-accent hover:border-accent hover:bg-zinc-900/95 hover:scale-110 hover:shadow-[0_0_15px_rgba(6,182,212,0.4)] transition-all cursor-pointer shadow-lg"
                     aria-label="Next project"
