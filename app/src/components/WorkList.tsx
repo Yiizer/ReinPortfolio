@@ -494,7 +494,7 @@ export default function WorkList({
                     </span>
                   </div>
                   {project.status && (
-                    <span className="font-mono text-[11px] text-zinc-400 bg-surface/60 border border-border-line/60 px-2 py-0.5 rounded">
+                    <span className="font-mono text-[11px] text-zinc-400 bg-surface/60 border border-border-line/60 px-2 py-0.5 rounded hover:border-accent/50 hover:bg-accent/10 hover:text-accent hover:scale-105 transition-all duration-200 cursor-default select-none shadow-sm">
                       {project.status}
                     </span>
                   )}

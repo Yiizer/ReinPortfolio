@@ -68,10 +68,10 @@ export default function Contact() {
 
             <div className="pt-4 flex flex-wrap items-center gap-4">
               <a
-                href="mailto:hello@example.com"
+                href="mailto:reingabrielgavino1723@gmail.com"
                 className="inline-flex items-center justify-center px-6 py-3.5 rounded-md bg-accent text-zinc-950 hover:bg-accent-hover font-semibold text-sm transition-all duration-200 shadow-lg shadow-accent/20 hover:shadow-[0_0_25px_rgba(6,182,212,0.5)] active:scale-[0.98]"
               >
-                <span>hello@example.com</span>
+                <span>reingabrielgavino1723@gmail.com</span>
                 <svg
                   className="ml-2 w-4 h-4"
                   fill="none"

@@ -4,29 +4,29 @@ export default function TechStack() {
       number: "01",
       title: "Frontend & Interfaces",
       description:
-        "Building responsive, accessible, and high-performance user interfaces with clean modular architecture.",
+        "Creating responsive, polished interfaces with a focus on usability, clean layouts, and maintainable components.",
       skills: ["Next.js", "React", "TypeScript", "Tailwind CSS", "HTML5 / CSS3", "Responsive Design"],
     },
     {
       number: "02",
       title: "Backend & Systems",
       description:
-        "Architecting secure server-side logic, real-time database synchronizations, and scalable REST APIs.",
+        "Building the logic and data layer behind applications, from APIs and authentication to database-driven systems.",
       skills: ["Node.js", "PostgreSQL", "Supabase", "Firebase", "REST APIs"],
     },
     {
       number: "03",
       title: "3D & Creative Engineering",
       description:
-        "Developing immersive spatial experiences, augmented reality simulations, and native mobile apps.",
+        "Developing interactive applications beyond the traditional web, including AR experiences and hardware-focused projects.",
       skills: ["Unity 3D", "C#", "AR Foundation", "Android SDK", "Hardware & Arduino", "Interactive 3D"],
     },
     {
       number: "04",
       title: "Tooling & Workflow",
       description:
-        "Leveraging modern developer workflows, strict version control, and rapid prototyping environments.",
-      skills: ["Git & GitHub", "VS Code", "Vercel / Cloud Hosting"],
+        "Using modern tools and workflows to build, test, deploy, and maintain projects efficiently.",
+      skills: ["Git & GitHub", "VS Code", "Vercel / Cloud Hosting", "Unity"],
     },
   ];
 

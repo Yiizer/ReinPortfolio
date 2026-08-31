@@ -65,12 +65,12 @@ export default function WorksPage() {
             <div className="flex items-center gap-3">
               <span className="w-6 sm:w-8 h-px bg-accent inline-block" />
               <span className="font-mono text-xs tracking-[0.16em] text-accent uppercase font-semibold">
-                ARCHIVE &mdash; 2026
+                PROJECTS &mdash; 2026
               </span>
             </div>
 
             <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl text-white font-medium tracking-tight">
-              Selected Works &amp; Systems
+              My Works &amp; Systems
             </h1>
 
             <p className="text-muted text-base max-w-2xl leading-relaxed">
@@ -84,7 +84,7 @@ export default function WorksPage() {
         <WorkList
           projects={ALL_PROJECTS}
           showViewAllLink={false}
-          sectionTitle="[ ALL PROJECTS & ARCHIVE ]"
+          sectionTitle="[ ALL PROJECTS ]"
           sectionId="all-works"
         />
 
