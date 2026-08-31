@@ -128,59 +128,6 @@ export function ProjectMockupGraphic({ id }: { id: string }) {
   }
 
   if (id === "03") {
-    // GrindOn E-Commerce Platform UI Mockup
-    return (
-      <svg className="w-full h-full" viewBox="0 0 600 380" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect width="600" height="380" fill="#090a0e" />
-        {/* Nav Bar */}
-        <rect x="0" y="0" width="600" height="42" fill="#111319" />
-        <text x="25" y="26" fill="#ffffff" fontSize="13" fontFamily="sans-serif" fontWeight="black" letterSpacing="1.5">GRINDON</text>
-        <text x="260" y="25" fill="#a1a1aa" fontSize="10" fontFamily="sans-serif">Jerseys &nbsp;·&nbsp; Hoodies &nbsp;·&nbsp; Teamwear &nbsp;·&nbsp; Customizer</text>
-        <circle cx="530" cy="21" r="12" fill="#1c1f2a" stroke="#2e3344" />
-        <text x="525" y="25" fill="#d4d4d8" fontSize="10">🛒</text>
-        <circle cx="560" cy="21" r="12" fill="#1c1f2a" stroke="#2e3344" />
-        <text x="555" y="25" fill="#d4d4d8" fontSize="10">👤</text>
-
-        {/* E-Commerce Product Spotlight & Customizer */}
-        <rect x="25" y="60" width="310" height="295" rx="8" fill="#111319" stroke="#222634" />
-        {/* Stylized Jersey Vector */}
-        <path
-          d="M 120 100 L 160 85 L 200 100 L 225 125 L 205 155 L 195 140 L 195 240 L 125 240 L 125 140 L 115 155 L 95 125 Z"
-          fill="#1c202d"
-          stroke="#475069"
-          strokeWidth="2"
-        />
-        <path d="M 140 88 Q 160 110 180 88" fill="none" stroke="#717a94" strokeWidth="2" />
-        <text x="145" y="165" fill="#f4f4f5" fontSize="14" fontFamily="monospace" fontWeight="bold">07</text>
-        <text x="135" y="185" fill="#94a3b8" fontSize="9" fontFamily="sans-serif" fontWeight="bold">CYBER TEAM</text>
-
-        {/* Product Details Sidebar */}
-        <rect x="350" y="60" width="225" height="295" rx="8" fill="#111319" stroke="#222634" />
-        <text x="370" y="90" fill="#f4f4f5" fontSize="14" fontFamily="sans-serif" fontWeight="bold">Pro Esports Jersey v4</text>
-        <text x="370" y="112" fill="#38bdf8" fontSize="14" fontFamily="monospace" fontWeight="bold">₱1,450.00</text>
-        <text x="370" y="135" fill="#94a3b8" fontSize="9" fontFamily="sans-serif">Moisture-wicking dry-fit poly mesh.</text>
-
-        <text x="370" y="165" fill="#717a94" fontSize="8" fontFamily="monospace">CUSTOMIZE NICKNAME &amp; NUMBER</text>
-        <rect x="370" y="175" width="185" height="28" rx="4" fill="#181c26" stroke="#2e3547" />
-        <text x="380" y="193" fill="#cbd5e1" fontSize="10" fontFamily="monospace">SHADOW // 07</text>
-
-        <text x="370" y="225" fill="#717a94" fontSize="8" fontFamily="monospace">SELECT SIZE</text>
-        <g>
-          {["S", "M", "L", "XL"].map((sz, i) => (
-            <g key={i}>
-              <rect x={370 + i * 40} y={235} width="32" height="26" rx="4" fill={i === 1 ? "#ffffff" : "#181c26"} stroke={i === 1 ? "#ffffff" : "#2e3547"} />
-              <text x={382 + i * 40} y={252} fill={i === 1 ? "#09090b" : "#94a3b8"} fontSize="10" fontFamily="monospace" fontWeight="bold">{sz}</text>
-            </g>
-          ))}
-        </g>
-
-        <rect x="370" y="290" width="185" height="42" rx="6" fill="#f4f4f5" />
-        <text x="415" y="316" fill="#09090b" fontSize="11" fontFamily="monospace" fontWeight="bold">ADD TO CART 🛍️</text>
-      </svg>
-    );
-  }
-
-  if (id === "03") {
     // AR + Arduino thesis 3D Circuit Simulator
     return (
       <svg className="w-full h-full" viewBox="0 0 600 380" fill="none" xmlns="http://www.w3.org/2000/svg">
