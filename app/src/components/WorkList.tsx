@@ -411,37 +411,26 @@ export default function WorkList() {
                   {project.stack.map((tech) => (
                     <span
                       key={tech}
-                      className="font-mono text-[11px] text-zinc-400 bg-surface/80 border border-border-line px-2.5 py-0.5 rounded group-hover:border-zinc-700 group-hover:text-zinc-200 transition-colors"
+                      className="font-mono text-[11px] text-zinc-400 bg-surface/80 border border-border-line px-2.5 py-0.5 rounded hover:border-accent/50 hover:bg-accent/10 hover:text-accent hover:scale-105 transition-all duration-200 cursor-default select-none shadow-sm"
                     >
                       {tech}
                     </span>
                   ))}
                 </div>
 
-                <div className="flex items-center gap-4 pt-1 font-mono text-xs">
-                  <button
-                    type="button"
-                    onClick={() => openProjectModal(project, 0)}
-                    className="inline-flex items-center gap-1.5 text-accent hover:text-accent-hover cursor-pointer py-1 underline underline-offset-4 decoration-accent/40 hover:decoration-accent transition-all font-medium"
-                  >
-                    <span>
-                      {project.screenshots ? `View Gallery (${project.screenshots.length})` : "View Screenshot"}
-                    </span>
-                    <span>🔍</span>
-                  </button>
-
-                  {project.external && (
+                {project.external && (
+                  <div className="pt-1 font-mono text-xs">
                     <a
                       href={project.href}
                       target="_blank"
                       rel="noreferrer"
-                      className="inline-flex items-center gap-1 text-accent hover:text-accent-hover py-1 transition-colors font-medium"
+                      className="inline-flex items-center gap-1 text-accent hover:text-accent-hover py-1 transition-colors font-medium underline underline-offset-4 decoration-accent/40 hover:decoration-accent"
                     >
                       <span>Live Site</span>
                       <span>↗</span>
                     </a>
-                  )}
-                </div>
+                  </div>
+                )}
               </div>
             </div>
 

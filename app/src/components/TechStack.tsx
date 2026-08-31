@@ -69,7 +69,7 @@ export default function TechStack() {
                 {cat.skills.map((skill) => (
                   <span
                     key={skill}
-                    className="font-mono text-[11px] text-zinc-300 bg-ink/70 border border-border-line px-2.5 py-1 rounded group-hover:border-zinc-700 transition-colors"
+                    className="font-mono text-[11px] text-zinc-300 bg-ink/70 border border-border-line px-2.5 py-1 rounded hover:border-accent/50 hover:bg-accent/10 hover:text-accent hover:scale-105 transition-all duration-200 cursor-default select-none shadow-sm"
                   >
                     {skill}
                   </span>
