@@ -3,11 +3,14 @@
 import Link from "next/link";
 import WorkList from "@/components/WorkList";
 import Contact from "@/components/Contact";
+import FloatingNav from "@/components/FloatingNav";
 import { ALL_PROJECTS } from "@/data/projects";
 
 export default function WorksPage() {
   return (
     <div className="relative min-h-screen bg-ink text-zinc-100 selection:bg-white/20 selection:text-white">
+      {/* Top Floating Glass Monogram/Nav */}
+      <FloatingNav />
       {/* Background Layer 1: Ambient Luminous Silver/Cyan Light Pools */}
       <div
         className="pointer-events-none fixed inset-0 z-0 overflow-hidden"
