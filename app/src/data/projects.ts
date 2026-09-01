@@ -58,7 +58,7 @@ export const ALL_PROJECTS: Project[] = [
     subtitle: "Business website for an industrial equipment manufacturer",
     blurb:
       "A static marketing and product-catalog site built for a real client — Clover Industrial Fan and Blower, Inc. Covers company profile, a full product catalog, solutions by industry, and contact/quote request flows, styled to the client's existing brand.",
-    status: "Client work · Featured on homepage",
+    status: "In progress",
     stack: ["Next.js", "Tailwind CSS", "TypeScript"],
     href: "#",
     external: false,
@@ -114,6 +114,28 @@ export const ALL_PROJECTS: Project[] = [
     href: "https://salo-sa-antipolo.web.app/waiter.html",
     external: true,
     type: "Hospitality Platform",
+    screenshots: [
+      {
+        title: "Waiter Portal — Live Table State Management & Order Slips",
+        src: "/projects/salo/table-management.png",
+      },
+      {
+        title: "Waiter Portal — Table-Side Ordering & Menu Selection",
+        src: "/projects/salo/menu-ordering.png",
+      },
+      {
+        title: "Cashier Portal — Payment Processing & Receipt Generation",
+        src: "/projects/salo/cashier-payment.png",
+      },
+      {
+        title: "Admin Dashboard — Real-time Operations & Table Overview",
+        src: "/projects/salo/admin-overview.png",
+      },
+      {
+        title: "Admin Dashboard — Billing & Transaction Records",
+        src: "/projects/salo/admin-billing.png",
+      },
+    ],
   },
 ];
 

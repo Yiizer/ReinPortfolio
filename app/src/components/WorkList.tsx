@@ -474,128 +474,180 @@ export default function WorkList({
         </span>
       </div>
 
-      <div className="flex flex-col divide-y divide-border-line">
-        {projects.map((project) => (
-          <div
-            key={project.id}
-            className="group grid grid-cols-1 md:grid-cols-12 gap-6 py-10 transition-colors"
-          >
-            {/* Left: Info & Details */}
-            <div className="md:col-span-6 flex flex-col justify-between space-y-4">
-              <div className="space-y-3">
-                <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5">
-                  <div className="flex items-center gap-2">
-                    <span className="font-mono text-[13px] text-accent font-semibold">
-                      {project.id}
-                    </span>
-                    <span className="text-zinc-600">/</span>
-                    <span className="font-mono text-xs text-zinc-500 uppercase">
-                      {project.type}
-                    </span>
-                  </div>
-                  {project.status && (
-                    <span className="font-mono text-[11px] text-zinc-400 bg-surface/60 border border-border-line/60 px-2 py-0.5 rounded hover:border-accent/50 hover:bg-accent/10 hover:text-accent hover:scale-105 transition-all duration-200 cursor-default select-none shadow-sm">
-                      {project.status}
-                    </span>
-                  )}
-                </div>
+      <div className="flex flex-col gap-8 sm:gap-10">
+        {projects.map((project) => {
+          const isInProgress = project.status?.toLowerCase().includes("in progress");
+          const screenCount = project.screenshots?.length || 1;
 
-                <div className="space-y-1">
-                  <h3 className="font-serif text-2xl md:text-3xl text-zinc-100 font-medium group-hover:text-white transition-colors">
-                    {project.name}
-                  </h3>
-                  {project.subtitle && (
-                    <p className="text-xs sm:text-[13px] text-zinc-400 font-normal">
-                      {project.subtitle}
+          return (
+            <div
+              key={project.id}
+              id={`project-${project.id}`}
+              className="group relative scroll-mt-24 sm:scroll-mt-32 rounded-2xl bg-surface/75 border border-border-line p-6 sm:p-8 transition-all duration-300 hover:border-accent/45 hover:shadow-2xl hover:shadow-accent/10 hover:-translate-y-1 backdrop-blur-sm"
+            >
+              {/* Subtle Ambient Hover Glow */}
+              <div
+                className="pointer-events-none absolute -inset-px rounded-2xl bg-gradient-to-r from-accent/15 via-transparent to-accent/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                aria-hidden="true"
+              />
+
+              <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                {/* Left: Info & Interactive Triggers */}
+                <div className="lg:col-span-5 flex flex-col justify-between space-y-5">
+                  <div className="space-y-3.5">
+                    {/* ID, Type & Status Tag */}
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="font-mono text-xs text-accent font-bold px-2 py-0.5 rounded bg-accent/10 border border-accent/30">
+                        {project.id}
+                      </span>
+                      <span className="font-mono text-xs text-muted uppercase font-medium">
+                        {project.type}
+                      </span>
+
+                      {project.status && (
+                        <span
+                          className={`inline-flex items-center gap-1.5 font-mono text-[11px] px-2.5 py-0.5 rounded-full border transition-colors select-none font-medium ${
+                            isInProgress
+                              ? "text-amber-700 bg-amber-100 border-amber-300 dark:text-amber-300 dark:bg-amber-950/50 dark:border-amber-500/40"
+                              : "text-cyan-800 bg-cyan-100 border-cyan-300 dark:text-accent dark:bg-accent/10 dark:border-accent/30"
+                          }`}
+                        >
+                          {isInProgress && (
+                            <span className="w-1.5 h-1.5 rounded-full bg-amber-500 dark:bg-amber-400 animate-pulse" />
+                          )}
+                          {project.status}
+                        </span>
+                      )}
+                    </div>
+
+                    {/* Title & Subtitle */}
+                    <div className="space-y-1">
+                      <h3 className="font-serif text-2xl sm:text-3xl text-zinc-100 font-medium group-hover:text-accent transition-colors">
+                        {project.name}
+                      </h3>
+                      {project.subtitle && (
+                        <p className="text-xs sm:text-[13px] text-zinc-400 font-normal">
+                          {project.subtitle}
+                        </p>
+                      )}
+                    </div>
+
+                    <p className="text-[14px] text-muted leading-relaxed">
+                      {project.blurb}
                     </p>
-                  )}
-                </div>
 
-                <p className="text-[14px] text-muted leading-relaxed max-w-md">
-                  {project.blurb}
-                </p>
-
-                {project.role && (
-                  <p className="text-[14px] text-zinc-300 leading-relaxed max-w-md pt-1">
-                    <strong className="text-zinc-100 font-semibold">My role:</strong>{" "}
-                    {project.role}
-                  </p>
-                )}
-              </div>
-
-              {/* Stack Chips & Actions */}
-              <div className="space-y-3 pt-2">
-                <div className="flex flex-wrap gap-1.5">
-                  {project.stack.map((tech) => (
-                    <span
-                      key={tech}
-                      className="font-mono text-[11px] text-zinc-400 bg-surface/80 border border-border-line px-2.5 py-0.5 rounded hover:border-accent/50 hover:bg-accent/10 hover:text-accent hover:scale-105 transition-all duration-200 cursor-default select-none shadow-sm"
-                    >
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-
-                {project.external && (
-                  <div className="pt-1 font-mono text-xs">
-                    <a
-                      href={project.href}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="inline-flex items-center gap-1 text-accent hover:text-accent-hover py-1 transition-colors font-medium underline underline-offset-4 decoration-accent/40 hover:decoration-accent"
-                    >
-                      <span>Live Site</span>
-                      <span>↗</span>
-                    </a>
+                    {project.role && (
+                      <p className="text-[13px] text-zinc-300 leading-relaxed pt-1">
+                        <strong className="text-zinc-100 font-semibold">My role:</strong>{" "}
+                        {project.role}
+                      </p>
+                    )}
                   </div>
-                )}
+
+                  {/* Stack Chips & Action Buttons */}
+                  <div className="space-y-4 pt-1">
+                    <div className="flex flex-wrap gap-1.5">
+                      {project.stack.map((tech) => (
+                        <span
+                          key={tech}
+                          className="font-mono text-[11px] text-zinc-300 bg-ink/70 border border-border-line px-2.5 py-0.5 rounded hover:border-accent/40 hover:text-accent transition-colors cursor-default select-none shadow-sm"
+                        >
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
+
+                    {/* Interactive CTAs */}
+                    <div className="flex flex-wrap items-center gap-3 pt-1">
+                      {showViewAllLink ? (
+                        <Link
+                          href={`/works#project-${project.id}`}
+                          className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-accent text-zinc-950 hover:bg-accent-hover font-mono text-xs font-bold transition-all shadow-md shadow-accent/20 hover:shadow-[0_0_20px_rgba(6,182,212,0.4)] active:scale-95 cursor-pointer"
+                        >
+                          <span>Explore Project</span>
+                          <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                          </svg>
+                        </Link>
+                      ) : (
+                        <button
+                          type="button"
+                          onClick={() => openProjectModal(project, 0)}
+                          className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-accent text-zinc-950 hover:bg-accent-hover font-mono text-xs font-bold transition-all shadow-md shadow-accent/20 hover:shadow-[0_0_20px_rgba(6,182,212,0.4)] active:scale-95 cursor-pointer"
+                        >
+                          <span>Inspect Gallery</span>
+                          <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                          </svg>
+                        </button>
+                      )}
+
+                      {project.external && (
+                        <a
+                          href={project.href}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-surface border border-border-line hover:border-accent/40 text-zinc-300 hover:text-accent font-mono text-xs font-medium transition-all hover:bg-surface/90 cursor-pointer"
+                        >
+                          <span>Live Demo</span>
+                          <span className="text-accent">↗</span>
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Right: Clean Frameless Interactive Preview */}
+                <div className="lg:col-span-7">
+                  <div
+                    onClick={() => openProjectModal(project, 0)}
+                    className="group/frame relative w-full aspect-[16/10] rounded-xl overflow-hidden border border-border-line bg-surface/90 shadow-xl transition-all duration-300 hover:border-accent hover:shadow-[0_0_30px_rgba(6,182,212,0.2)] hover:scale-[1.015] cursor-pointer flex items-center justify-center"
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        openProjectModal(project, 0);
+                      }
+                    }}
+                    aria-label={`Open interactive preview for ${project.name}`}
+                  >
+                    {/* Embedded Real Image or Clean Vector Mockup */}
+                    {project.screenshots && project.screenshots.length > 0 ? (
+                      <Image
+                        src={project.screenshots[0].src}
+                        alt={project.name}
+                        width={600}
+                        height={375}
+                        className="w-full h-full object-cover object-center transition-transform duration-500 group-hover/frame:scale-105"
+                        unoptimized
+                      />
+                    ) : (
+                      <div className="w-full h-full transition-transform duration-500 group-hover/frame:scale-105">
+                        <ProjectMockupGraphic id={project.id} />
+                      </div>
+                    )}
+
+                    {/* Minimal Multi-Screen Count Badge */}
+                    {screenCount > 1 && (
+                      <div className="screen-badge absolute top-3 right-3 bg-zinc-950/90 backdrop-blur-sm border border-zinc-700/80 px-2.5 py-0.5 rounded-md text-[10px] font-mono text-zinc-100 shadow-lg">
+                        {screenCount} Screens
+                      </div>
+                    )}
+
+                    {/* Hover Overlay with Glow Badge */}
+                    <div className="absolute inset-0 bg-ink/40 backdrop-blur-[2px] opacity-0 group-hover/frame:opacity-100 transition-all duration-200 flex items-center justify-center">
+                      <span className="inline-flex items-center gap-2 rounded-full bg-accent text-zinc-950 px-4 py-2 font-mono text-xs font-bold shadow-2xl shadow-accent/50 transform translate-y-2 group-hover/frame:translate-y-0 transition-transform duration-200">
+                        <span>Click to Inspect Gallery</span>
+                        <span>🔍</span>
+                      </span>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-
-            {/* Right: Screenshot Mockup Preview Box */}
-            <div className="md:col-span-6 flex items-center">
-              <button
-                type="button"
-                onClick={() => openProjectModal(project, 0)}
-                className="thumb-card w-full aspect-[16/10] rounded-xl overflow-hidden border border-border-line bg-surface/70 transition-all duration-300 relative group/thumb cursor-pointer shadow-lg hover:shadow-2xl hover:scale-[1.02] text-left"
-                aria-label={`View screenshot for ${project.name}`}
-              >
-                {/* Embedded Real Image or Stylized Preview (100% Unblurred & Crisp) */}
-                {project.screenshots && project.screenshots.length > 0 ? (
-                  <div className="w-full h-full bg-[#1e1a17] flex items-center justify-center overflow-hidden">
-                    <Image
-                      src={project.screenshots[0].src}
-                      alt={project.name}
-                      width={600}
-                      height={375}
-                      className="w-full h-full object-cover object-center"
-                      unoptimized
-                    />
-                  </div>
-                ) : (
-                  <ProjectMockupGraphic id={project.id} />
-                )}
-
-                {/* Badge if multiple screenshots */}
-                {project.screenshots && project.screenshots.length > 1 && (
-                  <div className="absolute top-3 right-3 bg-zinc-950/80 backdrop-blur-sm border border-zinc-700 px-2 py-0.5 rounded text-[10px] font-mono text-zinc-300">
-                    {project.screenshots.length} Screens
-                  </div>
-                )}
-
-                {/* Minimal Non-Intrusive Floating Expand Tag on Hover */}
-                <div className="absolute bottom-3 right-3 opacity-0 group-hover/thumb:opacity-100 transition-opacity duration-200 pointer-events-none select-none">
-                  <span className="inline-flex items-center gap-1.5 rounded-full bg-zinc-950/90 border border-accent/40 px-3 py-1 font-mono text-[11px] text-accent shadow-xl shadow-black/60">
-                    <span>Enlarge</span>
-                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7" />
-                    </svg>
-                  </span>
-                </div>
-              </button>
-            </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
       {/* View All Projects CTA Link */}
@@ -621,24 +673,24 @@ export default function WorkList({
           onClick={() => setActiveModalProject(null)}
         >
           <div
-            className="relative w-full max-w-6xl max-h-[94vh] flex flex-col rounded-2xl border border-zinc-700/80 bg-surface/95 shadow-2xl overflow-hidden text-zinc-100"
+            className="cinematic-modal relative w-full max-w-6xl max-h-[94vh] flex flex-col rounded-2xl border border-zinc-800 bg-[#131316] shadow-2xl overflow-hidden text-zinc-100"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Modal Header Bar */}
-            <div className="flex items-center justify-between border-b border-border-line px-5 py-3.5 bg-ink/90">
+            <div className="modal-header flex items-center justify-between border-b border-zinc-800 px-5 py-3.5 bg-[#09090b]">
               <div className="flex items-center gap-2.5">
                 <span className="font-mono text-xs text-zinc-200 font-semibold">
                   {activeModalProject.id} &mdash; {activeModalProject.name}
                 </span>
                 {activeModalProject.screenshots && (
-                  <span className="font-mono text-[11px] text-accent bg-accent/10 px-2 py-0.5 rounded border border-accent/30 font-medium">
+                  <span className="font-mono text-[11px] text-cyan-400 bg-cyan-950/40 px-2 py-0.5 rounded border border-cyan-500/40 font-medium">
                     {activeScreenshotIdx + 1} / {activeModalProject.screenshots.length}
                   </span>
                 )}
               </div>
 
               <div className="flex items-center gap-3">
-                <span className="font-mono text-[11px] text-zinc-500 hidden sm:inline-block">
+                <span className="font-mono text-[11px] text-zinc-400 hidden sm:inline-block">
                   ESC to close · Arrows to navigate
                 </span>
 
@@ -648,8 +700,8 @@ export default function WorkList({
                     onClick={() => setIsZoomed((prev) => !prev)}
                     className={`rounded-lg border px-2.5 py-1 text-xs font-mono transition-colors cursor-pointer flex items-center gap-1.5 ${
                       isZoomed
-                        ? "border-accent bg-accent text-zinc-950 font-medium shadow-sm shadow-accent/30"
-                        : "border-border-line bg-surface/80 text-zinc-300 hover:text-accent hover:border-accent/40"
+                        ? "border-cyan-400 bg-cyan-400 text-zinc-950 font-medium shadow-sm shadow-cyan-400/30"
+                        : "border-zinc-700 bg-zinc-900/80 text-zinc-200 hover:text-cyan-400 hover:border-cyan-500/50"
                     }`}
                     aria-label="Toggle zoom"
                   >
@@ -661,7 +713,7 @@ export default function WorkList({
                 <button
                   type="button"
                   onClick={() => setActiveModalProject(null)}
-                  className="rounded-lg border border-border-line bg-surface/80 p-1.5 text-zinc-400 hover:text-accent hover:border-accent/40 transition-colors cursor-pointer"
+                  className="rounded-lg border border-zinc-700 bg-zinc-900/80 p-1.5 text-zinc-300 hover:text-cyan-400 hover:border-cyan-500/50 transition-colors cursor-pointer"
                   aria-label="Close dialog"
                 >
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -673,7 +725,7 @@ export default function WorkList({
 
             {/* Modal Image Display Stage (Tightly Hugged & Expanded Full-Bleed) */}
             <div
-              className={`relative w-full aspect-[16/9] sm:aspect-[1.95/1] max-h-[78vh] bg-surface flex items-center justify-center overflow-hidden border-b border-border-line ${
+              className={`modal-stage relative w-full aspect-[16/9] sm:aspect-[1.95/1] max-h-[78vh] bg-[#09090b] flex items-center justify-center overflow-hidden border-b border-zinc-800 ${
                 isZoomed ? "cursor-zoom-out overflow-auto" : "cursor-zoom-in"
               }`}
               onClick={() => {
@@ -711,7 +763,7 @@ export default function WorkList({
                         (prev) => (prev - 1 + activeModalProject.screenshots!.length) % activeModalProject.screenshots!.length
                       );
                     }}
-                    className="absolute left-4 top-1/2 -translate-y-1/2 rounded-full border border-border-line bg-zinc-950/80 backdrop-blur-sm p-3 text-zinc-300 hover:text-accent hover:border-accent hover:bg-zinc-900/95 hover:scale-110 hover:shadow-[0_0_15px_rgba(6,182,212,0.4)] transition-all cursor-pointer shadow-lg"
+                    className="absolute left-4 top-1/2 -translate-y-1/2 rounded-full border border-zinc-700/80 bg-zinc-950/85 backdrop-blur-sm p-3 text-zinc-100 hover:text-cyan-400 hover:border-cyan-400 hover:bg-zinc-900/95 hover:scale-110 hover:shadow-[0_0_15px_rgba(6,182,212,0.4)] transition-all cursor-pointer shadow-lg"
                     aria-label="Previous screenshot"
                   >
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -727,7 +779,7 @@ export default function WorkList({
                         (prev) => (prev + 1) % activeModalProject.screenshots!.length
                       );
                     }}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 rounded-full border border-border-line bg-zinc-950/80 backdrop-blur-sm p-3 text-zinc-300 hover:text-accent hover:border-accent hover:bg-zinc-900/95 hover:scale-110 hover:shadow-[0_0_15px_rgba(6,182,212,0.4)] transition-all cursor-pointer shadow-lg"
+                    className="absolute right-4 top-1/2 -translate-y-1/2 rounded-full border border-zinc-700/80 bg-zinc-950/85 backdrop-blur-sm p-3 text-zinc-100 hover:text-cyan-400 hover:border-cyan-400 hover:bg-zinc-900/95 hover:scale-110 hover:shadow-[0_0_15px_rgba(6,182,212,0.4)] transition-all cursor-pointer shadow-lg"
                     aria-label="Next screenshot"
                   >
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -745,7 +797,7 @@ export default function WorkList({
                       const prevIndex = (currentIndex - 1 + projects.length) % projects.length;
                       openProjectModal(projects[prevIndex], 0);
                     }}
-                    className="absolute left-4 top-1/2 -translate-y-1/2 rounded-full border border-border-line bg-zinc-950/80 backdrop-blur-sm p-3 text-zinc-300 hover:text-accent hover:border-accent hover:bg-zinc-900/95 hover:scale-110 hover:shadow-[0_0_15px_rgba(6,182,212,0.4)] transition-all cursor-pointer shadow-lg"
+                    className="absolute left-4 top-1/2 -translate-y-1/2 rounded-full border border-zinc-700/80 bg-zinc-950/85 backdrop-blur-sm p-3 text-zinc-100 hover:text-cyan-400 hover:border-cyan-400 hover:bg-zinc-900/95 hover:scale-110 hover:shadow-[0_0_15px_rgba(6,182,212,0.4)] transition-all cursor-pointer shadow-lg"
                     aria-label="Previous project"
                   >
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -761,7 +813,7 @@ export default function WorkList({
                       const nextIndex = (currentIndex + 1) % projects.length;
                       openProjectModal(projects[nextIndex], 0);
                     }}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 rounded-full border border-border-line bg-zinc-950/80 backdrop-blur-sm p-3 text-zinc-300 hover:text-accent hover:border-accent hover:bg-zinc-900/95 hover:scale-110 hover:shadow-[0_0_15px_rgba(6,182,212,0.4)] transition-all cursor-pointer shadow-lg"
+                    className="absolute right-4 top-1/2 -translate-y-1/2 rounded-full border border-zinc-700/80 bg-zinc-950/85 backdrop-blur-sm p-3 text-zinc-100 hover:text-cyan-400 hover:border-cyan-400 hover:bg-zinc-900/95 hover:scale-110 hover:shadow-[0_0_15px_rgba(6,182,212,0.4)] transition-all cursor-pointer shadow-lg"
                     aria-label="Next project"
                   >
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -774,7 +826,7 @@ export default function WorkList({
               {/* Bottom Caption Pill inside stage */}
               {activeModalProject.screenshots && (
                 <div className="absolute bottom-3 inset-x-0 flex justify-center pointer-events-none">
-                  <div className="bg-zinc-950/85 backdrop-blur-sm border border-zinc-700/80 px-4 py-1.5 rounded-full text-xs font-mono text-zinc-200 shadow-xl">
+                  <div className="screen-badge bg-zinc-950/90 backdrop-blur-sm border border-zinc-700/80 px-4 py-1.5 rounded-full text-xs font-mono text-zinc-100 shadow-xl">
                     {activeModalProject.screenshots[activeScreenshotIdx].title}
                   </div>
                 </div>
@@ -783,7 +835,7 @@ export default function WorkList({
 
             {/* Gallery Thumbnail Selector Strip */}
             {activeModalProject.screenshots && activeModalProject.screenshots.length > 1 && (
-              <div className="px-5 py-3 bg-ink/90 flex items-center justify-center gap-2.5 overflow-x-auto">
+              <div className="modal-footer px-5 py-3 bg-[#09090b] flex items-center justify-center gap-2.5 overflow-x-auto">
                 {activeModalProject.screenshots.map((s, idx) => (
                   <button
                     key={idx}
@@ -791,7 +843,7 @@ export default function WorkList({
                     onClick={() => setActiveScreenshotIdx(idx)}
                     className={`h-12 w-20 rounded-md overflow-hidden border transition-all cursor-pointer shrink-0 ${
                       activeScreenshotIdx === idx
-                        ? "border-accent ring-2 ring-accent/40 opacity-100 scale-105"
+                        ? "border-cyan-400 ring-2 ring-cyan-400/40 opacity-100 scale-105"
                         : "border-zinc-700 opacity-50 hover:opacity-80 hover:border-zinc-500"
                     }`}
                   >

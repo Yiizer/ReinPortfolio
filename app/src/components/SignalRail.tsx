@@ -52,7 +52,7 @@ export default function SignalRail() {
                   .getElementById(section.id)
                   ?.scrollIntoView({ behavior: "smooth" })
               }
-              className="group relative z-10 flex items-center gap-3 cursor-pointer py-1.5 outline-none focus-visible:ring-2 focus-visible:ring-coral/60 transition-transform active:scale-95 text-left"
+              className="group relative z-10 flex items-center gap-3 cursor-pointer py-1.5 outline-none focus-visible:ring-2 focus-visible:ring-accent/60 transition-transform active:scale-95 text-left"
               aria-label={`Scroll to ${section.label}`}
               aria-current={isActive ? "true" : undefined}
             >

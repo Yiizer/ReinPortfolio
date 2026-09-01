@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import ThemeToggle from "./ThemeToggle";
 
 const PAGE_NAV_ITEMS = [
   {
@@ -38,39 +39,14 @@ const PAGE_NAV_ITEMS = [
 ];
 
 export default function FloatingNav() {
-  const [visible, setVisible] = useState(false);
   const pathname = usePathname();
-
-  useEffect(() => {
-    const handleScroll = () => {
-      // Show when scrolled on homepage (> 200px), or always show on subpages
-      if (pathname !== "/" || window.scrollY > 200) {
-        setVisible(true);
-      } else {
-        setVisible(false);
-      }
-    };
-
-    // Trigger on mount/route change
-    handleScroll();
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [pathname]);
-
   const isHome = pathname === "/";
 
   return (
-    <header
-      className={`fixed top-4 left-1/2 -translate-x-1/2 z-50 transition-all duration-300 ${
-        visible
-          ? "opacity-100 translate-y-0 pointer-events-auto"
-          : "opacity-0 -translate-y-4 pointer-events-none"
-      }`}
-    >
+    <header className="fixed top-4 left-1/2 -translate-x-1/2 z-50 transition-all duration-300">
       <nav
         aria-label="Site page navigation"
-        className="flex items-center gap-1 p-1.5 rounded-full bg-surface/40 backdrop-blur-lg border border-white/10 shadow-2xl shadow-black/50"
+        className="flex items-center gap-1 p-1.5 rounded-full bg-surface/80 backdrop-blur-xl border border-border-line shadow-2xl shadow-black/30"
       >
         {/* 1st: Monogram Brand Icon -> Homepage */}
         <Link
@@ -78,20 +54,20 @@ export default function FloatingNav() {
           className={`group relative flex items-center justify-center w-8 h-8 rounded-full transition-all cursor-pointer ${
             isHome
               ? "bg-accent/15 text-accent border border-accent/30 shadow-sm shadow-accent/20"
-              : "text-zinc-300 hover:text-accent hover:bg-white/10"
+              : "text-zinc-400 hover:text-accent hover:bg-white/10"
           }`}
           aria-label="Home"
           aria-current={isHome ? "page" : undefined}
         >
           <span
             className={`font-mono text-xs font-bold tracking-tighter transition-colors ${
-              isHome ? "text-accent" : "text-zinc-200 group-hover:text-accent"
+              isHome ? "text-accent" : "text-zinc-300 group-hover:text-accent"
             }`}
           >
             R
           </span>
           {/* Tooltip */}
-          <span className="pointer-events-none absolute -bottom-8 left-1/2 -translate-x-1/2 rounded bg-zinc-900/95 border border-zinc-700 px-2 py-0.5 font-mono text-[10px] text-zinc-200 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap shadow-md">
+          <span className="nav-tooltip pointer-events-none absolute -bottom-8 left-1/2 -translate-x-1/2 rounded bg-zinc-900 border border-zinc-700 px-2 py-0.5 font-mono text-[10px] text-zinc-100 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap shadow-md">
             Home
           </span>
         </Link>
@@ -118,12 +94,18 @@ export default function FloatingNav() {
               {item.icon}
 
               {/* Tooltip */}
-              <span className="pointer-events-none absolute -bottom-8 left-1/2 -translate-x-1/2 rounded bg-zinc-900/95 border border-zinc-700 px-2 py-0.5 font-mono text-[10px] text-zinc-200 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap shadow-md">
+              <span className="nav-tooltip pointer-events-none absolute -bottom-8 left-1/2 -translate-x-1/2 rounded bg-zinc-900 border border-zinc-700 px-2 py-0.5 font-mono text-[10px] text-zinc-100 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap shadow-md">
                 {item.label}
               </span>
             </Link>
           );
         })}
+
+        {/* Subtle Divider before Theme Toggle */}
+        <span className="w-px h-3.5 bg-border-line/80 mx-0.5" />
+
+        {/* Theme Switcher Icon Button */}
+        <ThemeToggle />
       </nav>
     </header>
   );

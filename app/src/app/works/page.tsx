@@ -1,7 +1,13 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import WorkList from "@/components/WorkList";
 import Contact from "@/components/Contact";
 import { ALL_PROJECTS } from "@/data/projects";
+
+export const metadata: Metadata = {
+  title: "Works & Projects",
+  description: "A showcase of production applications, e-commerce platforms, and client software solutions.",
+};
 
 export default function WorksPage() {
   return (

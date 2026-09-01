@@ -1,31 +1,52 @@
 @import "tailwindcss";
 
 :root {
-  --accent: #0891b2;       /* light mode cyan */
-  --accent-hover: #0e7490;
-  --accent-glow: rgba(8, 145, 178, 0.35);
-  --accent-soft: #2563eb;  /* light mode cool blue */
+  /* Default Dark Theme Tokens */
+  --bg-ink: #09090b;
+  --bg-surface: #131316;
+  --bg-surface-subtle: #18181b;
+  --border-line: #27272a;
+  --text-muted: #71717a;
+  --text-main: #fafafa;
+  --accent: #06b6d4;
+  --accent-hover: #22d3ee;
+  --accent-glow: rgba(6, 182, 212, 0.35);
+  --accent-soft: #38bdf8;
+  --outline-color: rgba(255, 255, 255, 0.35);
+
+  /* Luminous Silver & Vibrant Cyan Breathing Circle Pools in Dark Mode */
+  --ambient-pool-1: radial-gradient(circle, rgba(6, 182, 212, 0.45) 0%, rgba(255, 255, 255, 0.30) 30%, rgba(212, 212, 216, 0.12) 55%, transparent 75%);
+  --ambient-pool-2: radial-gradient(circle, rgba(34, 211, 238, 0.40) 0%, rgba(228, 228, 231, 0.25) 35%, rgba(161, 161, 170, 0.10) 55%, transparent 75%);
+  --ambient-pool-3: radial-gradient(circle, rgba(6, 182, 212, 0.38) 0%, rgba(255, 255, 255, 0.25) 30%, rgba(212, 212, 216, 0.10) 55%, transparent 75%);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --accent: #06b6d4;       /* dark mode vibrant cyan */
-    --accent-hover: #22d3ee;
-    --accent-glow: rgba(6, 182, 212, 0.35);
-    --accent-soft: #38bdf8;  /* dark mode sky blue */
-  }
+html.light {
+  /* Warm Light Theme Tokens (Soft Cream / Warm Sand / Linen) */
+  --bg-ink: #fcfaf6;
+  --bg-surface: #ffffff;
+  --bg-surface-subtle: #f6f1e8;
+  --border-line: #e6ded3;
+  --text-muted: #78716c;
+  --text-main: #1c1917;
+  --accent: #0891b2;
+  --accent-hover: #0e7490;
+  --accent-glow: rgba(8, 145, 178, 0.22);
+  --accent-soft: #0284c7;
+  --outline-color: rgba(28, 25, 23, 0.4);
+
+  /* Soft Luminous Cyan & Cool Azure Breathing Pools in Light Mode */
+  --ambient-pool-1: radial-gradient(circle, rgba(6, 182, 212, 0.16) 0%, rgba(8, 145, 178, 0.08) 35%, transparent 70%);
+  --ambient-pool-2: radial-gradient(circle, rgba(14, 165, 233, 0.14) 0%, rgba(6, 182, 212, 0.07) 35%, transparent 70%);
+  --ambient-pool-3: radial-gradient(circle, rgba(6, 182, 212, 0.12) 0%, rgba(34, 211, 238, 0.06) 35%, transparent 70%);
 }
 
 @theme inline {
-  /* fonts — pointing straight at the real variables set in layout.tsx,
-     not chained through an alias, so they always resolve */
   --font-sans: var(--font-plex-sans);
   --font-mono: var(--font-plex-mono);
   --font-serif: var(--font-fraunces);
 
-  /* Primary Theme Tokens with Precise Teal Accent */
-  --color-ink: #09090b;
-  --color-surface: #131316;
+  --color-ink: var(--bg-ink);
+  --color-surface: var(--bg-surface);
   --color-accent: var(--accent);
   --color-accent-hover: var(--accent-hover);
   --color-accent-glow: var(--accent-glow);
@@ -33,78 +54,140 @@
   --color-silver: #e4e4e7;
   --color-silver-glow: rgba(228, 228, 231, 0.35);
   --color-coral: var(--accent);
-  --color-muted: #71717a;
-  --color-border-line: #27272a;
+  --color-muted: var(--text-muted);
+  --color-border-line: var(--border-line);
 }
 
 body {
   background: var(--color-ink);
-  color: #fafafa;
+  color: var(--text-main);
   font-family: var(--font-plex-sans);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Technical Repeating Dot Grid in Light Mode (retaining exact pattern) */
+html.light .dot-grid-layer {
+  background-image: radial-gradient(circle, rgba(0, 0, 0, 0.12) 1px, transparent 1px) !important;
 }
 
 .text-stroke-outline {
-  -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.35);
+  -webkit-text-stroke: 1.5px var(--outline-color);
   color: transparent;
 }
 
 @media (min-width: 768px) {
   .text-stroke-outline {
-    -webkit-text-stroke: 2px rgba(255, 255, 255, 0.4);
+    -webkit-text-stroke: 2px var(--outline-color);
   }
 }
+
+/* Light mode overrides for warm contrast & readability */
+html.light .text-white {
+  color: #1c1917 !important;
+}
+html.light .text-zinc-100 {
+  color: #1c1917 !important;
+}
+html.light .text-zinc-200 {
+  color: #292524 !important;
+}
+html.light .text-zinc-300 {
+  color: #44403c !important;
+}
+html.light .text-zinc-400 {
+  color: #57534e !important;
+}
+html.light .text-zinc-500 {
+  color: #78716c !important;
+}
+html.light .text-muted {
+  color: #78716c !important;
+}
+html.light .border-border-line {
+  border-color: #e6ded3 !important;
+}
+html.light .bg-ink {
+  background-color: #fcfaf6 !important;
+}
+html.light .bg-ink\/80,
+html.light .bg-ink\/70,
+html.light .bg-ink\/90 {
+  background-color: rgba(246, 241, 232, 0.95) !important;
+}
+html.light .bg-surface\/40,
+html.light .bg-surface\/50,
+html.light .bg-surface\/60,
+html.light .bg-surface\/70,
+html.light .bg-surface\/75,
+html.light .bg-surface\/80,
+html.light .bg-surface\/90 {
+  background-color: rgba(255, 255, 255, 0.95) !important;
+  border-color: #e6ded3 !important;
+  box-shadow: 0 8px 30px -4px rgba(120, 113, 108, 0.12);
+}
+html.light ::-webkit-scrollbar-track {
+  background: #fbf8f2;
+}
+html.light ::-webkit-scrollbar-thumb {
+  background: #d6ccc2;
+}
+html.light ::-webkit-scrollbar-thumb:hover {
+  background: #b8aba0;
+}
+
+
 
 /* Ambient Slow Floating & Breathing Keyframes */
 @keyframes ambient-float-1 {
   0% {
     transform: translate3d(0, 0, 0) scale(1);
-    opacity: 0.38;
+    opacity: 0.75;
   }
   33% {
-    transform: translate3d(45px, 35px, 0) scale(1.15);
-    opacity: 0.58;
+    transform: translate3d(50px, 40px, 0) scale(1.18);
+    opacity: 1;
   }
   66% {
-    transform: translate3d(-35px, 50px, 0) scale(0.92);
-    opacity: 0.32;
+    transform: translate3d(-40px, 55px, 0) scale(0.92);
+    opacity: 0.65;
   }
   100% {
     transform: translate3d(0, 0, 0) scale(1);
-    opacity: 0.38;
+    opacity: 0.75;
   }
 }
 
 @keyframes ambient-float-2 {
   0% {
     transform: translate3d(0, 0, 0) scale(1);
-    opacity: 0.32;
+    opacity: 0.70;
   }
   40% {
-    transform: translate3d(-55px, -40px, 0) scale(1.18);
-    opacity: 0.52;
+    transform: translate3d(-60px, -45px, 0) scale(1.22);
+    opacity: 0.95;
   }
   80% {
-    transform: translate3d(30px, -45px, 0) scale(0.94);
-    opacity: 0.28;
+    transform: translate3d(35px, -50px, 0) scale(0.94);
+    opacity: 0.60;
   }
   100% {
     transform: translate3d(0, 0, 0) scale(1);
-    opacity: 0.32;
+    opacity: 0.70;
   }
 }
 
 @keyframes ambient-float-3 {
   0% {
     transform: translate3d(0, 0, 0) scale(1);
-    opacity: 0.30;
+    opacity: 0.65;
   }
   50% {
-    transform: translate3d(50px, -35px, 0) scale(1.22);
-    opacity: 0.48;
+    transform: translate3d(55px, -40px, 0) scale(1.25);
+    opacity: 0.95;
   }
   100% {
     transform: translate3d(0, 0, 0) scale(1);
-    opacity: 0.30;
+    opacity: 0.65;
   }
 }
 
@@ -146,3 +229,20 @@ body {
     animation: none !important;
   }
 }
+
+/* Custom Dark Technical Scrollbar */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+::-webkit-scrollbar-track {
+  background: #09090b;
+}
+::-webkit-scrollbar-thumb {
+  background: #27272a;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #3f3f46;
+}
+

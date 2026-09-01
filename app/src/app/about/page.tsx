@@ -1,7 +1,13 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import TechStack from "@/components/TechStack";
 import Contact from "@/components/Contact";
+
+export const metadata: Metadata = {
+  title: "About",
+  description: "Biography and engineering philosophy of Rein Gavino — Fullstack Developer.",
+};
 
 export default function AboutPage() {
   return (
@@ -54,15 +60,14 @@ export default function AboutPage() {
                   className="object-cover object-center transition-transform duration-500 group-hover/photo:scale-[1.02]"
                   priority
                 />
-                {/* Subtle bottom vignette gradient */}
-                <div className="absolute inset-0 bg-gradient-to-t from-ink/90 via-ink/20 to-transparent opacity-85 pointer-events-none" />
-                <div className="absolute bottom-4 inset-x-4 flex items-center justify-between text-xs font-mono">
-                  <div className="flex items-center gap-2">
+                {/* Sleek Floating Name & Location Badges */}
+                <div className="absolute bottom-4 inset-x-4 flex items-center justify-between pointer-events-none">
+                  <div className="flex items-center gap-2 bg-black/65 backdrop-blur-md border border-white/15 px-3 py-1.5 rounded-full shadow-lg">
                     <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                    <span className="text-zinc-200 font-medium">Rein Gavino</span>
+                    <span className="text-white text-xs font-mono font-medium">Rein Gavino</span>
                   </div>
-                  <span className="text-accent bg-surface/90 border border-border-line px-2 py-0.5 rounded text-[10px] shadow-sm">
-                     PH
+                  <span className="text-cyan-300 bg-black/65 backdrop-blur-md border border-white/15 px-2.5 py-1 rounded-full text-[10px] font-mono font-bold shadow-lg">
+                    PH
                   </span>
                 </div>
               </div>

@@ -1,5 +1,11 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import Contact from "@/components/Contact";
+
+export const metadata: Metadata = {
+  title: "Contact",
+  description: "Get in touch with Rein Gavino for web applications, fullstack contracts, and software engineering inquiries.",
+};
 
 export default function ContactPage() {
   return (
