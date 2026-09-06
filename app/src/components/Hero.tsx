@@ -1,93 +1,266 @@
 "use client";
 
-const SOCIALS = [
-  {
-    name: "GitHub",
-    url: "https://github.com",
-    icon: (
-      <svg className="w-4 h-4 sm:w-4.5 sm:h-4.5" fill="currentColor" viewBox="0 0 24 24">
-        <path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z" />
-      </svg>
-    ),
-  },
-  {
-    name: "LinkedIn",
-    url: "https://linkedin.com",
-    icon: (
-      <svg className="w-4 h-4 sm:w-4.5 sm:h-4.5" fill="currentColor" viewBox="0 0 24 24">
-        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-      </svg>
-    ),
-  },
-  {
-    name: "Facebook",
-    url: "https://facebook.com",
-    icon: (
-      <svg className="w-4 h-4 sm:w-4.5 sm:h-4.5" fill="currentColor" viewBox="0 0 24 24">
-        <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
-      </svg>
-    ),
-  },
-  {
-    name: "ReadCV",
-    url: "https://read.cv",
-    icon: (
-      <svg className="w-4 h-4 sm:w-4.5 sm:h-4.5" fill="currentColor" viewBox="0 0 24 24">
-        <path d="M4.5 2A2.5 2.5 0 002 4.5v15A2.5 2.5 0 004.5 22h15a2.5 2.5 0 002.5-2.5v-15A2.5 2.5 0 0019.5 2h-15zM7 7h10v1.5H7V7zm0 4h10v1.5H7V11zm0 4h6v1.5H7V15z" />
-      </svg>
-    ),
-  },
-];
+import { useEffect, useRef } from "react";
+import Link from "next/link";
+import { useTheme } from "./ThemeProvider";
+
+interface Point {
+  x: number;
+  y: number;
+  originX: number;
+  originY: number;
+  vx: number;
+  vy: number;
+}
 
 export default function Hero() {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const containerRef = useRef<HTMLElement>(null);
+
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
+
+  const mouseRef = useRef<{ x: number; y: number; active: boolean }>({
+    x: -9999,
+    y: -9999,
+    active: false,
+  });
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    let animId: number;
+    let width = 0;
+    let height = 0;
+    let points: Point[] = [];
+
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+
+    const SPACING = 48;
+    const INFLUENCE_RADIUS = 140;
+    const RETURN_SPEED = 0.08;
+    const DAMPING = 0.86;
+
+    const resize = () => {
+      const rect = canvas.getBoundingClientRect();
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      width = rect.width;
+      height = rect.height;
+
+      canvas.width = width * dpr;
+      canvas.height = height * dpr;
+      ctx.scale(dpr, dpr);
+
+      const cols = Math.ceil(width / SPACING) + 2;
+      const rows = Math.ceil(height / SPACING) + 2;
+      const newPoints: Point[] = [];
+
+      for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+          const x = (c - 1) * SPACING;
+          const y = (r - 1) * SPACING;
+          newPoints.push({
+            x,
+            y,
+            originX: x,
+            originY: y,
+            vx: 0,
+            vy: 0,
+          });
+        }
+      }
+
+      points = newPoints;
+    };
+
+    resize();
+    window.addEventListener("resize", resize);
+
+    let time = 0;
+
+    const render = () => {
+      time += 0.02;
+      ctx.clearRect(0, 0, width, height);
+
+      const { x: mx, y: my, active: isMouseActive } = mouseRef.current;
+
+      const nodeColor = isDark
+        ? "rgba(255, 255, 255, 0.18)"
+        : "rgba(26, 26, 26, 0.16)";
+      const lineColor = isDark
+        ? "rgba(255, 255, 255, 0.045)"
+        : "rgba(0, 0, 0, 0.04)";
+      const accentColor = isDark
+        ? "rgba(230, 57, 70, 0.8)"
+        : "rgba(180, 83, 9, 0.8)";
+
+      points.forEach((p) => {
+        if (!prefersReducedMotion) {
+          const wave = Math.sin(time + p.originX * 0.015 + p.originY * 0.015) * 2;
+          const targetY = p.originY + wave;
+
+          if (isMouseActive) {
+            const dx = mx - p.x;
+            const dy = my - p.y;
+            const dist = Math.hypot(dx, dy);
+
+            if (dist < INFLUENCE_RADIUS && dist > 0) {
+              const force = (1 - dist / INFLUENCE_RADIUS) * 30;
+              p.vx -= (dx / dist) * force * 0.15;
+              p.vy -= (dy / dist) * force * 0.15;
+            }
+          }
+
+          p.vx += (p.originX - p.x) * RETURN_SPEED;
+          p.vy += (targetY - p.y) * RETURN_SPEED;
+
+          p.vx *= DAMPING;
+          p.vy *= DAMPING;
+
+          p.x += p.vx;
+          p.y += p.vy;
+        }
+      });
+
+      // Draw lines
+      ctx.lineWidth = 1;
+      ctx.strokeStyle = lineColor;
+
+      const cols = Math.ceil(width / SPACING) + 2;
+      const rows = Math.ceil(height / SPACING) + 2;
+
+      for (let r = 0; r < rows; r++) {
+        ctx.beginPath();
+        for (let c = 0; c < cols; c++) {
+          const idx = r * cols + c;
+          const p = points[idx];
+          if (!p) continue;
+          if (c === 0) ctx.moveTo(p.x, p.y);
+          else ctx.lineTo(p.x, p.y);
+        }
+        ctx.stroke();
+      }
+
+      for (let c = 0; c < cols; c++) {
+        ctx.beginPath();
+        for (let r = 0; r < rows; r++) {
+          const idx = r * cols + c;
+          const p = points[idx];
+          if (!p) continue;
+          if (r === 0) ctx.moveTo(p.x, p.y);
+          else ctx.lineTo(p.x, p.y);
+        }
+        ctx.stroke();
+      }
+
+      // Draw points
+      points.forEach((p) => {
+        const dx = mx - p.x;
+        const dy = my - p.y;
+        const dist = Math.hypot(dx, dy);
+        const isNearMouse = isMouseActive && dist < INFLUENCE_RADIUS;
+
+        ctx.beginPath();
+        if (isNearMouse) {
+          const intensity = 1 - dist / INFLUENCE_RADIUS;
+          ctx.arc(p.x, p.y, 2 + intensity * 2, 0, Math.PI * 2);
+          ctx.fillStyle = accentColor;
+        } else {
+          ctx.arc(p.x, p.y, 1.2, 0, Math.PI * 2);
+          ctx.fillStyle = nodeColor;
+        }
+        ctx.fill();
+      });
+
+      animId = requestAnimationFrame(render);
+    };
+
+    animId = requestAnimationFrame(render);
+
+    return () => {
+      window.removeEventListener("resize", resize);
+      cancelAnimationFrame(animId);
+    };
+  }, [isDark]);
+
+  const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const rect = canvas.getBoundingClientRect();
+    mouseRef.current = {
+      x: Math.round(e.clientX - rect.left),
+      y: Math.round(e.clientY - rect.top),
+      active: true,
+    };
+  };
+
+  const handlePointerLeave = () => {
+    mouseRef.current.active = false;
+  };
+
   return (
     <section
       id="hero"
-      className="relative flex min-h-[75vh] sm:min-h-[80vh] flex-col justify-center max-w-5xl mx-auto px-6 sm:px-8 py-20 sm:py-28"
+      ref={containerRef}
+      className="min-h-[calc(100vh-4rem)] flex flex-col justify-between max-w-5xl mx-auto px-6 pt-24 sm:pt-28 pb-10 select-none gap-6 sm:gap-8"
     >
-      <div className="space-y-7 sm:space-y-9">
-        
-        {/* Top Tag Line with Dash */}
-        <div className="flex items-center gap-3">
-          <span className="w-6 sm:w-8 h-px bg-accent inline-block" />
-          <span className="font-mono text-xs sm:text-sm tracking-[0.16em] text-accent uppercase font-semibold">
-            FULLSTACK - DEV
+      {/* Status & Location Bar */}
+      <div className="flex items-center justify-between text-xs font-mono text-text-dim border-b border-border/40 pb-4">
+        <div className="flex items-center gap-2.5">
+          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+          <span className="text-text-main font-medium uppercase tracking-wider">
+            Available for contracts
           </span>
         </div>
+        <span className="tracking-wider uppercase text-[11px] text-text-dim">
+          Manila, PH
+        </span>
+      </div>
 
-        {/* Big Bold Headline: Solid First Name + Outlined Last Name */}
-        <div className="space-y-1 select-none font-black tracking-tight leading-[0.88]">
-          <h1 className="text-6xl sm:text-8xl md:text-9xl font-extrabold text-white tracking-tight leading-[0.88]">
-            REIN
-          </h1>
-          <h2 className="text-6xl sm:text-8xl md:text-9xl font-extrabold tracking-tight leading-[0.88] text-stroke-outline">
-            GAVINO
-          </h2>
-        </div>
+      {/* Main Headline & Subtitle */}
+      <div className="space-y-3">
+        <h1 className="font-serif text-6xl sm:text-8xl md:text-9xl text-text-main font-normal tracking-tight leading-[0.88] select-none">
+          Rein Gavino
+        </h1>
+        <p className="font-mono text-xs sm:text-sm text-text-muted uppercase tracking-wider">
+          Fullstack Developer &bull; Systems &amp; Reactive Interfaces
+        </p>
+      </div>
 
-        {/* Social Icons Row - Left aligned flush with name */}
-        <div className="flex items-center gap-2 pt-2 -ml-2">
-          {SOCIALS.map((s) => (
-            <a
-              key={s.name}
-              href={s.url}
-              target="_blank"
-              rel="noreferrer"
-              aria-label={s.name}
-              className="group relative flex items-center justify-center w-9 h-9 rounded-lg text-zinc-400 hover:text-accent hover:bg-surface/80 border border-transparent hover:border-zinc-700/60 transition-all duration-200 cursor-pointer"
-            >
-              <div className="transition-transform duration-200 group-hover:scale-110 group-hover:drop-shadow-[0_0_8px_rgba(6,182,212,0.5)]">
-                {s.icon}
-              </div>
+      {/* The Interactive Field Canvas */}
+      <div
+        onPointerMove={handlePointerMove}
+        onPointerLeave={handlePointerLeave}
+        className="relative h-64 sm:h-80 md:h-96 w-full rounded-2xl overflow-hidden bg-[#0d0d10] border border-border/80 shadow-2xl shadow-black/40 cursor-crosshair group"
+      >
+        <canvas
+          ref={canvasRef}
+          className="w-full h-full block"
+          aria-hidden="true"
+        />
+      </div>
 
-              {/* Floating Tooltip with short name */}
-              <span className="pointer-events-none absolute -top-8 left-1/2 -translate-x-1/2 rounded bg-surface/95 border border-zinc-700/80 px-2 py-0.5 font-mono text-[10px] text-zinc-200 opacity-0 translate-y-1 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-200 whitespace-nowrap shadow-xl shadow-black/50 z-20">
-                {s.name}
-              </span>
-            </a>
-          ))}
-        </div>
+      {/* Minimal Footer Triggers */}
+      <div className="flex items-center justify-between pt-1 font-mono text-xs">
+        <a
+          href="#projects"
+          className="text-text-muted hover:text-accent transition-colors flex items-center gap-2 group"
+        >
+          <span>Selected Projects</span>
+          <span className="text-accent group-hover:translate-y-0.5 transition-transform">&darr;</span>
+        </a>
 
+        <Link
+          href="/contact"
+          className="text-text-dim hover:text-accent transition-colors"
+        >
+          Contact &rarr;
+        </Link>
       </div>
     </section>
   );

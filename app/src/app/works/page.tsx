@@ -1,58 +1,38 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import WorkList from "@/components/WorkList";
-import Contact from "@/components/Contact";
+import Footer from "@/components/Footer";
 import { ALL_PROJECTS } from "@/data/projects";
 
 export const metadata: Metadata = {
-  title: "Works & Projects",
-  description: "A showcase of production applications, e-commerce platforms, and client software solutions.",
+  title: "Works",
+  description:
+    "Production web applications, internal tools, and engineering projects built by Rein Gavino.",
 };
 
 export default function WorksPage() {
   return (
-    <div className="relative min-h-screen">
-      <main className="relative z-10 w-full max-w-5xl mx-auto px-6 sm:px-8 pt-16 sm:pt-24">
-        {/* Navigation & Header */}
-        <div className="space-y-6 border-b border-border-line pb-12">
-          <Link
-            href="/"
-            className="group inline-flex items-center gap-2 font-mono text-xs text-zinc-400 hover:text-accent transition-colors"
-          >
-            <span className="transition-transform duration-200 group-hover:-translate-x-1">←</span>
-            <span>Back to Home</span>
-          </Link>
+    <div className="relative min-h-screen pt-24 sm:pt-28 pb-16">
+      <main className="max-w-5xl mx-auto px-6 sm:px-8 space-y-16">
+        {/* Page Header */}
+        <header className="space-y-4 max-w-2xl border-b border-border pb-10">
+          <span className="font-mono text-xs uppercase tracking-[0.2em] text-accent font-semibold">
+            Index / Portfolio
+          </span>
+          <h1 className="font-serif text-5xl sm:text-6xl md:text-7xl text-text-main font-normal tracking-tight">
+            Works &amp; Systems
+          </h1>
+          <p className="text-text-muted text-base sm:text-lg leading-relaxed">
+            A selected catalog of internal enterprise tools, restaurant ordering platforms, engineering thesis prototypes, and production applications.
+          </p>
+        </header>
 
-          <div className="space-y-3">
-            <div className="flex items-center gap-3">
-              <span className="w-6 sm:w-8 h-px bg-accent inline-block" />
-              <span className="font-mono text-xs tracking-[0.16em] text-accent uppercase font-semibold">
-                PROJECTS &mdash; 2026
-              </span>
-            </div>
-
-            <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl text-white font-medium tracking-tight">
-              My Works &amp; Systems
-            </h1>
-
-            <p className="text-muted text-base max-w-2xl leading-relaxed">
-              A comprehensive showcase of production applications, e-commerce platforms,
-              augmented reality simulations, and client software solutions.
-            </p>
-          </div>
-        </div>
-
-        {/* Full Works List with All 4 Projects */}
-        <WorkList
-          projects={ALL_PROJECTS}
-          showViewAllLink={false}
-          sectionTitle="[ ALL PROJECTS ]"
-          sectionId="all-works"
-        />
-
-        {/* Footer */}
-        <Contact />
+        {/* Project Grid */}
+        <WorkList projects={ALL_PROJECTS} />
       </main>
+
+      <div className="mt-24">
+        <Footer />
+      </div>
     </div>
   );
 }

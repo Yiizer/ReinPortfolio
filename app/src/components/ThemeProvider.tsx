@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { createContext, useContext, useEffect, useState, ReactNode } from "react";
 
@@ -21,10 +21,13 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const saved = localStorage.getItem("theme") as Theme | null;
-    const initialTheme = saved === "light" ? "light" : "dark";
-    setThemeState(initialTheme);
-    document.documentElement.classList.remove("light", "dark");
-    document.documentElement.classList.add(initialTheme);
+    if (saved && saved !== "dark") {
+      requestAnimationFrame(() => {
+        setThemeState(saved);
+        document.documentElement.classList.remove("light", "dark");
+        document.documentElement.classList.add(saved);
+      });
+    }
   }, []);
 
   const setTheme = (newTheme: Theme) => {

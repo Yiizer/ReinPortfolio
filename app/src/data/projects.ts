@@ -5,6 +5,7 @@ export interface Screenshot {
 
 export interface Project {
   id: string;
+  slug: string;
   name: string;
   subtitle: string;
   blurb: string;
@@ -14,18 +15,23 @@ export interface Project {
   href: string;
   external: boolean;
   type: string;
+  featured?: boolean;
+  thumbnail?: string;
   screenshots?: Screenshot[];
 }
 
 export const ALL_PROJECTS: Project[] = [
   {
     id: "01",
-    name: "Coffee shop POS",
+    slug: "artisan-pos",
+    name: "Coffee Shop POS",
     subtitle: "Internal ordering & point-of-sale system",
     blurb:
-      "An internal, staff-only ordering tool built for a small coffee shop — not customer-facing. Handles the full order lifecycle from a live queue (Received → Preparing → Ready → Completed) through to end-of-day revenue totals, with role-gated access for admin and order-taking staff.",
-    status: "Featured on homepage",
-    stack: ["Next.js (App Router)", "TypeScript", "PostgreSQL via Prisma", "Tailwind CSS"],
+      "An internal, staff-only ordering tool engineered for a specialized coffee bar. Handles the full order lifecycle from a live kitchen queue (Received → Preparing → Ready → Completed) through to end-of-day sales auditing, with role-gated access for admin and order-taking baristas.",
+    status: "Production Ready",
+    featured: true,
+    thumbnail: "/projects/artisan/order-taking.png",
+    stack: ["Next.js (App Router)", "TypeScript", "PostgreSQL", "Prisma ORM", "Tailwind CSS"],
     href: "#",
     external: false,
     type: "Web Application",
@@ -54,63 +60,16 @@ export const ALL_PROJECTS: Project[] = [
   },
   {
     id: "02",
-    name: "Clover Industrial",
-    subtitle: "Business website for an industrial equipment manufacturer",
-    blurb:
-      "A static marketing and product-catalog site built for a real client — Clover Industrial Fan and Blower, Inc. Covers company profile, a full product catalog, solutions by industry, and contact/quote request flows, styled to the client's existing brand.",
-    status: "In progress",
-    stack: ["Next.js", "Tailwind CSS", "TypeScript"],
-    href: "#",
-    external: false,
-    type: "Marketing & Catalog",
-  },
-  {
-    id: "03",
-    name: "AR + Arduino thesis",
-    subtitle: "Augmented reality hardware simulation",
-    blurb:
-      "Four simulations — LED blinking, LED pattern, potentiometer circuit, and RC car assembly with wiring & AR driving demo — plus a Vuforia component library scene in augmented reality on Android.",
-    role: "Planned and designed how components should work and interact, and built two simulations.",
-    status: "Group project",
-    stack: ["Unity 6.3", "C#", "Vuforia", "AR Foundation", "Android SDK"],
-    href: "#",
-    external: false,
-    type: "Mobile AR Application",
-  },
-  {
-    id: "04",
-    name: "Walldr",
-    subtitle: "Personal wall & digital gifting app",
-    blurb:
-      "A social product for young Filipino users to build a personal \"wall\" and send digital gifts — with four distinct wall types (Personal, Memory, Shared, Gift), a send-credits system, and a full monetization structure. Currently in active frontend development.",
-    status: "In progress",
-    stack: ["Next.js", "Tailwind CSS", "TypeScript"],
-    href: "#",
-    external: false,
-    type: "Social & Digital Gifting",
-  },
-  {
-    id: "05",
-    name: "GrindOn",
-    subtitle: "E-commerce storefront for custom teamwear",
-    blurb:
-      "An online storefront for custom teamwear and apparel — complete customer view and admin view.",
-    role: "Built almost all of the backend functionality, plus some design work.",
-    status: "Group project",
-    stack: ["Firebase", "JavaScript", "HTML5", "CSS3"],
-    href: "https://grindon-da126.web.app/",
-    external: true,
-    type: "E-Commerce Web App",
-  },
-  {
-    id: "06",
+    slug: "salo-sa-antipolo",
     name: "Salo sa Antipolo",
     subtitle: "Restaurant ordering system — waiter, cashier & admin",
     blurb:
-      "A full restaurant ordering platform covering three roles: waiters taking table-side orders with live table-state management (free/occupied/reserved), cashiers, and an admin dashboard.",
-    role: "Planned and led the overall system flow. Built the waiter and cashier interfaces, and contributed features to admin.",
-    status: "Group project",
-    stack: ["JavaScript", "Python", "HTML/CSS", "Firebase"],
+      "A comprehensive multi-role restaurant management platform. Covers floor plan table-state tracking (free, occupied, bill-out) for mobile waiters, instant order ticket synchronization to kitchen, cashier receipt processing, and an administrative inventory overview.",
+    role: "Planned system architecture, built the waiter and cashier applications, and contributed to admin modules.",
+    status: "Live System",
+    featured: true,
+    thumbnail: "/projects/salo/table-management.png",
+    stack: ["JavaScript", "Python", "Firebase", "Realtime DB", "HTML/CSS"],
     href: "https://salo-sa-antipolo.web.app/waiter.html",
     external: true,
     type: "Hospitality Platform",
@@ -137,11 +96,64 @@ export const ALL_PROJECTS: Project[] = [
       },
     ],
   },
+  {
+    id: "03",
+    slug: "clover-industrial",
+    name: "Clover Industrial",
+    subtitle: "Business website & equipment catalog",
+    blurb:
+      "A digital marketing and technical equipment catalog engineered for Clover Industrial Fan and Blower, Inc. Features complete product specifications, centrifugal blower performance charts, and direct quotation pipelines tailored to their industrial brand.",
+    status: "Client Project",
+    featured: false,
+    stack: ["Next.js", "TypeScript", "Tailwind CSS"],
+    href: "#",
+    external: false,
+    type: "Marketing & Catalog",
+  },
+  {
+    id: "04",
+    slug: "ar-arduino-thesis",
+    name: "AR + Arduino Simulation",
+    subtitle: "Augmented reality hardware circuit simulator",
+    blurb:
+      "An interactive Android AR simulation system designed for engineering education. Covers 3D circuit breadboard simulations (LED blinking, potentiometer circuit regulation, RC car wiring assembly) using target marker detection and real-time electrical telemetry.",
+    role: "Architected component logic, pin interactions, and engineered two full hardware simulation modules in Unity.",
+    status: "Academic Thesis",
+    featured: false,
+    stack: ["Unity 6", "C#", "AR Foundation", "Vuforia Engine", "Android SDK"],
+    href: "#",
+    external: false,
+    type: "Mobile AR Application",
+  },
+  {
+    id: "05",
+    slug: "walldr",
+    name: "Walldr",
+    subtitle: "Personal wall & digital gifting application",
+    blurb:
+      "A social web application for creating personalized community walls. Features four unique wall configurations (Personal, Memory, Shared, Gift Wall) with digital gifting credits, custom stickers, and interactive micro-transactions.",
+    status: "In Development",
+    featured: false,
+    stack: ["Next.js", "TypeScript", "Tailwind CSS", "Supabase"],
+    href: "#",
+    external: false,
+    type: "Social Platform",
+  },
+  {
+    id: "06",
+    slug: "grindon",
+    name: "GrindOn",
+    subtitle: "E-commerce storefront for custom teamwear",
+    blurb:
+      "An apparel e-commerce web platform for custom esports jerseys and athletic apparel. Supports custom nickname/number lettering previews, shopping cart persistence, and order tracking for teams.",
+    role: "Engineered database architecture, cart management, and administrative order handling.",
+    status: "Group Project",
+    featured: false,
+    stack: ["Firebase", "JavaScript", "HTML5", "CSS3"],
+    href: "https://grindon-da126.web.app/",
+    external: true,
+    type: "E-Commerce",
+  },
 ];
 
-// Homepage shows projects 01, 02, and 03
-export const HOMEPAGE_PROJECTS: Project[] = [
-  ALL_PROJECTS[0], // 01 Coffee shop POS
-  ALL_PROJECTS[1], // 02 Clover Industrial
-  ALL_PROJECTS[2], // 03 AR + Arduino thesis
-];
+export const FEATURED_PROJECTS = ALL_PROJECTS.filter((p) => p.featured);

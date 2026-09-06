@@ -1,47 +1,35 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import Contact from "@/components/Contact";
+import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
   title: "Contact",
-  description: "Get in touch with Rein Gavino for web applications, fullstack contracts, and software engineering inquiries.",
+  description:
+    "Get in touch with Rein Gavino for fullstack web applications, contract work, and engineering inquiries.",
 };
 
 export default function ContactPage() {
   return (
-    <div className="relative min-h-screen">
-      <main className="relative z-10 w-full max-w-5xl mx-auto px-6 sm:px-8 pt-16 sm:pt-24">
-        {/* Navigation & Header */}
-        <div className="space-y-6 border-b border-border-line pb-12 mb-12">
-          <Link
-            href="/"
-            className="group inline-flex items-center gap-2 font-mono text-xs text-zinc-400 hover:text-accent transition-colors"
-          >
-            <span className="transition-transform duration-200 group-hover:-translate-x-1">←</span>
-            <span>Back to Home</span>
-          </Link>
+    <div className="relative min-h-screen pt-24 sm:pt-28 pb-16">
+      <main className="max-w-5xl mx-auto px-6 sm:px-8 space-y-12">
+        <header className="space-y-4 max-w-2xl border-b border-border pb-10">
+          <span className="font-mono text-xs uppercase tracking-[0.2em] text-accent font-semibold">
+            Inquiries / Collaboration
+          </span>
+          <h1 className="font-serif text-5xl sm:text-6xl md:text-7xl text-text-main font-normal tracking-tight">
+            Get in touch.
+          </h1>
+          <p className="text-text-muted text-base sm:text-lg leading-relaxed">
+            Available for full-time opportunities, engineering contracts, and technical consulting. Submit a message below or email directly.
+          </p>
+        </header>
 
-          <div className="space-y-4">
-            <div className="flex items-center gap-3">
-              <span className="w-6 sm:w-8 h-px bg-accent inline-block" />
-              <span className="font-mono text-xs tracking-[0.16em] text-accent uppercase font-semibold">
-                INQUIRIES &mdash; CONTACT
-              </span>
-            </div>
-
-            <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl text-white font-medium tracking-tight">
-              Let&apos;s Build Together
-            </h1>
-
-            <p className="text-muted text-lg max-w-2xl leading-relaxed">
-              Available for full-time opportunities, engineering contracts, and creative collaborations.
-            </p>
-          </div>
-        </div>
-
-        {/* Contact Module */}
         <Contact />
       </main>
+
+      <div className="mt-24">
+        <Footer />
+      </div>
     </div>
   );
 }

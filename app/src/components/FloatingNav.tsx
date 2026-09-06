@@ -5,108 +5,221 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import ThemeToggle from "./ThemeToggle";
 
-const PAGE_NAV_ITEMS = [
-  {
-    id: "about",
-    href: "/about",
-    label: "About",
-    icon: (
-      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-      </svg>
-    ),
-  },
-  {
-    id: "works",
-    href: "/works",
-    label: "Works",
-    icon: (
-      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
-      </svg>
-    ),
-  },
-  {
-    id: "contact",
-    href: "/contact",
-    label: "Contact",
-    icon: (
-      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-      </svg>
-    ),
-  },
+const NAV_ITEMS = [
+  { href: "/works", label: "Works" },
+  { href: "/about", label: "About" },
+  { href: "/contact", label: "Contact" },
 ];
 
 export default function FloatingNav() {
   const pathname = usePathname();
-  const isHome = pathname === "/";
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 40);
+    };
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
-    <header className="fixed top-4 left-1/2 -translate-x-1/2 z-50 transition-all duration-300">
-      <nav
-        aria-label="Site page navigation"
-        className="flex items-center gap-1 p-1.5 rounded-full bg-surface/80 backdrop-blur-xl border border-border-line shadow-2xl shadow-black/30"
+    <>
+      {/* Desktop Top Nav */}
+      <header
+        className={`hidden sm:block fixed top-0 inset-x-0 z-40 transition-all duration-200 ${
+          scrolled
+            ? "bg-primary/90 backdrop-blur-md border-b border-border shadow-xs"
+            : "bg-transparent border-b border-transparent"
+        }`}
       >
-        {/* 1st: Monogram Brand Icon -> Homepage */}
+        <div className="max-w-6xl mx-auto px-6 sm:px-8 h-16 flex items-center justify-between">
+          {/* Typographic Signature Brand */}
+          <Link
+            href="/"
+            className="group flex items-center gap-2 transition-opacity hover:opacity-90 py-1"
+            aria-label="Rein Gavino - Home"
+          >
+            <div className="flex items-baseline tracking-tight">
+              <span className="font-serif text-2xl sm:text-[26px] font-normal text-text-main transition-colors duration-200 group-hover:text-accent">
+                Rein
+              </span>
+              <span className="font-serif italic text-2xl sm:text-[26px] font-normal text-accent transition-colors duration-200 group-hover:text-text-main ml-1.5">
+                Gavino
+              </span>
+            </div>
+            <span className="w-1.5 h-1.5 rounded-full bg-accent inline-block self-center animate-pulse" />
+          </Link>
+
+          {/* Nav Links + Theme Toggle */}
+          <nav aria-label="Main Navigation" className="flex items-center gap-6">
+            {NAV_ITEMS.map((item) => {
+              const isActive = pathname === item.href;
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={`font-mono text-xs tracking-wider uppercase transition-colors duration-150 relative py-1 ${
+                    isActive
+                      ? "text-accent font-semibold"
+                      : "text-text-muted hover:text-text-main"
+                  }`}
+                  aria-current={isActive ? "page" : undefined}
+                >
+                  {item.label}
+                  {isActive && (
+                    <span className="absolute bottom-0 left-0 right-0 h-px bg-accent" />
+                  )}
+                </Link>
+              );
+            })}
+
+            <div className="h-4 w-px bg-border mx-1" aria-hidden="true" />
+            <ThemeToggle />
+          </nav>
+        </div>
+      </header>
+
+      {/* Mobile Top Header */}
+      <header className="sm:hidden fixed top-0 inset-x-0 z-40 bg-primary/90 backdrop-blur-md border-b border-border px-5 h-14 flex items-center justify-between">
         <Link
           href="/"
-          className={`group relative flex items-center justify-center w-8 h-8 rounded-full transition-all cursor-pointer ${
-            isHome
-              ? "bg-accent/15 text-accent border border-accent/30 shadow-sm shadow-accent/20"
-              : "text-zinc-400 hover:text-accent hover:bg-white/10"
-          }`}
-          aria-label="Home"
-          aria-current={isHome ? "page" : undefined}
+          className="group flex items-center gap-1.5"
+          aria-label="Rein Gavino - Home"
         >
-          <span
-            className={`font-mono text-xs font-bold tracking-tighter transition-colors ${
-              isHome ? "text-accent" : "text-zinc-300 group-hover:text-accent"
+          <div className="flex items-baseline tracking-tight">
+            <span className="font-serif text-xl font-normal text-text-main">
+              Rein
+            </span>
+            <span className="font-serif italic text-xl font-normal text-accent ml-1">
+              Gavino
+            </span>
+          </div>
+          <span className="w-1.5 h-1.5 rounded-full bg-accent inline-block self-center" />
+        </Link>
+        <ThemeToggle />
+      </header>
+
+      {/* Mobile App-Style Bottom Navigation Bar */}
+      <nav
+        aria-label="Mobile Navigation"
+        className="sm:hidden fixed bottom-0 inset-x-0 z-50 bg-primary/95 backdrop-blur-md border-t border-border px-4 py-2"
+      >
+        <div className="flex items-center justify-around max-w-md mx-auto">
+          {/* Home */}
+          <Link
+            href="/"
+            className={`flex flex-col items-center gap-1 p-1.5 transition-colors ${
+              pathname === "/"
+                ? "text-accent font-semibold"
+                : "text-text-muted hover:text-text-main"
             }`}
           >
-            R
-          </span>
-          {/* Tooltip */}
-          <span className="nav-tooltip pointer-events-none absolute -bottom-8 left-1/2 -translate-x-1/2 rounded bg-zinc-900 border border-zinc-700 px-2 py-0.5 font-mono text-[10px] text-zinc-100 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap shadow-md">
-            Home
-          </span>
-        </Link>
-
-        {/* Subtle Divider */}
-        <span className="w-px h-3.5 bg-border-line/80 mx-0.5" />
-
-        {/* 2nd: About, 3rd: Works, 4th: Contact */}
-        {PAGE_NAV_ITEMS.map((item) => {
-          const isActive = pathname === item.href;
-
-          return (
-            <Link
-              key={item.id}
-              href={item.href}
-              className={`group relative flex items-center justify-center w-8 h-8 rounded-full transition-all cursor-pointer ${
-                isActive
-                  ? "bg-accent/15 text-accent border border-accent/30 shadow-sm shadow-accent/20"
-                  : "text-zinc-400 hover:text-accent hover:bg-white/10"
-              }`}
-              aria-label={item.label}
-              aria-current={isActive ? "page" : undefined}
+            <svg
+              className="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth={1.75}
+              viewBox="0 0 24 24"
             >
-              {item.icon}
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M3 12l9-8 9 8M5 10v10a1 1 0 001 1h4a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1h4a1 1 0 001-1V10"
+              />
+            </svg>
+            <span className="font-mono text-[9px] uppercase tracking-wider">
+              Home
+            </span>
+          </Link>
 
-              {/* Tooltip */}
-              <span className="nav-tooltip pointer-events-none absolute -bottom-8 left-1/2 -translate-x-1/2 rounded bg-zinc-900 border border-zinc-700 px-2 py-0.5 font-mono text-[10px] text-zinc-100 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap shadow-md">
-                {item.label}
-              </span>
-            </Link>
-          );
-        })}
+          {/* Works */}
+          <Link
+            href="/works"
+            className={`flex flex-col items-center gap-1 p-1.5 transition-colors ${
+              pathname.startsWith("/works")
+                ? "text-accent font-semibold"
+                : "text-text-muted hover:text-text-main"
+            }`}
+          >
+            <svg
+              className="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth={1.75}
+              viewBox="0 0 24 24"
+            >
+              <rect x="3" y="3" width="7" height="7" rx="1" />
+              <rect x="14" y="3" width="7" height="7" rx="1" />
+              <rect x="14" y="14" width="7" height="7" rx="1" />
+              <rect x="3" y="14" width="7" height="7" rx="1" />
+            </svg>
+            <span className="font-mono text-[9px] uppercase tracking-wider">
+              Works
+            </span>
+          </Link>
 
-        {/* Subtle Divider before Theme Toggle */}
-        <span className="w-px h-3.5 bg-border-line/80 mx-0.5" />
+          {/* About */}
+          <Link
+            href="/about"
+            className={`flex flex-col items-center gap-1 p-1.5 transition-colors ${
+              pathname === "/about"
+                ? "text-accent font-semibold"
+                : "text-text-muted hover:text-text-main"
+            }`}
+          >
+            <svg
+              className="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth={1.75}
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+              />
+            </svg>
+            <span className="font-mono text-[9px] uppercase tracking-wider">
+              About
+            </span>
+          </Link>
 
-        {/* Theme Switcher Icon Button */}
-        <ThemeToggle />
+          {/* Contact */}
+          <Link
+            href="/contact"
+            className={`flex flex-col items-center gap-1 p-1.5 transition-colors ${
+              pathname === "/contact"
+                ? "text-accent font-semibold"
+                : "text-text-muted hover:text-text-main"
+            }`}
+          >
+            <svg
+              className="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth={1.75}
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+              />
+            </svg>
+            <span className="font-mono text-[9px] uppercase tracking-wider">
+              Contact
+            </span>
+          </Link>
+
+          {/* Theme Toggle Button */}
+          <div className="flex flex-col items-center justify-center p-1.5">
+            <ThemeToggle showLabel />
+          </div>
+        </div>
       </nav>
-    </header>
+    </>
   );
 }
