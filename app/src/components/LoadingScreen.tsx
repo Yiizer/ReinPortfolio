@@ -111,7 +111,7 @@ export default function LoadingScreen() {
             <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
           </div>
           <p className="font-mono text-xs uppercase tracking-widest text-zinc-400">
-            <ScrambleText text="DEVELOPER • MANILA" />
+            <ScrambleText text="DEVELOPER • PH" />
           </p>
         </div>
 
@@ -125,7 +125,7 @@ export default function LoadingScreen() {
             />
           </div>
           <div className="flex items-center justify-between font-mono text-[10px] uppercase tracking-wider text-zinc-400">
-            <span>Manila, PH</span>
+            <span>Philippines (PH)</span>
             <Magnetic strength={0.25}>
               <button
                 type="button"

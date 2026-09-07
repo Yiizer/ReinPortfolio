@@ -62,7 +62,7 @@ export default function AboutTeaser() {
             Curiosity turned into production software.
           </h2>
           <p className="text-text-muted text-base sm:text-lg leading-relaxed font-sans max-w-2xl">
-            I&apos;m a 4th-year Computer Engineering student in Manila. Rather than staying inside one lane, I build across the entire stack &mdash; from fluid frontends and ACID-compliant backends to live restaurant POS workflows and hardware simulations.
+            I&apos;m a 4th-year Computer Engineering student in the Philippines. Rather than staying inside one lane, I build across the entire stack &mdash; from fluid frontends and ACID-compliant backends to live restaurant POS workflows and hardware simulations.
           </p>
         </div>
 

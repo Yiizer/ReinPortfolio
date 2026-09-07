@@ -75,7 +75,7 @@ export default function ContactCTA() {
 
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 font-mono text-xs text-text-muted">
             <div className="flex items-center gap-2">
-              <span>Manila, Philippines</span>
+              <span>Philippines</span>
             </div>
 
             <div className="flex items-center gap-4">

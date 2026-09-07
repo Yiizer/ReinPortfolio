@@ -23,12 +23,12 @@ export const metadata: Metadata = {
     template: "%s | Rein Gavino",
   },
   description:
-    "Fullstack developer and Computer Engineering student based in Manila. Building resilient web apps, transactional POS workflows, and interactive simulations.",
+    "Fullstack developer and Computer Engineering student based in the Philippines. Building resilient web apps, transactional POS workflows, and interactive simulations.",
   keywords: [
     "Rein Gavino",
     "Fullstack Developer",
     "Computer Engineer",
-    "Manila",
+    "Philippines",
     "Next.js",
     "React",
     "TypeScript",
@@ -48,14 +48,14 @@ export const metadata: Metadata = {
     url: "https://reingavino.com",
     title: "Rein Gavino — Developer & Computer Engineer",
     description:
-      "Fullstack developer based in Manila building systems, interfaces, and web applications across web, mobile, and hardware.",
+      "Fullstack developer based in the Philippines building systems, interfaces, and web applications across web, mobile, and hardware.",
     siteName: "Rein Gavino Portfolio",
   },
   twitter: {
     card: "summary_large_image",
     title: "Rein Gavino — Developer & Computer Engineer",
     description:
-      "Fullstack developer based in Manila building systems, interfaces, and web applications.",
+      "Fullstack developer based in the Philippines building systems, interfaces, and web applications.",
   },
 };
 

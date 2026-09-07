@@ -44,7 +44,7 @@ export default function Footer() {
         <div className="flex items-center gap-3 font-mono text-xs text-text-muted">
           <span className="font-medium text-text-main">Rein Gavino</span>
           <span className="text-text-dim">&bull;</span>
-          <span>Manila, PH</span>
+          <span>Philippines (PH)</span>
         </div>
 
         {/* Social Link Icons */}

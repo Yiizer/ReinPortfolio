@@ -277,7 +277,7 @@ export default function Hero() {
           </span>
         </div>
         <span className="tracking-wider uppercase text-[11px] text-text-dim">
-          Manila, PH
+          Philippines (PH)
         </span>
       </div>
 
@@ -295,7 +295,7 @@ export default function Hero() {
         >
           <span>Developer</span>
           <span className="text-accent">&bull;</span>
-          <span>Manila, Philippines</span>
+          <span>Philippines</span>
         </p>
       </div>
 

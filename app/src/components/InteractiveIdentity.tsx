@@ -9,7 +9,7 @@ function subscribeClock(callback: () => void) {
   return () => clearInterval(timer);
 }
 
-function getManilaTimeSnapshot(): string {
+function getPHTimeSnapshot(): string {
   try {
     return new Intl.DateTimeFormat("en-US", {
       timeZone: "Asia/Manila",
@@ -65,10 +65,10 @@ export default function InteractiveIdentity() {
   const [isHovered, setIsHovered] = useState(false);
   const [activeDiscipline, setActiveDiscipline] = useState<DisciplineKey>("fullstack");
 
-  // Hydration-safe real live Manila clock
-  const manilaTime = useSyncExternalStore(
+  // Hydration-safe real live Philippine clock
+  const phTime = useSyncExternalStore(
     subscribeClock,
-    getManilaTimeSnapshot,
+    getPHTimeSnapshot,
     getServerClockSnapshot
   );
 
@@ -145,7 +145,7 @@ export default function InteractiveIdentity() {
               }}
             />
 
-            {/* Bottom Floating Badge: Real Live Manila Time & Location */}
+            {/* Bottom Floating Badge: Real Live Philippine Time & Location */}
             <div
               className="absolute bottom-4 left-4 right-4 z-30 transition-transform duration-200"
               style={{ transform: isHovered ? "translateZ(26px)" : "translateZ(0px)" }}
@@ -156,10 +156,10 @@ export default function InteractiveIdentity() {
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
                     <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
                   </span>
-                  <span className="text-text-main font-medium">Manila, PH</span>
+                  <span className="text-text-main font-medium">Philippines (PH)</span>
                 </div>
                 <div className="text-text-muted font-mono tracking-wider tabular-nums text-[11px]">
-                  {manilaTime}
+                  {phTime}
                 </div>
               </div>
             </div>
@@ -169,7 +169,7 @@ export default function InteractiveIdentity() {
         {/* Subtle Micro-Interaction Hint */}
         <div className="mt-3 flex items-center gap-2 text-text-dim text-[11px] font-mono">
           <span className="text-accent">&uarr;&darr;</span>
-          <span>3D perspective hover &bull; Manila live clock</span>
+          <span>3D perspective hover &bull; Live PH clock</span>
         </div>
       </div>
 
@@ -187,7 +187,7 @@ export default function InteractiveIdentity() {
 
         <div className="space-y-4 text-text-muted text-base sm:text-lg leading-relaxed font-sans">
           <p>
-            I&apos;m a 4th-year Computer Engineering student based in Manila. I build fullstack web applications, operational tools, and interactive simulations.
+            I&apos;m a 4th-year Computer Engineering student based in the Philippines. I build fullstack web applications, operational tools, and interactive simulations.
           </p>
 
           <p>
@@ -253,7 +253,7 @@ export default function InteractiveIdentity() {
           <div className="h-6 w-px bg-border" />
           <div>
             <span className="text-text-dim block text-[11px]">Station</span>
-            <span className="text-text-main font-medium">Manila, Philippines</span>
+            <span className="text-text-main font-medium">Philippines</span>
           </div>
           <div className="h-6 w-px bg-border" />
           <div>
