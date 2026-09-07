@@ -110,44 +110,53 @@ export default function AboutPage() {
       if (cards.length === 0) return;
 
       // Initial card states
-      gsap.set(cards[0], { opacity: 1, y: 0, scale: 1, zIndex: 10, visibility: "visible" });
-      for (let i = 1; i < cards.length; i++) {
-        gsap.set(cards[i], { opacity: 0, y: 40, scale: 0.95, zIndex: 10 - i, visibility: "visible" });
-      }
+      cards.forEach((card, i) => {
+        gsap.set(card, {
+          opacity: i === 0 ? 1 : 0,
+          y: i === 0 ? 0 : 35,
+          scale: i === 0 ? 1 : 0.96,
+          zIndex: 10 - i,
+          pointerEvents: i === 0 ? "auto" : "none",
+          visibility: "visible",
+        });
+      });
 
-      const totalSteps = cards.length;
-
-      // Pinned scrub timeline
+      // Pinned scrub timeline (synchronized across 4 milestones)
       const tl = gsap.timeline({
         scrollTrigger: {
           id: "roadmap-pin",
           trigger: section,
-          start: "top top",
-          end: "+=2600",
+          start: "top 72px",
+          end: "+=2200",
           pin: true,
-          scrub: 0.7,
-          anticipatePin: 1,
+          pinSpacing: true,
+          scrub: 0.6,
           onUpdate: (self) => {
             if (lineProgressRef.current) {
               lineProgressRef.current.style.transform = `scaleX(${Math.min(1, Math.max(0.04, self.progress))})`;
             }
-            const step = Math.min(
-              totalSteps - 1,
-              Math.floor(self.progress * totalSteps)
-            );
+            const p = self.progress;
+            const step = p < 0.25 ? 0 : p < 0.5 ? 1 : p < 0.75 ? 2 : 3;
             setActiveIdx(step);
           },
         },
       });
 
-      // Staged card transitions
-      tl.to(cards[0], { opacity: 0, y: -35, scale: 0.95, duration: 0.7, ease: "power2.inOut" }, 0.7)
-        .to(cards[1], { opacity: 1, y: 0, scale: 1, duration: 0.7, ease: "power2.inOut" }, 0.7)
-        .to(cards[1], { opacity: 0, y: -35, scale: 0.95, duration: 0.7, ease: "power2.inOut" }, 1.8)
-        .to(cards[2], { opacity: 1, y: 0, scale: 1, duration: 0.7, ease: "power2.inOut" }, 1.8)
-        .to(cards[2], { opacity: 0, y: -35, scale: 0.95, duration: 0.7, ease: "power2.inOut" }, 2.9)
-        .to(cards[3], { opacity: 1, y: 0, scale: 1, duration: 0.7, ease: "power2.inOut" }, 2.9);
+      // Staged card transitions:
+      // Card 0 -> Card 1 (0.7s - 1.3s)
+      tl.to(cards[0], { opacity: 0, y: -30, scale: 0.96, pointerEvents: "none", duration: 0.6, ease: "power2.inOut" }, 0.7)
+        .to(cards[1], { opacity: 1, y: 0, scale: 1, pointerEvents: "auto", duration: 0.6, ease: "power2.inOut" }, 0.7)
 
+        // Card 1 -> Card 2 (1.7s - 2.3s)
+        .to(cards[1], { opacity: 0, y: -30, scale: 0.96, pointerEvents: "none", duration: 0.6, ease: "power2.inOut" }, 1.7)
+        .to(cards[2], { opacity: 1, y: 0, scale: 1, pointerEvents: "auto", duration: 0.6, ease: "power2.inOut" }, 1.7)
+
+        // Card 2 -> Card 3 (2.7s - 3.3s)
+        .to(cards[2], { opacity: 0, y: -30, scale: 0.96, pointerEvents: "none", duration: 0.6, ease: "power2.inOut" }, 2.7)
+        .to(cards[3], { opacity: 1, y: 0, scale: 1, pointerEvents: "auto", duration: 0.6, ease: "power2.inOut" }, 2.7)
+
+        // Hold Card 3 until 3.8s before unpinning so user can comfortably read it
+        .to({}, { duration: 0.5 }, 3.3);
 
       // Stack groups entrance
       if (stackRef.current?.children) {
@@ -175,6 +184,7 @@ export default function AboutPage() {
     mm.add("(max-width: 767px)", () => {
       const cards = cardsRef.current.filter(Boolean) as HTMLDivElement[];
       cards.forEach((card) => {
+        gsap.set(card, { pointerEvents: "auto" });
         gsap.fromTo(
           card,
           { opacity: 0, y: 25 },
@@ -195,20 +205,22 @@ export default function AboutPage() {
     return () => mm.revert();
   }, []);
 
+  const MILESTONE_PROGRESS = [0.0875, 0.375, 0.625, 0.9125];
+
   const jumpToMilestone = (idx: number) => {
     const section = storyPinnedRef.current;
     if (!section) return;
 
     const st = ScrollTrigger.getById("roadmap-pin");
     if (st) {
-      const targetProgress = (idx + 0.15) / ROADMAP_MILESTONES.length;
+      const targetProgress = MILESTONE_PROGRESS[idx] ?? 0;
       const targetY = st.start + (st.end - st.start) * targetProgress;
       const win =
         typeof window !== "undefined"
-          ? (window as unknown as { __lenis?: { scrollTo: (target: number) => void } })
+          ? (window as unknown as { __lenis?: { scrollTo: (target: number, opts?: { duration?: number }) => void } })
           : null;
       if (win?.__lenis) {
-        win.__lenis.scrollTo(targetY);
+        win.__lenis.scrollTo(targetY, { duration: 0.8 });
       } else {
         window.scrollTo({ top: targetY, behavior: "smooth" });
       }
@@ -219,9 +231,9 @@ export default function AboutPage() {
     <div ref={containerRef} className="relative min-h-screen pt-20 sm:pt-24 pb-16">
       <SignalRail />
 
-      <main className="max-w-5xl mx-auto px-6 sm:px-8 space-y-24 md:space-y-32">
+      <main className="max-w-5xl mx-auto px-6 sm:px-8">
         {/* Identity & Introduction */}
-        <section id="ch-intro" className="pt-8 sm:pt-12 scroll-mt-28">
+        <section id="ch-intro" className="py-8 sm:py-12 scroll-mt-28">
           <InteractiveIdentity />
         </section>
 
@@ -229,9 +241,9 @@ export default function AboutPage() {
         <section
           id="ch-story"
           ref={storyPinnedRef}
-          className="scroll-mt-28 border-t border-border pt-12 select-none"
+          className="scroll-mt-28 border-t border-border py-8 select-none"
         >
-          <div className="md:h-[90vh] md:max-h-[860px] flex flex-col justify-center max-w-4xl mx-auto">
+          <div className="flex flex-col justify-center max-w-4xl mx-auto">
             {/* Header: Centered & Clean */}
             <div className="text-center space-y-3 pb-8">
               <span className="font-mono text-xs uppercase tracking-[0.2em] text-accent font-semibold block">
@@ -369,7 +381,7 @@ export default function AboutPage() {
         </section>
 
         {/* Capabilities & Technical Stack */}
-        <section id="ch-stack" className="scroll-mt-28 border-t border-border pt-16">
+        <section id="ch-stack" className="scroll-mt-28 border-t border-border py-20 sm:py-28">
           <div className="space-y-12">
             <div className="space-y-2 max-w-2xl">
               <span className="font-mono text-xs uppercase tracking-[0.2em] text-accent font-semibold block">
@@ -415,7 +427,7 @@ export default function AboutPage() {
         </section>
 
         {/* Connect CTA */}
-        <section id="ch-cta" className="scroll-mt-28 border-t border-border pt-16">
+        <section id="ch-cta" className="scroll-mt-28 border-t border-border py-20 sm:py-28">
           <div className="rounded-2xl bg-surface border border-border p-8 sm:p-12 flex flex-col md:flex-row md:items-center justify-between gap-8">
             <div className="space-y-2 max-w-xl">
               <span className="font-mono text-xs uppercase tracking-[0.2em] text-accent font-semibold block">

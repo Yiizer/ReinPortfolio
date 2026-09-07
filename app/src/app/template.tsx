@@ -15,12 +15,12 @@ export default function Template({ children }: { children: ReactNode }) {
     if (containerRef.current) {
       gsap.fromTo(
         containerRef.current,
-        { opacity: 0, y: 14 },
+        { opacity: 0 },
         {
           opacity: 1,
-          y: 0,
-          duration: 0.45,
+          duration: 0.35,
           ease: "power2.out",
+          clearProps: "all",
           onComplete: () => {
             ScrollTrigger.refresh();
           },
