@@ -24,29 +24,30 @@ export default function Contact() {
     e.preventDefault();
     setStatus("submitting");
 
-    try {
-      // Formspree submission endpoint - defaults to clean mailto fallback if placeholder is unchanged
-      const response = await fetch("https://formspree.io/f/placeholder_form_id", {
-        method: "POST",
-        headers: { "Content-Type": "application/json", Accept: "application/json" },
-        body: JSON.stringify({ name, email, subject, message }),
-      });
+    const formId = process.env.NEXT_PUBLIC_FORMSPREE_ID?.trim();
 
-      if (response.ok) {
-        setStatus("success");
-      } else {
-        // Fallback gracefully to direct mailto if form endpoint isn't wired up yet
-        const mailSubject = encodeURIComponent(subject.trim() || `Inquiry from ${name}`);
-        const mailBody = encodeURIComponent(`From: ${name} (${email})\n\n${message}`);
-        window.location.href = `mailto:${directEmail}?subject=${mailSubject}&body=${mailBody}`;
-        setStatus("success");
+    if (formId && formId !== "placeholder_form_id") {
+      try {
+        const response = await fetch(`https://formspree.io/f/${formId}`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Accept: "application/json" },
+          body: JSON.stringify({ name, email, subject, message }),
+        });
+
+        if (response.ok) {
+          setStatus("success");
+          return;
+        }
+      } catch {
+        // Proceed to mailto fallback if submission network request fails
       }
-    } catch {
-      const mailSubject = encodeURIComponent(subject.trim() || `Inquiry from ${name}`);
-      const mailBody = encodeURIComponent(`From: ${name} (${email})\n\n${message}`);
-      window.location.href = `mailto:${directEmail}?subject=${mailSubject}&body=${mailBody}`;
-      setStatus("success");
     }
+
+    // Clean mailto fallback if Formspree ID is not set or network fails
+    const mailSubject = encodeURIComponent(subject.trim() || `Inquiry from ${name}`);
+    const mailBody = encodeURIComponent(`From: ${name} (${email})\n\n${message}`);
+    window.location.href = `mailto:${directEmail}?subject=${mailSubject}&body=${mailBody}`;
+    setStatus("success");
   };
 
   return (
