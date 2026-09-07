@@ -10,6 +10,7 @@ export default function Contact() {
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
 
   const directEmail = "reingabrielgavino1723@gmail.com";
@@ -23,31 +24,49 @@ export default function Contact() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setStatus("submitting");
+    setErrorMessage(null);
 
-    const formId = process.env.NEXT_PUBLIC_FORMSPREE_ID?.trim();
+    const formId = process.env.NEXT_PUBLIC_FORMSPREE_ID?.trim() || "mqpkyadj";
 
-    if (formId && formId !== "placeholder_form_id") {
-      try {
-        const response = await fetch(`https://formspree.io/f/${formId}`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json", Accept: "application/json" },
-          body: JSON.stringify({ name, email, subject, message }),
-        });
+    try {
+      const response = await fetch(`https://formspree.io/f/${formId}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          subject: subject.trim() || `Inquiry from ${name}`,
+          message,
+        }),
+      });
 
-        if (response.ok) {
-          setStatus("success");
-          return;
-        }
-      } catch {
-        // Proceed to mailto fallback if submission network request fails
+      const data = await response.json();
+
+      if (response.ok) {
+        setStatus("success");
+        return;
       }
+
+      if (data && Array.isArray(data.errors) && data.errors.length > 0) {
+        const errorMsg = data.errors.map((err: { message: string }) => err.message).join(", ");
+        setErrorMessage(errorMsg || "Unable to dispatch message. Please verify your details.");
+        setStatus("error");
+        return;
+      }
+    } catch {
+      // Fallback gracefully to direct mailto if network connection drops
+      const mailSubject = encodeURIComponent(subject.trim() || `Inquiry from ${name}`);
+      const mailBody = encodeURIComponent(`From: ${name} (${email})\n\n${message}`);
+      window.location.href = `mailto:${directEmail}?subject=${mailSubject}&body=${mailBody}`;
+      setStatus("success");
+      return;
     }
 
-    // Clean mailto fallback if Formspree ID is not set or network fails
-    const mailSubject = encodeURIComponent(subject.trim() || `Inquiry from ${name}`);
-    const mailBody = encodeURIComponent(`From: ${name} (${email})\n\n${message}`);
-    window.location.href = `mailto:${directEmail}?subject=${mailSubject}&body=${mailBody}`;
-    setStatus("success");
+    setStatus("error");
+    setErrorMessage("Something went wrong. Please try again or open your email client above.");
   };
 
   return (
@@ -153,6 +172,7 @@ export default function Contact() {
               </label>
               <input
                 id="name"
+                name="name"
                 type="text"
                 required
                 value={name}
@@ -171,6 +191,7 @@ export default function Contact() {
               </label>
               <input
                 id="email"
+                name="email"
                 type="email"
                 required
                 value={email}
@@ -190,6 +211,7 @@ export default function Contact() {
             </label>
             <input
               id="subject"
+              name="subject"
               type="text"
               value={subject}
               onChange={(e) => setSubject(e.target.value)}
@@ -207,6 +229,7 @@ export default function Contact() {
             </label>
             <textarea
               id="message"
+              name="message"
               required
               rows={5}
               value={message}
@@ -215,6 +238,20 @@ export default function Contact() {
               className="w-full rounded-md bg-surface border border-border px-4 py-3 text-sm text-text-main placeholder:text-text-dim outline-none focus:border-accent transition-colors resize-y min-h-[120px]"
             />
           </div>
+
+          {errorMessage && (
+            <div className="p-3.5 rounded-lg bg-red-500/10 border border-red-500/30 text-xs font-mono text-red-400 flex items-center justify-between">
+              <span>{errorMessage}</span>
+              <button
+                type="button"
+                onClick={() => setErrorMessage(null)}
+                className="text-text-dim hover:text-text-main ml-2 cursor-pointer"
+                aria-label="Dismiss error"
+              >
+                ✕
+              </button>
+            </div>
+          )}
 
           <div>
             <Magnetic strength={0.25}>
