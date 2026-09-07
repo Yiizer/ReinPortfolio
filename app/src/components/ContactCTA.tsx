@@ -78,7 +78,7 @@ export default function ContactCTA() {
               <span>Philippines</span>
             </div>
 
-            <div className="flex items-center gap-4">
+            <div className="flex flex-wrap items-center gap-3 sm:gap-4">
               <Link
                 href="/contact"
                 className="text-text-main hover:text-accent transition-colors"
@@ -87,7 +87,7 @@ export default function ContactCTA() {
               </Link>
               <span>&bull;</span>
               <a
-                href="https://github.com/rein-gavino"
+                href="https://github.com/Yiizer"
                 target="_blank"
                 rel="noreferrer"
                 className="text-text-main hover:text-accent transition-colors"
@@ -96,12 +96,21 @@ export default function ContactCTA() {
               </a>
               <span>&bull;</span>
               <a
-                href="https://linkedin.com/in/rein-gavino"
+                href="https://www.linkedin.com/in/reingabriel-gavino-52822a30b/"
                 target="_blank"
                 rel="noreferrer"
                 className="text-text-main hover:text-accent transition-colors"
               >
                 LinkedIn
+              </a>
+              <span>&bull;</span>
+              <a
+                href="https://www.facebook.com/rein.butter.1/"
+                target="_blank"
+                rel="noreferrer"
+                className="text-text-main hover:text-accent transition-colors"
+              >
+                Facebook
               </a>
             </div>
           </div>

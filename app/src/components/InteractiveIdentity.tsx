@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useSyncExternalStore, MouseEvent } from "react";
+import { useState, useRef, useSyncExternalStore, type MouseEvent } from "react";
 import Image from "next/image";
 import ScrambleText from "@/components/ScrambleText";
 

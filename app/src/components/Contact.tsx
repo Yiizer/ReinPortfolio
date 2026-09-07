@@ -84,6 +84,35 @@ export default function Contact() {
         </div>
       </div>
 
+      {/* Direct Social Channels */}
+      <div className="flex flex-wrap items-center gap-2.5 font-mono text-xs text-text-muted">
+        <span className="text-text-dim text-[11px]">Direct Channels:</span>
+        <a
+          href="https://github.com/Yiizer"
+          target="_blank"
+          rel="noreferrer"
+          className="px-3 py-1.5 rounded-lg bg-surface border border-border text-text-main hover:text-accent hover:border-accent/40 transition-colors"
+        >
+          GitHub ↗
+        </a>
+        <a
+          href="https://www.linkedin.com/in/reingabriel-gavino-52822a30b/"
+          target="_blank"
+          rel="noreferrer"
+          className="px-3 py-1.5 rounded-lg bg-surface border border-border text-text-main hover:text-accent hover:border-accent/40 transition-colors"
+        >
+          LinkedIn ↗
+        </a>
+        <a
+          href="https://www.facebook.com/rein.butter.1/"
+          target="_blank"
+          rel="noreferrer"
+          className="px-3 py-1.5 rounded-lg bg-surface border border-border text-text-main hover:text-accent hover:border-accent/40 transition-colors"
+        >
+          Facebook ↗
+        </a>
+      </div>
+
       {/* Main Submission Form */}
       {status === "success" ? (
         <div className="p-8 rounded-xl bg-surface border border-border space-y-4 animate-in fade-in duration-300">
