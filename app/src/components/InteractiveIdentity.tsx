@@ -2,9 +2,7 @@
 
 import { useState, useRef, useSyncExternalStore, MouseEvent } from "react";
 import Image from "next/image";
-
-type ViewMode = "narrative" | "architecture";
-type CardMode = "visual" | "blueprint";
+import ScrambleText from "@/components/ScrambleText";
 
 function subscribeClock(callback: () => void) {
   const timer = setInterval(callback, 1000);
@@ -29,23 +27,45 @@ function getServerClockSnapshot(): string {
   return "--:--:--";
 }
 
-export default function InteractiveIdentity() {
-  const [viewMode, setViewMode] = useState<ViewMode>("narrative");
-  const [cardMode, setCardMode] = useState<CardMode>("visual");
-  const [activeTooltip, setActiveTooltip] = useState<string | null>(null);
+type DisciplineKey = "fullstack" | "cpe" | "simulation";
 
+const DISCIPLINE_DATA: Record<
+  DisciplineKey,
+  { label: string; badge: string; description: string; tools: string[] }
+> = {
+  fullstack: {
+    label: "Fullstack Systems",
+    badge: "WEB & TRANSACTIONAL",
+    description:
+      "Designing responsive frontend interfaces in React & Next.js paired with resilient PostgreSQL relational backends, clean REST endpoints, and sub-pixel motion craft.",
+    tools: ["Next.js 16", "TypeScript", "PostgreSQL", "Tailwind v4", "REST APIs"],
+  },
+  cpe: {
+    label: "Computer Engineering",
+    badge: "HARDWARE & SYSTEMS",
+    description:
+      "Applying low-level engineering fundamentals — understanding memory layouts, CPU cycles, microarchitecture, and microcontroller logic circuits like the ATmega328P.",
+    tools: ["Microcontrollers", "C / C++", "Digital Logic", "Circuits", "Assembly"],
+  },
+  simulation: {
+    label: "3D & Simulation",
+    badge: "SPATIAL & REALTIME",
+    description:
+      "Building interactive simulations and augmented reality experiences in Unity 3D with C#, custom physics loops, and real-time sensor integration.",
+    tools: ["Unity 3D", "C#", "Android AR", "Game Physics", "3D Modeling"],
+  },
+};
+
+export default function InteractiveIdentity() {
   // 3D Tilt & Specular state
   const cardRef = useRef<HTMLDivElement>(null);
   const [rotateX, setRotateX] = useState(0);
   const [rotateY, setRotateY] = useState(0);
   const [glare, setGlare] = useState({ x: 50, y: 50, opacity: 0 });
   const [isHovered, setIsHovered] = useState(false);
+  const [activeDiscipline, setActiveDiscipline] = useState<DisciplineKey>("fullstack");
 
-  // Ping Manila telemetry
-  const [pingState, setPingState] = useState<"idle" | "pinging" | "success">("idle");
-  const [pingLatency, setPingLatency] = useState(14);
-
-  // Live Manila Time with useSyncExternalStore (hydration-safe, zero effect cascade)
+  // Hydration-safe real live Manila clock
   const manilaTime = useSyncExternalStore(
     subscribeClock,
     getManilaTimeSnapshot,
@@ -61,7 +81,7 @@ export default function InteractiveIdentity() {
     const centerX = rect.width / 2;
     const centerY = rect.height / 2;
 
-    const rotX = ((y - centerY) / centerY) * -12; // max 12 deg
+    const rotX = ((y - centerY) / centerY) * -12;
     const rotY = ((x - centerX) / centerX) * 12;
 
     setRotateX(rotX);
@@ -83,15 +103,7 @@ export default function InteractiveIdentity() {
     setGlare((prev) => ({ ...prev, opacity: 0 }));
   };
 
-  const handlePing = () => {
-    if (pingState === "pinging") return;
-    setPingState("pinging");
-    setTimeout(() => {
-      setPingLatency(Math.floor(10 + Math.random() * 8));
-      setPingState("success");
-      setTimeout(() => setPingState("idle"), 3500);
-    }, 450);
-  };
+  const currentDisc = DISCIPLINE_DATA[activeDiscipline];
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-12 gap-10 lg:gap-16 items-start">
@@ -111,96 +123,19 @@ export default function InteractiveIdentity() {
               transformStyle: "preserve-3d",
             }}
           >
-            {/* Ambient Corner Sci-Fi / Engineering Reticles */}
-            <div className="absolute top-3 left-3 z-30 font-mono text-[9px] text-text-dim/60 pointer-events-none flex items-center gap-1">
-              <span className="text-accent">+</span> 14.5995°N
+            {/* Visual Portrait */}
+            <div className="absolute inset-0 z-10">
+              <Image
+                src="/profile.jpg"
+                alt="Rein Gavino"
+                fill
+                sizes="(max-width: 768px) 100vw, 400px"
+                className="object-cover object-center transition-transform duration-700 group-hover:scale-105"
+                priority
+              />
+              {/* Subtle vignette */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-transparent to-black/25 pointer-events-none" />
             </div>
-            <div className="absolute top-3 right-3 z-30 font-mono text-[9px] text-text-dim/60 pointer-events-none flex items-center gap-1">
-              120.9842°E <span className="text-accent">+</span>
-            </div>
-
-            {/* CARD MODE 1: VISUAL PORTRAIT */}
-            {cardMode === "visual" && (
-              <div className="absolute inset-0 z-10 transition-opacity duration-300">
-                <Image
-                  src="/profile.jpg"
-                  alt="Rein Gavino"
-                  fill
-                  sizes="(max-width: 768px) 100vw, 400px"
-                  className="object-cover object-center transition-transform duration-700 group-hover:scale-105"
-                  priority
-                />
-                {/* Subtle vignette */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20 pointer-events-none" />
-              </div>
-            )}
-
-            {/* CARD MODE 2: BLUEPRINT / X-RAY SCHEMATIC */}
-            {cardMode === "blueprint" && (
-              <div className="absolute inset-0 z-10 bg-[#070b11] p-6 flex flex-col justify-between text-emerald-400 font-mono text-xs overflow-hidden transition-opacity duration-300">
-                {/* Blueprint Background Grid & Scanlines */}
-                <div
-                  className="absolute inset-0 opacity-15 pointer-events-none"
-                  style={{
-                    backgroundImage:
-                      "linear-gradient(#059669 1px, transparent 1px), linear-gradient(90deg, #059669 1px, transparent 1px)",
-                    backgroundSize: "20px 20px",
-                  }}
-                />
-                <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.4)_50%)] bg-[length:100%_4px] pointer-events-none opacity-40 animate-pulse" />
-
-                {/* Blueprint Telemetry Header */}
-                <div className="relative z-10 space-y-2 border-b border-emerald-500/30 pb-3">
-                  <div className="flex items-center justify-between text-[10px] tracking-wider uppercase text-emerald-500">
-                    <span className="flex items-center gap-1.5">
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
-                      SCHEMA // REIN_GAVINO
-                    </span>
-                    <span>REV 4.2</span>
-                  </div>
-                  <div className="text-emerald-300 font-bold text-sm tracking-tight font-mono">
-                    SYS.DISCIPLINE: COMP_ENG
-                  </div>
-                </div>
-
-                {/* Animated Logic Waveform / Telemetry */}
-                <div className="relative z-10 space-y-3 my-auto py-2">
-                  <div className="space-y-1">
-                    <div className="flex justify-between text-[10px] text-emerald-500">
-                      <span>HARDWARE CORES</span>
-                      <span>100% ACTIVE</span>
-                    </div>
-                    <div className="h-1.5 w-full bg-emerald-950 rounded-full overflow-hidden border border-emerald-500/40">
-                      <div className="h-full bg-emerald-400 w-4/5 animate-pulse" />
-                    </div>
-                  </div>
-
-                  <div className="space-y-1">
-                    <div className="flex justify-between text-[10px] text-emerald-500">
-                      <span>FULLSTACK RUNTIME</span>
-                      <span>OPTIMAL</span>
-                    </div>
-                    <div className="h-1.5 w-full bg-emerald-950 rounded-full overflow-hidden border border-emerald-500/40">
-                      <div className="h-full bg-emerald-400 w-11/12" />
-                    </div>
-                  </div>
-
-                  {/* Micro Terminal Trace */}
-                  <div className="bg-black/50 p-2.5 rounded border border-emerald-500/20 text-[10px] space-y-0.5 text-emerald-300/80">
-                    <div>&gt; target = &quot;Manila, PH&quot;</div>
-                    <div>&gt; mode = &quot;Hardware_Simulation &amp; Web&quot;</div>
-                    <div>&gt; latency = &lt;16ms (60 FPS)</div>
-                    <div>&gt; status = 200 OK (RESILIENT)</div>
-                  </div>
-                </div>
-
-                {/* Blueprint Footer */}
-                <div className="relative z-10 pt-2 border-t border-emerald-500/30 flex items-center justify-between text-[10px] text-emerald-500">
-                  <span>LAT: 14.5995°N</span>
-                  <span>LNG: 120.9842°E</span>
-                </div>
-              </div>
-            )}
 
             {/* Specular Light Reflection Sheen (Follows Mouse) */}
             <div
@@ -210,53 +145,20 @@ export default function InteractiveIdentity() {
               }}
             />
 
-            {/* Floating 3D Badge: Mode Switcher (Visual vs Blueprint) */}
-            <div
-              className="absolute top-4 right-4 z-30 transition-transform duration-200"
-              style={{ transform: isHovered ? "translateZ(32px)" : "translateZ(0px)" }}
-            >
-              <div className="flex items-center bg-black/75 backdrop-blur-md p-1 rounded-lg border border-border shadow-lg">
-                <button
-                  type="button"
-                  onClick={() => setCardMode("visual")}
-                  className={`px-2 py-1 text-[10px] font-mono rounded transition-colors cursor-pointer ${
-                    cardMode === "visual"
-                      ? "bg-accent text-white font-bold"
-                      : "text-text-muted hover:text-text-main"
-                  }`}
-                >
-                  Visual
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setCardMode("blueprint")}
-                  className={`px-2 py-1 text-[10px] font-mono rounded transition-colors flex items-center gap-1 cursor-pointer ${
-                    cardMode === "blueprint"
-                      ? "bg-emerald-600 text-white font-bold"
-                      : "text-text-muted hover:text-emerald-400"
-                  }`}
-                >
-                  <span className="w-1 h-1 rounded-full bg-emerald-400" />
-                  X-Ray
-                </button>
-              </div>
-            </div>
-
-            {/* Floating 3D Badge: Status & Live Manila Station */}
+            {/* Bottom Floating Badge: Real Live Manila Time & Location */}
             <div
               className="absolute bottom-4 left-4 right-4 z-30 transition-transform duration-200"
               style={{ transform: isHovered ? "translateZ(26px)" : "translateZ(0px)" }}
             >
-              <div className="bg-primary/90 backdrop-blur-md px-3.5 py-2 rounded-xl border border-border/90 shadow-xl font-mono text-xs flex items-center justify-between">
+              <div className="bg-primary/90 backdrop-blur-md px-4 py-2.5 rounded-xl border border-border/90 shadow-xl flex items-center justify-between text-xs font-mono">
                 <div className="flex items-center gap-2">
                   <span className="relative flex h-2 w-2">
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
                     <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
                   </span>
-                  <span className="text-text-main font-medium">Rein Gavino</span>
-                  <span className="text-text-dim text-[11px] hidden sm:inline">&bull; Manila</span>
+                  <span className="text-text-main font-medium">Manila, PH</span>
                 </div>
-                <div className="text-[11px] text-text-muted font-mono">
+                <div className="text-text-muted font-mono tracking-wider tabular-nums text-[11px]">
                   {manilaTime}
                 </div>
               </div>
@@ -264,295 +166,100 @@ export default function InteractiveIdentity() {
           </div>
         </div>
 
-        {/* Micro Interaction Tip */}
+        {/* Subtle Micro-Interaction Hint */}
         <div className="mt-3 flex items-center gap-2 text-text-dim text-[11px] font-mono">
           <span className="text-accent">&uarr;&darr;</span>
-          <span>3D perspective hover &bull; Switch between Visual &amp; X-Ray</span>
+          <span>3D perspective hover &bull; Manila live clock</span>
         </div>
       </div>
 
-      {/* RIGHT COLUMN: Interactive Bio / System Architecture Showcase */}
+      {/* RIGHT COLUMN: Authentic Conversational Bio & Interactive Discipline Focus */}
       <div className="md:col-span-7 space-y-6 order-1 md:order-2">
-        {/* Header with Mode Switcher */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border/70 pb-4">
-          <div className="space-y-1">
-            <span className="font-mono text-xs uppercase tracking-[0.2em] text-accent font-semibold block">
-              Chapter 01 / Identity
+        <div className="space-y-1">
+          <span className="font-mono text-xs uppercase tracking-[0.2em] text-accent font-semibold block">
+            <ScrambleText text="CHAPTER 01 // IDENTITY" />
+          </span>
+        </div>
+
+        <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl text-text-main font-normal tracking-tight leading-[1.05]">
+          Curiosity through code.
+        </h1>
+
+        <div className="space-y-4 text-text-muted text-base sm:text-lg leading-relaxed font-sans">
+          <p>
+            I&apos;m a 4th-year Computer Engineering student based in Manila. I build fullstack web applications, operational tools, and interactive simulations.
+          </p>
+
+          <p>
+            Rather than staying locked into one corner of software, I enjoy connecting all the parts &mdash; designing clean interfaces, building reliable transactional backends, and working with hardware circuits and game engines.
+          </p>
+        </div>
+
+        {/* Interactive Discipline Focus Selector */}
+        <div className="space-y-3 pt-2">
+          <div className="flex items-center justify-between font-mono text-xs text-text-dim border-b border-border/60 pb-2">
+            <span>EXPLORE DISCIPLINES</span>
+            <span className="text-accent text-[10px] uppercase font-semibold">
+              {currentDisc.badge}
             </span>
-            <div className="font-mono text-[11px] text-text-dim">
-              CpE SENIOR &bull; FULLSTACK ENGINEER
-            </div>
           </div>
 
-          {/* Interactive Mode Switcher Tabs */}
-          <div className="flex items-center bg-surface border border-border p-1 rounded-lg self-start sm:self-auto shadow-sm">
-            <button
-              type="button"
-              onClick={() => setViewMode("narrative")}
-              className={`px-3 py-1.5 rounded-md text-xs font-mono transition-all duration-200 cursor-pointer ${
-                viewMode === "narrative"
-                  ? "bg-primary text-text-main font-semibold shadow-sm border border-border"
-                  : "text-text-muted hover:text-text-main"
-              }`}
-            >
-              01 Narrative
-            </button>
-            <button
-              type="button"
-              onClick={() => setViewMode("architecture")}
-              className={`px-3 py-1.5 rounded-md text-xs font-mono transition-all duration-200 cursor-pointer flex items-center gap-1.5 ${
-                viewMode === "architecture"
-                  ? "bg-accent text-white font-semibold shadow-sm"
-                  : "text-text-muted hover:text-text-main"
-              }`}
-            >
-              <span className="w-1.5 h-1.5 rounded-full bg-white/70" />
-              02 Architecture
-            </button>
+          <div className="flex flex-wrap gap-2">
+            {(Object.keys(DISCIPLINE_DATA) as DisciplineKey[]).map((key) => {
+              const d = DISCIPLINE_DATA[key];
+              const isSelected = activeDiscipline === key;
+              return (
+                <button
+                  key={key}
+                  type="button"
+                  onClick={() => setActiveDiscipline(key)}
+                  onMouseEnter={() => setActiveDiscipline(key)}
+                  className={`px-3.5 py-1.5 rounded-lg font-mono text-xs transition-all duration-200 cursor-pointer border ${
+                    isSelected
+                      ? "bg-accent text-white border-accent shadow-md shadow-accent/20 font-semibold"
+                      : "bg-surface border-border text-text-muted hover:text-text-main hover:border-accent/40"
+                  }`}
+                >
+                  {d.label}
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Interactive Discipline Insight Box */}
+          <div className="p-4 rounded-xl bg-surface/80 border border-border/90 space-y-3 text-xs transition-all duration-200">
+            <p className="text-text-muted leading-relaxed font-sans">
+              {currentDisc.description}
+            </p>
+            <div className="flex flex-wrap gap-1.5 pt-1 border-t border-border/50">
+              {currentDisc.tools.map((tool) => (
+                <span
+                  key={tool}
+                  className="font-mono text-[11px] text-text-main bg-primary px-2.5 py-0.5 rounded border border-border"
+                >
+                  {tool}
+                </span>
+              ))}
+            </div>
           </div>
         </div>
 
-        {/* VIEW 1: NARRATIVE WITH INTERACTIVE KEYWORDS */}
-        {viewMode === "narrative" && (
-          <div className="space-y-6 transition-all duration-300">
-            <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl text-text-main font-normal tracking-tight leading-[1.02]">
-              Curiosity through code.
-            </h1>
-
-            <div className="space-y-4 text-text-muted text-base sm:text-lg leading-relaxed">
-              <p>
-                I&apos;m a 4th-year{" "}
-                <button
-                  type="button"
-                  onMouseEnter={() => setActiveTooltip("cpe")}
-                  onMouseLeave={() => setActiveTooltip(null)}
-                  onClick={() => setActiveTooltip(activeTooltip === "cpe" ? null : "cpe")}
-                  className="text-text-main font-medium underline decoration-accent/40 hover:decoration-accent underline-offset-4 cursor-pointer transition-colors bg-accent/5 px-1 py-0.5 rounded"
-                >
-                  Computer Engineering student
-                </button>{" "}
-                based in Manila, working as a{" "}
-                <button
-                  type="button"
-                  onMouseEnter={() => setActiveTooltip("fullstack")}
-                  onMouseLeave={() => setActiveTooltip(null)}
-                  onClick={() => setActiveTooltip(activeTooltip === "fullstack" ? null : "fullstack")}
-                  className="text-text-main font-medium underline decoration-accent/40 hover:decoration-accent underline-offset-4 cursor-pointer transition-colors bg-accent/5 px-1 py-0.5 rounded"
-                >
-                  fullstack developer
-                </button>{" "}
-                with a passion for pragmatic, resilient software.
-              </p>
-
-              <p>
-                Rather than specializing narrowly before understanding the broader craft, I enjoy
-                connecting all the layers:{" "}
-                <button
-                  type="button"
-                  onMouseEnter={() => setActiveTooltip("interfaces")}
-                  onMouseLeave={() => setActiveTooltip(null)}
-                  onClick={() => setActiveTooltip(activeTooltip === "interfaces" ? null : "interfaces")}
-                  className="text-text-main font-medium underline decoration-accent/40 hover:decoration-accent underline-offset-4 cursor-pointer transition-colors bg-accent/5 px-1 py-0.5 rounded"
-                >
-                  clean interfaces
-                </button>
-                ,{" "}
-                <button
-                  type="button"
-                  onMouseEnter={() => setActiveTooltip("backends")}
-                  onMouseLeave={() => setActiveTooltip(null)}
-                  onClick={() => setActiveTooltip(activeTooltip === "backends" ? null : "backends")}
-                  className="text-text-main font-medium underline decoration-accent/40 hover:decoration-accent underline-offset-4 cursor-pointer transition-colors bg-accent/5 px-1 py-0.5 rounded"
-                >
-                  reliable transactional backends
-                </button>
-                ,{" "}
-                <button
-                  type="button"
-                  onMouseEnter={() => setActiveTooltip("hardware")}
-                  onMouseLeave={() => setActiveTooltip(null)}
-                  onClick={() => setActiveTooltip(activeTooltip === "hardware" ? null : "hardware")}
-                  className="text-text-main font-medium underline decoration-accent/40 hover:decoration-accent underline-offset-4 cursor-pointer transition-colors bg-accent/5 px-1 py-0.5 rounded"
-                >
-                  hardware simulation
-                </button>
-                , and the real people who use them.
-              </p>
-            </div>
-
-            {/* Interactive Keyword Inspector Callout */}
-            <div className="min-h-14 flex items-center">
-              {activeTooltip === "cpe" && (
-                <div className="w-full p-3 rounded-xl bg-surface border border-accent/40 text-xs font-mono text-text-main flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-accent" />
-                    <span>Computer Engineering: Digital Logic &bull; Microarchitecture &bull; Embedded Systems</span>
-                  </div>
-                  <span className="text-text-dim text-[10px]">THESIS YEAR</span>
-                </div>
-              )}
-
-              {activeTooltip === "fullstack" && (
-                <div className="w-full p-3 rounded-xl bg-surface border border-accent/40 text-xs font-mono text-text-main flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-accent" />
-                    <span>Fullstack Craft: React 19 &bull; Next.js &bull; TypeScript &bull; PostgreSQL &bull; APIs</span>
-                  </div>
-                  <span className="text-text-dim text-[10px]">PRODUCTION READY</span>
-                </div>
-              )}
-
-              {activeTooltip === "interfaces" && (
-                <div className="w-full p-3 rounded-xl bg-surface border border-accent/40 text-xs font-mono text-text-main flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-accent" />
-                    <span>Interfaces: Sub-pixel craft &bull; GSAP Motion &bull; Accessible &bull; Fluid 60 FPS</span>
-                  </div>
-                  <span className="text-text-dim text-[10px]">FRONTEND ART</span>
-                </div>
-              )}
-
-              {activeTooltip === "backends" && (
-                <div className="w-full p-3 rounded-xl bg-surface border border-accent/40 text-xs font-mono text-text-main flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-accent" />
-                    <span>Transactional Systems: ACID compliance &bull; Scalable Relational Schemas &bull; Security</span>
-                  </div>
-                  <span className="text-text-dim text-[10px]">INFRASTRUCTURE</span>
-                </div>
-              )}
-
-              {activeTooltip === "hardware" && (
-                <div className="w-full p-3 rounded-xl bg-surface border border-accent/40 text-xs font-mono text-text-main flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-accent" />
-                    <span>Hardware: Unity 3D &bull; C# &bull; Arduino / Microcontrollers &bull; Logic Circuits</span>
-                  </div>
-                  <span className="text-text-dim text-[10px]">PHYSICAL + DIGITAL</span>
-                </div>
-              )}
-
-              {!activeTooltip && (
-                <div className="w-full p-3 rounded-xl bg-surface/50 border border-dashed border-border/70 text-xs font-mono text-text-dim flex items-center gap-2">
-                  <span className="text-accent">&rarr;</span>
-                  <span>Hover or tap highlighted phrases above to inspect engineering details</span>
-                </div>
-              )}
-            </div>
+        {/* Technical Stat Grid */}
+        <div className="pt-4 border-t border-border/80 flex flex-wrap items-center gap-8 font-mono text-xs text-text-muted">
+          <div>
+            <span className="text-text-dim block text-[11px]">Degree</span>
+            <span className="text-text-main font-medium">BS Computer Engineering</span>
           </div>
-        )}
-
-        {/* VIEW 2: ARCHITECTURE SPEC SHEET */}
-        {viewMode === "architecture" && (
-          <div className="space-y-5 transition-all duration-300">
-            <div className="space-y-1">
-              <h2 className="font-serif text-3xl sm:text-4xl text-text-main font-normal tracking-tight">
-                From Silicon to Screen.
-              </h2>
-              <p className="text-text-muted text-sm font-sans">
-                How my Computer Engineering foundation shapes how I write production software:
-              </p>
-            </div>
-
-            {/* 3-Tier Layered Interactive Architecture Cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
-              <div className="p-4 rounded-xl bg-surface border border-border hover:border-accent transition-colors space-y-2">
-                <span className="font-mono text-[10px] text-accent uppercase font-bold block">
-                  LAYER 01 // FRONTEND
-                </span>
-                <div className="text-text-main font-medium text-sm">Motion &amp; Craft</div>
-                <p className="text-text-muted text-xs leading-relaxed">
-                  Sub-pixel alignment, smooth Lenis/GSAP scroll physics, responsive fluid layouts.
-                </p>
-              </div>
-
-              <div className="p-4 rounded-xl bg-surface border border-border hover:border-accent transition-colors space-y-2">
-                <span className="font-mono text-[10px] text-accent uppercase font-bold block">
-                  LAYER 02 // SYSTEMS
-                </span>
-                <div className="text-text-main font-medium text-sm">Resilient Backends</div>
-                <p className="text-text-muted text-xs leading-relaxed">
-                  Transactional integrity, idempotent APIs, relational design, and secure auth models.
-                </p>
-              </div>
-
-              <div className="p-4 rounded-xl bg-surface border border-border hover:border-accent transition-colors space-y-2">
-                <span className="font-mono text-[10px] text-accent uppercase font-bold block">
-                  LAYER 03 // HARDWARE
-                </span>
-                <div className="text-text-main font-medium text-sm">CpE Foundations</div>
-                <p className="text-text-muted text-xs leading-relaxed">
-                  Understanding CPU cycles, memory boundaries, digital logic, and microcontroller I/O.
-                </p>
-              </div>
-            </div>
-
-            {/* Terminal Invariants Box */}
-            <div className="p-4 rounded-xl bg-primary border border-border font-mono text-xs space-y-2">
-              <div className="text-text-dim text-[10px] uppercase tracking-wider flex items-center justify-between border-b border-border pb-1.5">
-                <span>SYSTEM_INVARIANTS</span>
-                <span className="text-emerald-400">PASSED</span>
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-text-muted text-[11px]">
-                <div className="flex items-center gap-1.5">
-                  <span className="text-accent">&bull;</span>
-                  <span>Zero unhandled rejections</span>
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <span className="text-accent">&bull;</span>
-                  <span>Accessible keyboard nav</span>
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <span className="text-accent">&bull;</span>
-                  <span>Graceful offline resilience</span>
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <span className="text-accent">&bull;</span>
-                  <span>Pragmatism over overengineering</span>
-                </div>
-              </div>
-            </div>
+          <div className="h-6 w-px bg-border" />
+          <div>
+            <span className="text-text-dim block text-[11px]">Station</span>
+            <span className="text-text-main font-medium">Manila, Philippines</span>
           </div>
-        )}
-
-        {/* METADATA TELEMETRY FOOTER & PING ACTION */}
-        <div className="pt-4 border-t border-border/80 flex flex-wrap items-center justify-between gap-4 font-mono text-xs">
-          <div className="flex items-center gap-6 text-text-dim">
-            <div>
-              <span className="text-text-muted block font-medium">Status</span>
-              <span className="text-text-main">4th Year CpE Student</span>
-            </div>
-            <div className="h-6 w-px bg-border" />
-            <div>
-              <span className="text-text-muted block font-medium">Focus</span>
-              <span className="text-text-main">Fullstack &amp; Systems</span>
-            </div>
+          <div className="h-6 w-px bg-border" />
+          <div>
+            <span className="text-text-dim block text-[11px]">Status</span>
+            <span className="text-text-main font-medium">Open for 2026 Roles</span>
           </div>
-
-          {/* Interactive Ping Manila Station Button */}
-          <button
-            type="button"
-            onClick={handlePing}
-            disabled={pingState === "pinging"}
-            className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-border bg-surface hover:border-accent transition-colors cursor-pointer text-text-muted hover:text-text-main group"
-          >
-            <span
-              className={`w-2 h-2 rounded-full transition-colors ${
-                pingState === "pinging"
-                  ? "bg-amber-400 animate-spin"
-                  : pingState === "success"
-                  ? "bg-emerald-400"
-                  : "bg-accent group-hover:bg-accent-hover"
-              }`}
-            />
-            <span>
-              {pingState === "pinging"
-                ? "Pinging Node..."
-                : pingState === "success"
-                ? `Node Manila: ${pingLatency}ms (OK)`
-                : "Ping Manila Node"}
-            </span>
-          </button>
         </div>
       </div>
     </div>

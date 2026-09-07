@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Magnetic from "@/components/Magnetic";
+import ScrambleText from "@/components/ScrambleText";
 
 export default function ContactCTA() {
   const [copied, setCopied] = useState(false);
@@ -20,21 +22,24 @@ export default function ContactCTA() {
     >
       <div className="space-y-8">
         {/* Section Tag */}
-        <span className="font-mono text-xs uppercase tracking-widest text-text-dim block">
-          Contact
-        </span>
+        <div className="flex items-center gap-2">
+          <span className="w-1.5 h-1.5 rounded-full bg-accent" />
+          <span className="font-mono text-xs uppercase tracking-[0.2em] text-accent font-semibold">
+            <ScrambleText text="CONNECT // 2026" />
+          </span>
+        </div>
 
         {/* Heading */}
         <div className="space-y-3 max-w-2xl">
-          <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-text-main">
-            Let&apos;s connect.
+          <h2 className="text-3xl sm:text-5xl font-serif tracking-tight text-text-main">
+            Get in touch.
           </h2>
           <p className="text-text-muted text-base sm:text-lg leading-relaxed font-sans">
-            Available for software engineering roles, technical contracts, and architecture consulting.
+            Available for software engineering roles, contracts, or just a friendly chat.
           </p>
         </div>
 
-        {/* Interactive Contact Console */}
+        {/* Contact Card */}
         <div className="p-6 sm:p-8 rounded-2xl bg-surface border border-border/80 shadow-xl space-y-6 max-w-2xl">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border/60 pb-6">
             <div className="space-y-1">
@@ -47,27 +52,30 @@ export default function ContactCTA() {
             </div>
 
             <div className="flex items-center gap-3">
-              <button
-                type="button"
-                onClick={handleCopy}
-                className="px-4 py-2 rounded-lg bg-primary border border-border hover:border-accent text-text-main font-mono text-xs transition-colors cursor-pointer"
-              >
-                {copied ? "Copied!" : "Copy Email"}
-              </button>
+              <Magnetic strength={0.25}>
+                <button
+                  type="button"
+                  onClick={handleCopy}
+                  className="px-4 py-2 rounded-lg bg-primary border border-border hover:border-accent text-text-main font-mono text-xs transition-colors cursor-pointer"
+                >
+                  <ScrambleText text={copied ? "Copied!" : "Copy Email"} />
+                </button>
+              </Magnetic>
 
-              <a
-                href={`mailto:${email}`}
-                className="px-4 py-2 rounded-lg bg-accent text-white hover:bg-accent-hover font-mono text-xs font-semibold transition-colors"
-              >
-                Open Mail &rarr;
-              </a>
+              <Magnetic strength={0.25}>
+                <a
+                  href={`mailto:${email}`}
+                  className="px-4 py-2 rounded-lg bg-accent text-white hover:bg-accent-hover font-mono text-xs font-semibold transition-colors shadow-md shadow-accent/20 block"
+                >
+                  <ScrambleText text="Open Mail →" />
+                </a>
+              </Magnetic>
             </div>
           </div>
 
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 font-mono text-xs text-text-muted">
             <div className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-              <span>Manila, PH &bull; Active &amp; Ready</span>
+              <span>Manila, Philippines</span>
             </div>
 
             <div className="flex items-center gap-4">
@@ -75,7 +83,7 @@ export default function ContactCTA() {
                 href="/contact"
                 className="text-text-main hover:text-accent transition-colors"
               >
-                Message Form &rarr;
+                Send a message &rarr;
               </Link>
               <span>&bull;</span>
               <a

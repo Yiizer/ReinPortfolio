@@ -5,6 +5,8 @@ import Link from "next/link";
 import SignalRail from "@/components/SignalRail";
 import Footer from "@/components/Footer";
 import InteractiveIdentity from "@/components/InteractiveIdentity";
+import Magnetic from "@/components/Magnetic";
+import ScrambleText from "@/components/ScrambleText";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -15,7 +17,7 @@ const ROADMAP_MILESTONES = [
     phase: "01",
     year: "2017",
     age: "Age 13",
-    timeframe: "2017 // AGE 13",
+    timeframe: "2017",
     stage: "The Spark",
     title: "At 13 years old, I tried Unity",
     narrative:
@@ -27,7 +29,7 @@ const ROADMAP_MILESTONES = [
     phase: "02",
     year: "2022",
     age: "University",
-    timeframe: "2022 // HIGHER ED",
+    timeframe: "2022",
     stage: "The Discipline",
     title: "Computer Engineering at University",
     narrative:
@@ -39,7 +41,7 @@ const ROADMAP_MILESTONES = [
     phase: "03",
     year: "2024",
     age: "Production",
-    timeframe: "2024 // PRODUCTION",
+    timeframe: "2024",
     stage: "The Execution",
     title: "Operational POS & Live Systems",
     narrative:
@@ -51,13 +53,13 @@ const ROADMAP_MILESTONES = [
     phase: "04",
     year: "2026",
     age: "Present",
-    timeframe: "2026 // CURRENT",
-    stage: "The Philosophy",
-    title: "Zero Premature Specialization",
+    timeframe: "2026",
+    stage: "The Present",
+    title: "Building Across the Stack",
     narrative:
-      "Rejecting premature specialization in favor of holistic systems craft. Comfortable writing TypeScript and relational SQL in the morning, optimizing database transactions, inspecting Unity shaders or hardware circuits in the afternoon, and shipping resilient code by evening.",
-    tools: ["Fullstack Web", "Distributed Systems", "Hardware & Simulation", "Active for Roles"],
-    highlight: "A full-spectrum builder ready for high-impact software challenges.",
+      "Comfortable writing TypeScript and relational SQL in the morning, optimizing database queries, inspecting Unity shaders or hardware circuits in the afternoon, and shipping reliable code by evening.",
+    tools: ["Fullstack Web", "Relational Databases", "Hardware & Simulation", "Open to Work"],
+    highlight: "Always learning, always building.",
   },
 ];
 
@@ -218,7 +220,7 @@ export default function AboutPage() {
       <SignalRail />
 
       <main className="max-w-5xl mx-auto px-6 sm:px-8 space-y-24 md:space-y-32">
-        {/* Chapter 1: Identity & Introduction (Interactive 3D / X-Ray / Telemetry) */}
+        {/* Identity & Introduction */}
         <section id="ch-intro" className="pt-8 sm:pt-12 scroll-mt-28">
           <InteractiveIdentity />
         </section>
@@ -233,13 +235,13 @@ export default function AboutPage() {
             {/* Header: Centered & Clean */}
             <div className="text-center space-y-3 pb-8">
               <span className="font-mono text-xs uppercase tracking-[0.2em] text-accent font-semibold block">
-                Chapter 02 / The Trajectory
+                My Journey
               </span>
               <h2 className="font-serif text-4xl sm:text-5xl lg:text-6xl text-text-main font-normal tracking-tight">
                 From Age 13 to Production Systems.
               </h2>
               <p className="text-text-muted text-xs sm:text-sm max-w-md mx-auto font-sans">
-                Scroll to scrub through key milestones, technical turning points, and real-world software deployments.
+                Key milestones, turning points, and real-world software projects.
               </p>
             </div>
 
@@ -303,13 +305,18 @@ export default function AboutPage() {
                   ref={(el) => {
                     cardsRef.current[idx] = el;
                   }}
-                  className="md:absolute md:inset-0 rounded-2xl bg-surface border border-border/80 p-8 sm:p-10 shadow-2xl flex flex-col justify-between transition-colors hover:border-accent/40"
+                  className="md:absolute md:inset-0 rounded-2xl bg-surface border border-border/80 p-8 sm:p-10 shadow-2xl flex flex-col justify-between transition-colors hover:border-accent/50 relative overflow-hidden group"
                 >
-                  <div className="space-y-4">
-                    {/* Header Telemetry */}
+                  {/* Subtle Background Watermark Year */}
+                  <div className="absolute top-2 right-6 select-none pointer-events-none font-serif text-8xl sm:text-9xl text-text-main opacity-[0.05] leading-none z-0">
+                    {m.year}
+                  </div>
+
+                  <div className="space-y-4 relative z-10">
+                    {/* Header */}
                     <div className="flex items-center justify-between font-mono text-[11px] uppercase tracking-wider pb-3 border-b border-border/60">
                       <div className="flex items-center gap-2 text-accent font-semibold">
-                        <span className="w-2 h-2 rounded-full bg-accent animate-pulse" />
+                        <span className="w-2 h-2 rounded-full bg-accent shadow-[0_0_8px_var(--color-accent)]" />
                         <span>{m.timeframe}</span>
                       </div>
                       <span className="px-3 py-0.5 rounded-full bg-primary border border-border text-text-dim font-medium">
@@ -318,7 +325,7 @@ export default function AboutPage() {
                     </div>
 
                     {/* Title */}
-                    <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-text-main tracking-tight leading-snug">
+                    <h3 className="text-2xl sm:text-3xl lg:text-4xl font-serif text-text-main tracking-tight leading-snug">
                       {m.title}
                     </h3>
 
@@ -329,7 +336,7 @@ export default function AboutPage() {
                   </div>
 
                   {/* Footer: Tools & Highlight Insight */}
-                  <div className="space-y-3 pt-5 border-t border-border/60">
+                  <div className="space-y-3 pt-5 border-t border-border/60 relative z-10">
                     <div className="flex flex-wrap gap-1.5">
                       {m.tools.map((t) => (
                         <span
@@ -352,7 +359,7 @@ export default function AboutPage() {
             {/* Stage Footer Counter */}
             <div className="text-center pt-6 hidden md:block">
               <span className="font-mono text-xs text-text-dim uppercase tracking-wider">
-                Phase [ {ROADMAP_MILESTONES[activeIdx].phase} / 04 ] &bull;{" "}
+                {ROADMAP_MILESTONES[activeIdx].year} &bull;{" "}
                 <span className="text-text-main font-medium">
                   {ROADMAP_MILESTONES[activeIdx].stage}
                 </span>
@@ -361,18 +368,18 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* Chapter 3: Capabilities & Technical Stack */}
+        {/* Capabilities & Technical Stack */}
         <section id="ch-stack" className="scroll-mt-28 border-t border-border pt-16">
           <div className="space-y-12">
             <div className="space-y-2 max-w-2xl">
               <span className="font-mono text-xs uppercase tracking-[0.2em] text-accent font-semibold block">
-                Chapter 03 / Stack
+                Tools &amp; Stack
               </span>
               <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl text-text-main font-normal tracking-tight">
                 Capabilities &amp; Tooling
               </h2>
               <p className="text-text-muted text-base sm:text-lg leading-relaxed">
-                Technologies and frameworks I utilize to design, build, and deploy production software.
+                Technologies and tools I use to design, build, and deploy software.
               </p>
             </div>
 
@@ -407,12 +414,12 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* Chapter 4: Connect CTA */}
+        {/* Connect CTA */}
         <section id="ch-cta" className="scroll-mt-28 border-t border-border pt-16">
           <div className="rounded-2xl bg-surface border border-border p-8 sm:p-12 flex flex-col md:flex-row md:items-center justify-between gap-8">
             <div className="space-y-2 max-w-xl">
               <span className="font-mono text-xs uppercase tracking-[0.2em] text-accent font-semibold block">
-                Chapter 04 / Next
+                <ScrambleText text="CHAPTER 04 // CONNECT" />
               </span>
               <h2 className="font-serif text-3xl sm:text-4xl text-text-main font-normal">
                 Let&apos;s build together.
@@ -422,13 +429,15 @@ export default function AboutPage() {
               </p>
             </div>
 
-            <Link
-              href="/contact"
-              className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-md bg-accent text-white hover:bg-accent-hover font-mono text-xs uppercase tracking-wider font-semibold transition-colors duration-150 shrink-0 text-center"
-            >
-              <span>Reach Out Directly</span>
-              <span>&rarr;</span>
-            </Link>
+            <Magnetic strength={0.25}>
+              <Link
+                href="/contact"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-md bg-accent text-white hover:bg-accent-hover font-mono text-xs uppercase tracking-wider font-semibold transition-colors duration-150 shrink-0 text-center shadow-lg shadow-accent/20"
+              >
+                <ScrambleText text="Get in touch" />
+                <span>&rarr;</span>
+              </Link>
+            </Magnetic>
           </div>
         </section>
       </main>

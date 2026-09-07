@@ -1,14 +1,51 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { FEATURED_PROJECTS, Project } from "@/data/projects";
+import Magnetic from "@/components/Magnetic";
+import ScrambleText from "@/components/ScrambleText";
+
+gsap.registerPlugin(ScrollTrigger);
 
 export default function FeaturedProjects() {
   const [modalProject, setModalProject] = useState<Project | null>(null);
   const [modalScreenIdx, setModalScreenIdx] = useState<number>(0);
   const [isZoomed, setIsZoomed] = useState<boolean>(false);
+  const sectionRef = useRef<HTMLElement>(null);
+  const gridRef = useRef<HTMLDivElement>(null);
+
+  // Scroll entrance animation
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const ctx = gsap.context(() => {
+      const articles = gridRef.current?.querySelectorAll("article");
+      if (articles && articles.length > 0) {
+        gsap.fromTo(
+          articles,
+          { opacity: 0, y: 40 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.7,
+            stagger: 0.2,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: gridRef.current,
+              start: "top 80%",
+              once: true,
+            },
+          }
+        );
+      }
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
 
   // Keyboard navigation for modal
   useEffect(() => {
@@ -52,34 +89,40 @@ export default function FeaturedProjects() {
   const p2 = FEATURED_PROJECTS[1]; // Salo sa Antipolo
 
   return (
-    <section id="projects" className="max-w-4xl mx-auto px-6 py-20 border-b border-border scroll-mt-20">
+    <section
+      id="projects"
+      ref={sectionRef}
+      className="max-w-4xl mx-auto px-6 py-20 border-b border-border scroll-mt-20"
+    >
       {/* Section Header */}
       <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-6 mb-12 border-b border-border">
         <div className="space-y-1">
           <div className="flex items-center gap-2">
             <span className="w-1.5 h-1.5 rounded-full bg-accent" />
             <span className="font-mono text-xs uppercase tracking-[0.2em] text-accent font-semibold">
-              Selected Work &bull; 01 &mdash; 02
+              <ScrambleText text="SELECTED WORK // 01 — 02" />
             </span>
           </div>
           <h2 className="font-serif text-3xl sm:text-4xl text-text-main font-normal tracking-tight">
-            Featured Systems
+            Featured Projects
           </h2>
         </div>
 
-        <Link
-          href="/works"
-          className="group inline-flex items-center gap-2 font-mono text-xs uppercase tracking-wider text-text-muted hover:text-accent transition-colors"
-        >
-          <span>Full 6-System Console</span>
-          <span className="text-accent group-hover:translate-x-1 transition-transform">
-            &rarr;
-          </span>
-        </Link>
+        <Magnetic strength={0.25}>
+          <Link
+            href="/works"
+            className="group inline-flex items-center gap-2 font-mono text-xs uppercase tracking-wider text-text-muted hover:text-accent transition-colors py-1"
+          >
+            <span>See all projects</span>
+            <span className="text-accent group-hover:translate-x-1 transition-transform">
+              &rarr;
+            </span>
+          </Link>
+        </Magnetic>
       </div>
 
       {/* Side-by-Side Vertical Cards with Asymmetric Offset (Card 2 staggered lower) */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 items-start">
+      <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 items-start">
         {/* Card 1: Coffee Shop POS — Sits at standard baseline */}
         {p1 && (
           <article
@@ -209,15 +252,17 @@ export default function FeaturedProjects() {
         )}
       </div>
 
-      {/* Direct Link to the Full System Console on /works */}
+      {/* Direct Link to /works */}
       <div className="mt-16 text-center">
-        <Link
-          href="/works"
-          className="inline-flex items-center gap-2.5 px-6 py-3 rounded-md bg-surface border border-border hover:border-accent text-text-main hover:text-accent font-mono text-xs uppercase tracking-wider transition-all duration-200"
-        >
-          <span>Open Full Master-Detail Console on /works</span>
-          <span>&rarr;</span>
-        </Link>
+        <Magnetic strength={0.3}>
+          <Link
+            href="/works"
+            className="inline-flex items-center gap-2.5 px-6 py-3 rounded-md bg-surface border border-border hover:border-accent text-text-main hover:text-accent font-mono text-xs uppercase tracking-wider transition-all duration-200 shadow-sm hover:shadow-lg"
+          >
+            <ScrambleText text="View all projects" />
+            <span>&rarr;</span>
+          </Link>
+        </Magnetic>
       </div>
 
       {/* Full-Screen Gallery Lightbox Modal */}

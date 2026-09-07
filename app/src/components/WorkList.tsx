@@ -251,7 +251,7 @@ export default function WorkList({ projects = ALL_PROJECTS }: WorkListProps) {
               </div>
             )}
 
-            {/* Telemetry & Blueprint Specs */}
+            {/* Project Overview & Specs */}
             <div className="space-y-4 pt-2 border-t border-border">
               <div className="space-y-1">
                 <span className="font-mono text-[10px] uppercase tracking-wider text-text-dim block">
