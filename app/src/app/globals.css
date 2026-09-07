@@ -63,11 +63,6 @@ html {
   scroll-behavior: auto; /* Lenis controls smooth scroll */
 }
 
-html:not(.theme-transitioning) {
-  transition: background-color 0.35s cubic-bezier(0.16, 1, 0.3, 1),
-              color 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
 body {
   min-height: 100vh;
   background-color: var(--bg-primary);
@@ -99,33 +94,27 @@ body {
   background: var(--text-tertiary);
 }
 
-/* Native View Transitions */
-@view-transition {
-  navigation: auto;
+/* Circular Wave View Transition for Theme Switch */
+::view-transition-group(root) {
+  animation-duration: 0.55s;
 }
 
 ::view-transition-old(root),
 ::view-transition-new(root) {
-  animation-duration: 0.25s;
-  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  animation: none !important;
+  mix-blend-mode: normal !important;
 }
 
-/* Circular Wave View Transition for Theme Switch */
-html.theme-transitioning,
-html.theme-transitioning * {
-  transition: none !important;
-}
-
-html.theme-transitioning::view-transition-old(root),
-html.theme-transitioning::view-transition-new(root) {
-  animation: none;
-  mix-blend-mode: normal;
-}
-
-html.theme-transitioning::view-transition-old(root) {
+::view-transition-old(root) {
   z-index: 1;
 }
 
-html.theme-transitioning::view-transition-new(root) {
+::view-transition-new(root) {
   z-index: 9999;
+}
+
+/* Smooth color fade fallback for browsers without View Transition API */
+html.theme-fade-fallback,
+html.theme-fade-fallback body {
+  transition: background-color 0.35s ease, color 0.35s ease !important;
 }

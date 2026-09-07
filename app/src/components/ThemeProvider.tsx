@@ -65,25 +65,32 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
       typeof document !== "undefined" ? document : null
     ) as DocumentWithViewTransition | null;
 
-    // Direct fallback if view transitions not supported or reduced motion preferred
+    // Fallback if view transitions not supported or reduced motion preferred
     if (
       !doc?.startViewTransition ||
       window.matchMedia("(prefers-reduced-motion: reduce)").matches
     ) {
+      document.documentElement.classList.add("theme-fade-fallback");
       applyThemeClasses(next);
+      setTimeout(() => {
+        document.documentElement.classList.remove("theme-fade-fallback");
+      }, 400);
       return;
     }
 
     const x = origin?.clientX ?? window.innerWidth / 2;
     const y = origin?.clientY ?? window.innerHeight / 2;
 
-    const endRadius = Math.hypot(
-      Math.max(x, window.innerWidth - x),
-      Math.max(y, window.innerHeight - y)
-    );
+    // Generous radius margin to ensure every single corner pixel is cleanly covered
+    const endRadius =
+      Math.ceil(
+        Math.hypot(
+          Math.max(x, window.innerWidth - x),
+          Math.max(y, window.innerHeight - y)
+        )
+      ) + 40;
 
     isTransitioningRef.current = true;
-    document.documentElement.classList.add("theme-transitioning");
 
     try {
       const transition = doc.startViewTransition(() => {
@@ -100,24 +107,24 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
               ],
             },
             {
-              duration: 550,
-              easing: "cubic-bezier(0.22, 1, 0.36, 1)",
+              duration: 480,
+              easing: "cubic-bezier(0.2, 0.9, 0.4, 1)",
               pseudoElement: "::view-transition-new(root)",
+              fill: "forwards", // Prevents reverting before the native transition tears down
             }
           );
 
-          animation.finished.finally(() => {
-            document.documentElement.classList.remove("theme-transitioning");
+          // Clean up ONLY after the browser has completed the view transition entirely
+          transition.finished.finally(() => {
+            animation.cancel();
             isTransitioningRef.current = false;
           });
         })
         .catch(() => {
-          document.documentElement.classList.remove("theme-transitioning");
           isTransitioningRef.current = false;
         });
     } catch {
       applyThemeClasses(next);
-      document.documentElement.classList.remove("theme-transitioning");
       isTransitioningRef.current = false;
     }
   };
