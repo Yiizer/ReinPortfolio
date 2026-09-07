@@ -62,7 +62,7 @@ export default function WorkList({ projects = ALL_PROJECTS }: WorkListProps) {
       {/* View Mode Switcher */}
       <div className="flex items-center justify-between pb-4 border-b border-border">
         <div className="flex items-center gap-2 font-mono text-xs">
-          <span className="text-text-dim uppercase tracking-wider">Interface Mode:</span>
+          <span className="text-text-dim uppercase tracking-wider">View:</span>
           <div className="inline-flex rounded-md border border-border p-0.5 bg-surface">
             <button
               type="button"
@@ -73,7 +73,7 @@ export default function WorkList({ projects = ALL_PROJECTS }: WorkListProps) {
                   : "text-text-muted hover:text-text-main"
               }`}
             >
-              System Console
+              Detailed View
             </button>
             <button
               type="button"
@@ -84,24 +84,24 @@ export default function WorkList({ projects = ALL_PROJECTS }: WorkListProps) {
                   : "text-text-muted hover:text-text-main"
               }`}
             >
-              Visual Grid
+              Grid View
             </button>
           </div>
         </div>
 
         <span className="font-mono text-[11px] text-text-dim hidden sm:inline-block">
-          {projects.length} Documented Architectures
+          {projects.length} Projects
         </span>
       </div>
 
-      {/* MODE 1: Interactive System Console (Master-Detail) */}
+      {/* MODE 1: Detailed Master-Detail View */}
       {viewMode === "console" ? (
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
-          {/* Left: Master Systems Ledger */}
+          {/* Left: Project List */}
           <div className="lg:col-span-5 space-y-1">
             <div className="hidden sm:grid grid-cols-12 pb-2 text-[10px] font-mono uppercase tracking-widest text-text-dim px-4">
               <span className="col-span-2">ID</span>
-              <span className="col-span-6">System Name</span>
+              <span className="col-span-6">Project</span>
               <span className="col-span-4 text-right">Domain</span>
             </div>
 
@@ -200,7 +200,7 @@ export default function WorkList({ projects = ALL_PROJECTS }: WorkListProps) {
               ) : (
                 <div className="w-full h-full p-8 flex flex-col justify-between bg-[#111114]">
                   <div className="flex items-center justify-between font-mono text-[10px] uppercase tracking-widest text-text-dim">
-                    <span>SPECIFICATION BLUEPRINT</span>
+                    <span>PROJECT OVERVIEW</span>
                     <span className="text-accent">{activeProject.type}</span>
                   </div>
 
@@ -214,7 +214,7 @@ export default function WorkList({ projects = ALL_PROJECTS }: WorkListProps) {
                   </div>
 
                   <div className="flex items-center justify-between font-mono text-[10px] text-text-dim border-t border-border/50 pt-2">
-                    <span>Architecture Verified</span>
+                    <span>Status: Deployed</span>
                     <span>Interactive 3D / Mobile</span>
                   </div>
                 </div>
@@ -226,11 +226,11 @@ export default function WorkList({ projects = ALL_PROJECTS }: WorkListProps) {
               </div>
             </div>
 
-            {/* Viewpoints Switcher */}
+            {/* Screenshots Switcher */}
             {hasScreenshots && activeProject.screenshots!.length > 1 && (
               <div className="space-y-1.5">
                 <span className="font-mono text-[10px] uppercase tracking-wider text-text-dim block">
-                  Interface Viewpoints
+                  Screenshots
                 </span>
                 <div className="flex flex-wrap gap-2">
                   {activeProject.screenshots!.map((screen, idx) => (
@@ -255,14 +255,14 @@ export default function WorkList({ projects = ALL_PROJECTS }: WorkListProps) {
             <div className="space-y-4 pt-2 border-t border-border">
               <div className="space-y-1">
                 <span className="font-mono text-[10px] uppercase tracking-wider text-text-dim block">
-                  System Overview
+                  Overview
                 </span>
                 <p className="text-sm text-text-muted leading-relaxed font-sans">
                   {activeProject.blurb}
                 </p>
                 {activeProject.role && (
                   <p className="text-xs text-text-main font-mono pt-1">
-                    <strong className="text-accent">Engineering Responsibility:</strong>{" "}
+                    <strong className="text-accent">Role:</strong>{" "}
                     {activeProject.role}
                   </p>
                 )}

@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import Magnetic from "@/components/Magnetic";
+import ScrambleText from "@/components/ScrambleText";
 
 export default function Contact() {
   const [name, setName] = useState("");
@@ -61,20 +63,24 @@ export default function Contact() {
         </div>
 
         <div className="flex items-center gap-2">
-          <button
-            type="button"
-            onClick={handleCopyEmail}
-            className="px-3.5 py-1.5 rounded bg-primary border border-border hover:border-accent text-text-muted hover:text-accent font-mono text-xs transition-colors cursor-pointer"
-          >
-            {copied ? "✓ Copied" : "Copy Email"}
-          </button>
+          <Magnetic strength={0.25}>
+            <button
+              type="button"
+              onClick={handleCopyEmail}
+              className="px-3.5 py-1.5 rounded bg-primary border border-border hover:border-accent text-text-muted hover:text-accent font-mono text-xs transition-colors cursor-pointer"
+            >
+              <ScrambleText text={copied ? "✓ Copied" : "Copy Email"} />
+            </button>
+          </Magnetic>
 
-          <a
-            href={`mailto:${directEmail}`}
-            className="px-3.5 py-1.5 rounded bg-accent text-white hover:bg-accent-hover font-mono text-xs font-semibold transition-colors"
-          >
-            Open Client &rarr;
-          </a>
+          <Magnetic strength={0.25}>
+            <a
+              href={`mailto:${directEmail}`}
+              className="px-3.5 py-1.5 rounded bg-accent text-white hover:bg-accent-hover font-mono text-xs font-semibold transition-colors block shadow-md shadow-accent/20"
+            >
+              <ScrambleText text="Open Client →" />
+            </a>
+          </Magnetic>
         </div>
       </div>
 
@@ -180,14 +186,18 @@ export default function Contact() {
             />
           </div>
 
-          <button
-            type="submit"
-            disabled={status === "submitting"}
-            className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-md bg-accent text-white hover:bg-accent-hover font-mono text-xs uppercase tracking-wider font-semibold transition-colors duration-150 cursor-pointer disabled:opacity-50"
-          >
-            <span>{status === "submitting" ? "Sending..." : "Send Message"}</span>
-            <span>&rarr;</span>
-          </button>
+          <div>
+            <Magnetic strength={0.25}>
+              <button
+                type="submit"
+                disabled={status === "submitting"}
+                className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-md bg-accent text-white hover:bg-accent-hover font-mono text-xs uppercase tracking-wider font-semibold transition-colors duration-150 cursor-pointer disabled:opacity-50 shadow-md shadow-accent/20"
+              >
+                <ScrambleText text={status === "submitting" ? "Sending..." : "Send Message"} />
+                <span>&rarr;</span>
+              </button>
+            </Magnetic>
+          </div>
         </form>
       )}
     </div>

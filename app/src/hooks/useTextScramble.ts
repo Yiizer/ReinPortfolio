@@ -5,22 +5,28 @@ import { useState, useCallback, useRef, useEffect } from "react";
 const GLYPHS = "!<>-_\\/[]{}—=+*^?#_0101";
 
 interface UseTextScrambleOptions {
-  speed?: number; // frame skip / speed multiplier
-  autoTriggerOnMount?: boolean;
+  speed?: number;
 }
 
 export function useTextScramble(
   originalText: string,
   options: UseTextScrambleOptions = {}
 ) {
-  const { speed = 1, autoTriggerOnMount = false } = options;
+  const { speed = 1 } = options;
+
+  const [prevText, setPrevText] = useState(originalText);
   const [displayText, setDisplayText] = useState(originalText);
+  const [isScrambling, setIsScrambling] = useState(false);
   const frameRef = useRef<number | null>(null);
-  const isScramblingRef = useRef(false);
+
+  // Synchronize when originalText prop changes without triggering cascading effect renders
+  if (prevText !== originalText) {
+    setPrevText(originalText);
+    setDisplayText(originalText);
+  }
 
   const scramble = useCallback(() => {
-    if (isScramblingRef.current) return;
-    isScramblingRef.current = true;
+    setIsScrambling(true);
 
     let iteration = 0;
     const maxIterations = originalText.length * 3;
@@ -45,7 +51,7 @@ export function useTextScramble(
         frameRef.current = requestAnimationFrame(update);
       } else {
         setDisplayText(originalText);
-        isScramblingRef.current = false;
+        setIsScrambling(false);
       }
     };
 
@@ -53,17 +59,12 @@ export function useTextScramble(
   }, [originalText, speed]);
 
   useEffect(() => {
-    setDisplayText(originalText);
-    if (autoTriggerOnMount) {
-      scramble();
-    }
     return () => {
       if (frameRef.current) {
         cancelAnimationFrame(frameRef.current);
       }
     };
-  }, [originalText, autoTriggerOnMount, scramble]);
+  }, []);
 
-  return { displayText, scramble, isScrambling: isScramblingRef.current };
+  return { displayText, scramble, isScrambling };
 }
-

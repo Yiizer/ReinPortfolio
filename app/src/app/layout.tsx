@@ -17,15 +17,45 @@ const instrumentSerif = Instrument_Serif({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://reingavino.com"),
   title: {
-    default: "Rein Gavino — Fullstack Developer",
+    default: "Rein Gavino — Developer & Computer Engineer",
     template: "%s | Rein Gavino",
   },
   description:
-    "Fullstack developer based in Manila building systems, interfaces, and web applications across web, mobile, and hardware.",
+    "Fullstack developer and Computer Engineering student based in Manila. Building resilient web apps, transactional POS workflows, and interactive simulations.",
+  keywords: [
+    "Rein Gavino",
+    "Fullstack Developer",
+    "Computer Engineer",
+    "Manila",
+    "Next.js",
+    "React",
+    "TypeScript",
+    "PostgreSQL",
+    "Unity 3D",
+    "Portfolio",
+  ],
+  authors: [{ name: "Rein Gavino", url: "https://reingavino.com" }],
+  creator: "Rein Gavino",
   icons: {
     icon: "/icon.svg",
     apple: "/icon.svg",
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://reingavino.com",
+    title: "Rein Gavino — Developer & Computer Engineer",
+    description:
+      "Fullstack developer based in Manila building systems, interfaces, and web applications across web, mobile, and hardware.",
+    siteName: "Rein Gavino Portfolio",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Rein Gavino — Developer & Computer Engineer",
+    description:
+      "Fullstack developer based in Manila building systems, interfaces, and web applications.",
   },
 };
 
