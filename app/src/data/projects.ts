@@ -120,10 +120,37 @@ export const ALL_PROJECTS: Project[] = [
     role: "Architected component logic, pin interactions, and engineered two full hardware simulation modules in Unity.",
     status: "Academic Thesis",
     featured: false,
+    thumbnail: "/projects/arduino/ar-rc-car-camera.jpg",
     stack: ["Unity 6", "C#", "AR Foundation", "Vuforia Engine", "Android SDK"],
     href: "#",
     external: false,
     type: "Mobile AR Application",
+    screenshots: [
+      {
+        title: "Real-World AR Projection — Arduino RC Car on Physical Desk",
+        src: "/projects/arduino/ar-rc-car-camera.jpg",
+      },
+      {
+        title: "Educational Simulation Dashboard — Project & Module Selector",
+        src: "/projects/arduino/project-selector.jpg",
+      },
+      {
+        title: "Target Marker Recognition & Microcontroller Telemetry (ATmega328P)",
+        src: "/projects/arduino/marker-tracking-uno.jpg",
+      },
+      {
+        title: "3D RC Car Wiring Builder — L298N Motor Driver Assembly",
+        src: "/projects/arduino/rc-car-wiring-builder.jpg",
+      },
+      {
+        title: "3D Breadboard Circuit Assembly — Component Tray & IDE Integration",
+        src: "/projects/arduino/breadboard-assembly.jpg",
+      },
+      {
+        title: "AR Component Library Hub & Device Pairing Portal",
+        src: "/projects/arduino/qr-component-library.jpg",
+      },
+    ],
   },
   {
     id: "05",
@@ -149,10 +176,45 @@ export const ALL_PROJECTS: Project[] = [
     role: "Engineered database architecture, cart management, and administrative order handling.",
     status: "Group Project",
     featured: false,
+    thumbnail: "/projects/grindon/storefront-hero.png",
     stack: ["Firebase", "JavaScript", "HTML5", "CSS3"],
     href: "https://grindon-da126.web.app/",
     external: true,
     type: "E-Commerce",
+    screenshots: [
+      {
+        title: "Storefront Landing & Brand Hero — Custom Esports Teamwear",
+        src: "/projects/grindon/storefront-hero.png",
+      },
+      {
+        title: "Product Catalog Grid — Pro Jersey Lineup & Collar Variants",
+        src: "/projects/grindon/product-catalog.png",
+      },
+      {
+        title: "Product Customizer — Size, Sizing Guides & Add to Cart",
+        src: "/projects/grindon/product-customizer.png",
+      },
+      {
+        title: "Shopping Cart & Live Order Subtotal Calculation",
+        src: "/projects/grindon/shopping-cart.png",
+      },
+      {
+        title: "Checkout & Interactive Shipping Location Pinning (Leaflet/OSM)",
+        src: "/projects/grindon/shipping-map-pin.png",
+      },
+      {
+        title: "Payment Gateway Selection (GCash, Online Banking, Cash on Delivery)",
+        src: "/projects/grindon/payment-checkout.png",
+      },
+      {
+        title: "Merchant Admin Portal — Live Stock Controls & Product Catalog",
+        src: "/projects/grindon/admin-products.png",
+      },
+      {
+        title: "Order Fulfillment Terminal — Real-Time Order Dispatch & Status",
+        src: "/projects/grindon/admin-orders.png",
+      },
+    ],
   },
 ];
 
