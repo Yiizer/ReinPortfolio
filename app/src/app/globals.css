@@ -60,8 +60,12 @@ html {
   background-color: var(--bg-primary);
   color: var(--text-primary);
   font-family: var(--font-geist-sans), sans-serif;
-  transition: background-color 0.25s ease, color 0.25s ease;
   scroll-behavior: auto; /* Lenis controls smooth scroll */
+}
+
+html:not(.theme-transitioning) {
+  transition: background-color 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              color 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 body {
@@ -104,4 +108,24 @@ body {
 ::view-transition-new(root) {
   animation-duration: 0.25s;
   animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Circular Wave View Transition for Theme Switch */
+html.theme-transitioning,
+html.theme-transitioning * {
+  transition: none !important;
+}
+
+html.theme-transitioning::view-transition-old(root),
+html.theme-transitioning::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+html.theme-transitioning::view-transition-old(root) {
+  z-index: 1;
+}
+
+html.theme-transitioning::view-transition-new(root) {
+  z-index: 9999;
 }
