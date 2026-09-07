@@ -1,14 +1,65 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import SignalRail from "@/components/SignalRail";
 import Footer from "@/components/Footer";
+import InteractiveIdentity from "@/components/InteractiveIdentity";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
+
+const ROADMAP_MILESTONES = [
+  {
+    phase: "01",
+    year: "2017",
+    age: "Age 13",
+    timeframe: "2017 // AGE 13",
+    stage: "The Spark",
+    title: "At 13 years old, I tried Unity",
+    narrative:
+      "My initial spark for programming began with video games. Driven by curiosity about how virtual physics and game loops worked under the hood, I opened Unity and followed YouTube tutorials — piecing together basic player controllers, sprite movement, and rudimentary C# scripts.",
+    tools: ["Unity 3D", "C#", "Game Physics", "Sprite Animation"],
+    highlight: "Discovered the thrill of making virtual worlds react to code.",
+  },
+  {
+    phase: "02",
+    year: "2022",
+    age: "University",
+    timeframe: "2022 // HIGHER ED",
+    stage: "The Discipline",
+    title: "Computer Engineering at University",
+    narrative:
+      "Entering university for Computer Engineering bridged raw creative curiosity with rigorous engineering fundamentals. Game scripts evolved into object-oriented architectural patterns, algorithms, discrete mathematics, and digital logic circuits.",
+    tools: ["CpE Core", "OOP", "Data Structures", "Microcontrollers", "C++"],
+    highlight: "Bridging software architecture with hardware principles.",
+  },
+  {
+    phase: "03",
+    year: "2024",
+    age: "Production",
+    timeframe: "2024 // PRODUCTION",
+    stage: "The Execution",
+    title: "Operational POS & Live Systems",
+    narrative:
+      "Building software that businesses rely on in the wild. Architected the Coffee Shop POS handling live ticket queues during peak rush hours, and Salo sa Antipolo synchronizing table states across cashiers and waiters with zero data loss.",
+    tools: ["Next.js", "PostgreSQL", "Prisma ORM", "Real-Time APIs", "POS Workflows"],
+    highlight: "Mission-critical reliability & concurrent human workflows.",
+  },
+  {
+    phase: "04",
+    year: "2026",
+    age: "Present",
+    timeframe: "2026 // CURRENT",
+    stage: "The Philosophy",
+    title: "Zero Premature Specialization",
+    narrative:
+      "Rejecting premature specialization in favor of holistic systems craft. Comfortable writing TypeScript and relational SQL in the morning, optimizing database transactions, inspecting Unity shaders or hardware circuits in the afternoon, and shipping resilient code by evening.",
+    tools: ["Fullstack Web", "Distributed Systems", "Hardware & Simulation", "Active for Roles"],
+    highlight: "A full-spectrum builder ready for high-impact software challenges.",
+  },
+];
 
 const STACK_GROUPS = [
   {
@@ -35,35 +86,66 @@ const STACK_GROUPS = [
 
 export default function AboutPage() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const storyRef = useRef<HTMLDivElement>(null);
+  const storyPinnedRef = useRef<HTMLElement>(null);
+  const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
+  const lineProgressRef = useRef<HTMLDivElement>(null);
   const stackRef = useRef<HTMLDivElement>(null);
+  const [activeIdx, setActiveIdx] = useState(0);
 
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       return;
     }
 
-    const ctx = gsap.context(() => {
-      // Story paragraphs entrance
-      if (storyRef.current?.children) {
-        gsap.fromTo(
-          Array.from(storyRef.current.children),
-          { opacity: 0, y: 25 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.7,
-            stagger: 0.15,
-            ease: "power2.out",
-            scrollTrigger: {
-              trigger: storyRef.current,
-              start: "top 85%",
-              once: true,
-            },
-            clearProps: "opacity,transform",
-          }
-        );
+    const mm = gsap.matchMedia(containerRef);
+
+    // Desktop: Pinned Scroll-Lock Theater
+    mm.add("(min-width: 768px)", () => {
+      const section = storyPinnedRef.current;
+      if (!section) return;
+
+      const cards = cardsRef.current.filter(Boolean) as HTMLDivElement[];
+      if (cards.length === 0) return;
+
+      // Initial card states
+      gsap.set(cards[0], { opacity: 1, y: 0, scale: 1, zIndex: 10, visibility: "visible" });
+      for (let i = 1; i < cards.length; i++) {
+        gsap.set(cards[i], { opacity: 0, y: 40, scale: 0.95, zIndex: 10 - i, visibility: "visible" });
       }
+
+      const totalSteps = cards.length;
+
+      // Pinned scrub timeline
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          id: "roadmap-pin",
+          trigger: section,
+          start: "top top",
+          end: "+=2600",
+          pin: true,
+          scrub: 0.7,
+          anticipatePin: 1,
+          onUpdate: (self) => {
+            if (lineProgressRef.current) {
+              lineProgressRef.current.style.transform = `scaleX(${Math.min(1, Math.max(0.04, self.progress))})`;
+            }
+            const step = Math.min(
+              totalSteps - 1,
+              Math.floor(self.progress * totalSteps)
+            );
+            setActiveIdx(step);
+          },
+        },
+      });
+
+      // Staged card transitions
+      tl.to(cards[0], { opacity: 0, y: -35, scale: 0.95, duration: 0.7, ease: "power2.inOut" }, 0.7)
+        .to(cards[1], { opacity: 1, y: 0, scale: 1, duration: 0.7, ease: "power2.inOut" }, 0.7)
+        .to(cards[1], { opacity: 0, y: -35, scale: 0.95, duration: 0.7, ease: "power2.inOut" }, 1.8)
+        .to(cards[2], { opacity: 1, y: 0, scale: 1, duration: 0.7, ease: "power2.inOut" }, 1.8)
+        .to(cards[2], { opacity: 0, y: -35, scale: 0.95, duration: 0.7, ease: "power2.inOut" }, 2.9)
+        .to(cards[3], { opacity: 1, y: 0, scale: 1, duration: 0.7, ease: "power2.inOut" }, 2.9);
+
 
       // Stack groups entrance
       if (stackRef.current?.children) {
@@ -74,7 +156,7 @@ export default function AboutPage() {
             opacity: 1,
             y: 0,
             duration: 0.75,
-            stagger: 0.15,
+            stagger: 0.12,
             ease: "power2.out",
             scrollTrigger: {
               trigger: stackRef.current,
@@ -85,99 +167,196 @@ export default function AboutPage() {
           }
         );
       }
-    }, containerRef);
+    });
 
-    return () => ctx.revert();
+    // Mobile: Vertical continuous reveal timeline
+    mm.add("(max-width: 767px)", () => {
+      const cards = cardsRef.current.filter(Boolean) as HTMLDivElement[];
+      cards.forEach((card) => {
+        gsap.fromTo(
+          card,
+          { opacity: 0, y: 25 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.65,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: card,
+              start: "top 85%",
+            },
+          }
+        );
+      });
+    });
+
+    return () => mm.revert();
   }, []);
+
+  const jumpToMilestone = (idx: number) => {
+    const section = storyPinnedRef.current;
+    if (!section) return;
+
+    const st = ScrollTrigger.getById("roadmap-pin");
+    if (st) {
+      const targetProgress = (idx + 0.15) / ROADMAP_MILESTONES.length;
+      const targetY = st.start + (st.end - st.start) * targetProgress;
+      const win =
+        typeof window !== "undefined"
+          ? (window as unknown as { __lenis?: { scrollTo: (target: number) => void } })
+          : null;
+      if (win?.__lenis) {
+        win.__lenis.scrollTo(targetY);
+      } else {
+        window.scrollTo({ top: targetY, behavior: "smooth" });
+      }
+    }
+  };
 
   return (
     <div ref={containerRef} className="relative min-h-screen pt-20 sm:pt-24 pb-16">
       <SignalRail />
 
-      <main className="max-w-5xl mx-auto px-6 sm:px-8 space-y-28 md:space-y-36">
-        {/* Chapter 1: Identity & Introduction */}
+      <main className="max-w-5xl mx-auto px-6 sm:px-8 space-y-24 md:space-y-32">
+        {/* Chapter 1: Identity & Introduction (Interactive 3D / X-Ray / Telemetry) */}
         <section id="ch-intro" className="pt-8 sm:pt-12 scroll-mt-28">
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-10 lg:gap-16 items-center">
-            {/* Portrait Image */}
-            <div className="md:col-span-5 order-2 md:order-1">
-              <div className="relative aspect-[3/4] w-full max-w-sm rounded-xl overflow-hidden border border-border bg-surface shadow-2xl">
-                <Image
-                  src="/profile.jpg"
-                  alt="Rein Gavino"
-                  fill
-                  sizes="(max-width: 768px) 100vw, 400px"
-                  className="object-cover object-center"
-                  priority
-                />
-                <div className="absolute bottom-4 left-4 bg-primary/85 backdrop-blur-md px-3 py-1 rounded border border-border font-mono text-xs text-text-muted">
-                  Rein Gavino &bull; Manila
-                </div>
-              </div>
-            </div>
-
-            {/* Introductory Narrative */}
-            <div className="md:col-span-7 space-y-6 order-1 md:order-2">
-              <div className="space-y-2">
-                <span className="font-mono text-xs uppercase tracking-[0.2em] text-accent font-semibold">
-                  Chapter 01 / Identity
-                </span>
-                <h1 className="font-serif text-5xl sm:text-6xl md:text-7xl text-text-main font-normal tracking-tight leading-[0.96]">
-                  Curiosity through code.
-                </h1>
-              </div>
-
-              <div className="space-y-4 text-text-muted text-base sm:text-lg leading-relaxed">
-                <p>
-                  I&apos;m a 4th-year Computer Engineering student based in Manila, working as a fullstack developer with a passion for pragmatic, resilient software.
-                </p>
-                <p>
-                  Rather than specializing narrowly before understanding the broader craft, I enjoy connecting all the layers: clean interfaces, reliable transactional backends, hardware simulation, and the real people who use them.
-                </p>
-              </div>
-
-              <div className="pt-2 flex items-center gap-6 font-mono text-xs text-text-dim">
-                <div>
-                  <span className="text-text-muted block font-medium">Status</span>
-                  <span>4th Year CpE Student</span>
-                </div>
-                <div className="h-6 w-px bg-border" />
-                <div>
-                  <span className="text-text-muted block font-medium">Focus</span>
-                  <span>Fullstack &amp; Software Systems</span>
-                </div>
-              </div>
-            </div>
-          </div>
+          <InteractiveIdentity />
         </section>
 
-        {/* Chapter 2: The Narrative Story */}
-        <section id="ch-story" className="scroll-mt-28 border-t border-border pt-16">
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-10 lg:gap-14">
-            <div className="md:col-span-4 space-y-2">
-              <span className="font-mono text-xs uppercase tracking-[0.2em] text-accent font-semibold">
-                Chapter 02 / The Journey
+        {/* Chapter 2: Centered Pinned Scroll-Lock Roadmap Timeline */}
+        <section
+          id="ch-story"
+          ref={storyPinnedRef}
+          className="scroll-mt-28 border-t border-border pt-12 select-none"
+        >
+          <div className="md:h-[90vh] md:max-h-[860px] flex flex-col justify-center max-w-4xl mx-auto">
+            {/* Header: Centered & Clean */}
+            <div className="text-center space-y-3 pb-8">
+              <span className="font-mono text-xs uppercase tracking-[0.2em] text-accent font-semibold block">
+                Chapter 02 / The Trajectory
               </span>
-              <h2 className="font-serif text-3xl sm:text-4xl text-text-main font-normal leading-tight">
-                How it started &amp; where it&apos;s going.
+              <h2 className="font-serif text-4xl sm:text-5xl lg:text-6xl text-text-main font-normal tracking-tight">
+                From Age 13 to Production Systems.
               </h2>
+              <p className="text-text-muted text-xs sm:text-sm max-w-md mx-auto font-sans">
+                Scroll to scrub through key milestones, technical turning points, and real-world software deployments.
+              </p>
             </div>
 
-            <div
-              ref={storyRef}
-              className="md:col-span-8 space-y-6 text-text-muted text-base sm:text-lg leading-relaxed"
-            >
-              <p>
-                My initial spark for programming came around Grade 6 and 7. Like many developers, it started with games. I wanted to understand how virtual worlds functioned under the hood, so I opened Unity and began following YouTube tutorials — piecing together basic player controllers, sprite movement, and animations.
-              </p>
-              <p>
-                Entering university for Computer Engineering bridged that creative urge with rigorous engineering fundamentals. Game scripts turned into object-oriented architectural patterns, algorithms, and low-level hardware principles. Soon, building web applications and multi-tier systems took center stage.
-              </p>
-              <p>
-                I found immense satisfaction in building tools that people genuinely use. Whether it was the Coffee Shop POS handling live ticket queues during a busy rush, or Salo sa Antipolo synchronizing table states across waiters and cashiers, I realized that software is ultimately about removing friction from human tasks.
-              </p>
-              <p>
-                I don&apos;t believe in premature specialization. I embrace being a builder: someone comfortable writing TypeScript and SQL in the morning, inspecting Unity shaders or Arduino circuits in the afternoon, and shipping reliable code by evening.
-              </p>
+            {/* Horizontal Milestone Tracker Bar */}
+            <div className="relative pb-8 max-w-2xl mx-auto w-full hidden md:block">
+              {/* Background Connecting Line */}
+              <div className="absolute top-3.5 left-6 right-6 h-px bg-border -z-0">
+                {/* Progress Fill Line */}
+                <div
+                  ref={lineProgressRef}
+                  className="h-full bg-accent origin-left transition-transform duration-75"
+                  style={{ transform: "scaleX(0.04)" }}
+                />
+              </div>
+
+              {/* 4 Milestone Step Nodes */}
+              <div className="relative z-10 flex items-center justify-between">
+                {ROADMAP_MILESTONES.map((m, idx) => {
+                  const isActive = activeIdx === idx;
+                  const isPast = activeIdx > idx;
+                  return (
+                    <button
+                      key={m.phase}
+                      type="button"
+                      onClick={() => jumpToMilestone(idx)}
+                      className="group flex flex-col items-center gap-2 cursor-pointer outline-none"
+                    >
+                      <div
+                        className={`w-7 h-7 rounded-full flex items-center justify-center transition-all duration-200 ${
+                          isActive
+                            ? "bg-accent text-white shadow-[0_0_12px_var(--color-accent)] ring-4 ring-accent/20 scale-110"
+                            : isPast
+                            ? "bg-accent/80 text-white"
+                            : "bg-surface border border-border text-text-dim group-hover:border-text-muted group-hover:text-text-main"
+                        }`}
+                      >
+                        <span className="font-mono text-[10px] font-bold">
+                          {m.phase}
+                        </span>
+                      </div>
+                      <span
+                        className={`font-mono text-[10px] uppercase tracking-wider transition-colors whitespace-nowrap ${
+                          isActive
+                            ? "text-accent font-semibold"
+                            : "text-text-dim group-hover:text-text-muted"
+                        }`}
+                      >
+                        {m.age}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Centered Milestone Stage */}
+            <div className="relative md:h-[400px] lg:h-[420px] max-w-3xl mx-auto w-full flex flex-col md:block space-y-6 md:space-y-0">
+              {ROADMAP_MILESTONES.map((m, idx) => (
+                <div
+                  key={m.phase}
+                  ref={(el) => {
+                    cardsRef.current[idx] = el;
+                  }}
+                  className="md:absolute md:inset-0 rounded-2xl bg-surface border border-border/80 p-8 sm:p-10 shadow-2xl flex flex-col justify-between transition-colors hover:border-accent/40"
+                >
+                  <div className="space-y-4">
+                    {/* Header Telemetry */}
+                    <div className="flex items-center justify-between font-mono text-[11px] uppercase tracking-wider pb-3 border-b border-border/60">
+                      <div className="flex items-center gap-2 text-accent font-semibold">
+                        <span className="w-2 h-2 rounded-full bg-accent animate-pulse" />
+                        <span>{m.timeframe}</span>
+                      </div>
+                      <span className="px-3 py-0.5 rounded-full bg-primary border border-border text-text-dim font-medium">
+                        {m.stage}
+                      </span>
+                    </div>
+
+                    {/* Title */}
+                    <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-text-main tracking-tight leading-snug">
+                      {m.title}
+                    </h3>
+
+                    {/* Narrative */}
+                    <p className="text-text-muted text-sm sm:text-base leading-relaxed font-sans">
+                      {m.narrative}
+                    </p>
+                  </div>
+
+                  {/* Footer: Tools & Highlight Insight */}
+                  <div className="space-y-3 pt-5 border-t border-border/60">
+                    <div className="flex flex-wrap gap-1.5">
+                      {m.tools.map((t) => (
+                        <span
+                          key={t}
+                          className="font-mono text-xs text-text-muted bg-primary px-3 py-1 rounded-md border border-border"
+                        >
+                          {t}
+                        </span>
+                      ))}
+                    </div>
+                    <div className="font-mono text-xs text-text-dim flex items-center gap-2">
+                      <span className="text-accent font-bold">&rarr;</span>
+                      <span>{m.highlight}</span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Stage Footer Counter */}
+            <div className="text-center pt-6 hidden md:block">
+              <span className="font-mono text-xs text-text-dim uppercase tracking-wider">
+                Phase [ {ROADMAP_MILESTONES[activeIdx].phase} / 04 ] &bull;{" "}
+                <span className="text-text-main font-medium">
+                  {ROADMAP_MILESTONES[activeIdx].stage}
+                </span>
+              </span>
             </div>
           </div>
         </section>
@@ -186,7 +365,7 @@ export default function AboutPage() {
         <section id="ch-stack" className="scroll-mt-28 border-t border-border pt-16">
           <div className="space-y-12">
             <div className="space-y-2 max-w-2xl">
-              <span className="font-mono text-xs uppercase tracking-[0.2em] text-accent font-semibold">
+              <span className="font-mono text-xs uppercase tracking-[0.2em] text-accent font-semibold block">
                 Chapter 03 / Stack
               </span>
               <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl text-text-main font-normal tracking-tight">
@@ -204,7 +383,7 @@ export default function AboutPage() {
               {STACK_GROUPS.map((group) => (
                 <div
                   key={group.category}
-                  className="rounded-xl bg-surface border border-border p-7 space-y-4 hover:border-accent transition-colors"
+                  className="rounded-xl bg-surface border border-border p-7 space-y-4 hover:border-accent transition-colors duration-200"
                 >
                   <h3 className="font-serif text-2xl text-text-main">
                     {group.category}
@@ -232,7 +411,7 @@ export default function AboutPage() {
         <section id="ch-cta" className="scroll-mt-28 border-t border-border pt-16">
           <div className="rounded-2xl bg-surface border border-border p-8 sm:p-12 flex flex-col md:flex-row md:items-center justify-between gap-8">
             <div className="space-y-2 max-w-xl">
-              <span className="font-mono text-xs uppercase tracking-[0.2em] text-accent font-semibold">
+              <span className="font-mono text-xs uppercase tracking-[0.2em] text-accent font-semibold block">
                 Chapter 04 / Next
               </span>
               <h2 className="font-serif text-3xl sm:text-4xl text-text-main font-normal">

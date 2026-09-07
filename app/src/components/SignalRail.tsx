@@ -17,7 +17,7 @@ const HOME_SECTIONS: SectionDef[] = [
 
 const ABOUT_SECTIONS: SectionDef[] = [
   { id: "ch-intro", label: "Identity" },
-  { id: "ch-story", label: "Story" },
+  { id: "ch-story", label: "Roadmap" },
   { id: "ch-stack", label: "Capabilities" },
   { id: "ch-cta", label: "Connect" },
 ];
