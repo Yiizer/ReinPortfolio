@@ -109,17 +109,19 @@ export default function LoadingScreen() {
           </span>
         </div>
 
-        {/* Card Center: Typographic Signature & Discipline */}
+        {/* Card Center: Clean Developer Brand Lockup */}
         <div className="space-y-1.5 text-left">
-          <div className="flex items-baseline tracking-tight">
-            <span className="font-serif text-3xl sm:text-4xl text-white font-normal">
-              Rein
-            </span>
-            <span className="font-serif italic text-3xl sm:text-4xl text-[#e63946] font-normal ml-2">
-              Gavino
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 rounded-lg bg-zinc-900 border border-zinc-800 flex items-center justify-center shrink-0">
+              <svg viewBox="0 0 32 32" className="w-5 h-5 text-white" fill="currentColor">
+                <path fillRule="evenodd" clipRule="evenodd" d="M 7.5 6.5 H 17.5 C 21.5 6.5 24.5 9.2 24.5 12.5 C 24.5 15.3 22.8 17.3 19.8 18 L 25 25.5 H 19.6 L 15 18.2 H 12 V 25.5 H 7.5 V 6.5 Z M 12 10.5 H 17.2 C 18.8 10.5 20 11.3 20 12.5 C 20 13.7 18.8 14.5 17.2 14.5 H 12 V 10.5 Z" />
+              </svg>
+            </div>
+            <span className="font-sans font-semibold text-2xl sm:text-3xl text-white tracking-tight">
+              Rein Gavino
             </span>
           </div>
-          <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-zinc-400">
+          <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-zinc-400 pl-12">
             Systems &amp; Reactive Interfaces
           </p>
         </div>

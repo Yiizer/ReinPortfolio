@@ -35,21 +35,20 @@ export default function FloatingNav() {
         }`}
       >
         <div className="max-w-6xl mx-auto px-6 sm:px-8 h-16 flex items-center justify-between">
-          {/* Typographic Signature Brand */}
+          {/* Authentic Developer Brand Lockup */}
           <Link
             href="/"
-            className="group flex items-center gap-2 transition-opacity hover:opacity-90 py-1"
+            className="group flex items-center gap-2.5 py-1 transition-opacity hover:opacity-90"
             aria-label="Rein Gavino - Home"
           >
-            <div className="flex items-baseline tracking-tight">
-              <span className="font-serif text-2xl sm:text-[26px] font-normal text-text-main transition-colors duration-200 group-hover:text-accent">
-                Rein
-              </span>
-              <span className="font-serif italic text-2xl sm:text-[26px] font-normal text-accent transition-colors duration-200 group-hover:text-text-main ml-1.5">
-                Gavino
-              </span>
+            <div className="w-7 h-7 rounded-lg bg-surface-elevated border border-border flex items-center justify-center transition-all duration-200 group-hover:border-accent/50 group-hover:scale-105 shadow-xs">
+              <svg viewBox="0 0 32 32" className="w-4 h-4 text-text-main group-hover:text-accent transition-colors" fill="currentColor">
+                <path fillRule="evenodd" clipRule="evenodd" d="M 7.5 6.5 H 17.5 C 21.5 6.5 24.5 9.2 24.5 12.5 C 24.5 15.3 22.8 17.3 19.8 18 L 25 25.5 H 19.6 L 15 18.2 H 12 V 25.5 H 7.5 V 6.5 Z M 12 10.5 H 17.2 C 18.8 10.5 20 11.3 20 12.5 C 20 13.7 18.8 14.5 17.2 14.5 H 12 V 10.5 Z" />
+              </svg>
             </div>
-            <span className="w-1.5 h-1.5 rounded-full bg-accent inline-block self-center animate-pulse" />
+            <span className="font-sans font-semibold text-base sm:text-[17px] tracking-tight text-text-main group-hover:text-accent transition-colors">
+              Rein Gavino
+            </span>
           </Link>
 
           {/* Nav Links + Theme Toggle */}
@@ -85,18 +84,17 @@ export default function FloatingNav() {
       <header className="sm:hidden fixed top-0 inset-x-0 z-40 bg-primary/90 backdrop-blur-md border-b border-border px-5 h-14 flex items-center justify-between">
         <Link
           href="/"
-          className="group flex items-center gap-1.5"
+          className="group flex items-center gap-2"
           aria-label="Rein Gavino - Home"
         >
-          <div className="flex items-baseline tracking-tight">
-            <span className="font-serif text-xl font-normal text-text-main">
-              Rein
-            </span>
-            <span className="font-serif italic text-xl font-normal text-accent ml-1">
-              Gavino
-            </span>
+          <div className="w-6 h-6 rounded-md bg-surface-elevated border border-border flex items-center justify-center">
+            <svg viewBox="0 0 32 32" className="w-3.5 h-3.5 text-text-main" fill="currentColor">
+              <path fillRule="evenodd" clipRule="evenodd" d="M 7.5 6.5 H 17.5 C 21.5 6.5 24.5 9.2 24.5 12.5 C 24.5 15.3 22.8 17.3 19.8 18 L 25 25.5 H 19.6 L 15 18.2 H 12 V 25.5 H 7.5 V 6.5 Z M 12 10.5 H 17.2 C 18.8 10.5 20 11.3 20 12.5 C 20 13.7 18.8 14.5 17.2 14.5 H 12 V 10.5 Z" />
+            </svg>
           </div>
-          <span className="w-1.5 h-1.5 rounded-full bg-accent inline-block self-center" />
+          <span className="font-sans font-semibold text-base tracking-tight text-text-main">
+            Rein Gavino
+          </span>
         </Link>
         <ThemeToggle />
       </header>
